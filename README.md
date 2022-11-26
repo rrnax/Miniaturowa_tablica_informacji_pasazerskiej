@@ -5,11 +5,11 @@ Aplication about deliever information of time and station in public transport an
 
 Team:
 
-Rafał Rgala
-Wiktor Krzyczkowski
-Dariusz Cichoscki
-Radosław Lach
-Witold Weiner
+Rafał Rgala,
+Wiktor Krzyczkowski,
+Dariusz Cichoscki,
+Radosław Lach,
+Witold Weiner,
 
 
 Team site: 
