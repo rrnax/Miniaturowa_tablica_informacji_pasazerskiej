@@ -5,7 +5,7 @@ Aplication about deliever information of time and station in public transport an
 
 Team:
 
-Rafał Rgala,
+Rafał Rogala,
 Wiktor Krzyczkowski,
 Dariusz Cichoscki,
 Radosław Lach,
