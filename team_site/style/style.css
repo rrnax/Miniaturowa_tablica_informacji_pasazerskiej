@@ -1,7 +1,7 @@
 /* style.css file for positioning and customization website elements */
 .mainContainer{
-    padding:2rem;
-    margin-top:1.75rem;
+    padding:5rem;
+    margin-top:-4rem;
 }
 .logo{
     display:flex;
@@ -22,7 +22,22 @@ nav{
     justify-content: center;
     flex-flow: row wrap;
 }
-
+img{
+    border-radius:10px;
+    width: 50rem;
+    margin: 1.75rem;
+}
+section{
+    margin-left:5rem;
+    margin-right:5rem;
+}
+section h2{
+    padding-bottom:0.5rem;
+    padding-top:2rem;
+}
+ul{
+    margin-left:2rem;
+}
 
 @media only screen and (max-width: 900px) {
     .logo{
@@ -32,4 +47,8 @@ nav{
     nav{
         flex-flow: column wrap;
     }
+    section{
+        margin:0;
+    }
+
 }
