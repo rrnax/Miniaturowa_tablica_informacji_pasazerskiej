@@ -1,0 +1,49 @@
+/* baseStyle.css file for basic components and themes*/
+
+:root {
+    /*colors: */
+    --bg: #000;     /* background color */
+    --c : #fff;     /* (font) color */
+    --border: #f1f1f1;
+
+    /*font sizes*/
+    --normalFont : 1.5rem;
+    --mediumFont : calc(var(--normalFont) *1.75);
+    --mediumFont2 : calc(var(--normalFont) *2.5);
+    --bigFont : calc(var(--normalFont) *5);
+}
+
+
+.lightMode {
+    /*colors: */
+    --bg: #fff;     /* background color */
+    --c : #000;     /* (font) color */
+}
+
+body{
+    margin:0;
+    background-color: var(--bg);
+    color:var(--c);
+    font-size: var(--normalFont);
+}
+h1{
+    font-size: var(--bigFont); 
+    line-height: calc(var(--bigFont)+ 1.5rem); 
+}
+h2{
+    font-size: var(--mediumFont2); 
+    line-height: calc(var(--mediumFont)+ 1.5rem); 
+}
+h3{
+    font-size: var(--mediumFont); 
+    line-height: calc(var(--mediumFont)+ 1.5rem); 
+}
+img{
+    border-radius:10px;
+    width: 50rem;
+    border: 2px solid var(--c);
+    margin:2rem;
+}
+ul{
+    margin-top:1.5rem;
+}

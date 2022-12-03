@@ -4,78 +4,87 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style/baseStyle.css">
     <link rel="stylesheet" href="style/style.css">
     <title>Zespół nr 2</title>
 </head>
 <body>
+    <div class="logo"><hr><h1>Zespół nr. 2</h1><hr></div>
     <nav>
-        <h1>Zespół nr. 2</h1>
             <button> <a href="#oProjekcie">O projekcie</a></button>
             <button> <a href="#zespol">Zespół</a></button>
             <button> <a href="#harmonogram">Harmonogram</a></button>
             <button> <a href="#spotkania">Spotkania</a></button>
             <button> <a href="#dokumentacja">Dokumentacja</a></button>
     </nav>
-    <main>
-        <section id="oProjekcie">
-            <h2>O projekcie</h2>
-            Tematem projektu „Miniaturowa tablica informacji pasażerskiej” jest przygotowanie kompaktowego wyświetlacza o przekątnej 3-5’’ z mikrokontrolerem wraz z oprogramowania systemu.
-             W założeniu urządzenie będzie wyświetlało na żywo odjazdy wybranych stacji kolejowych/metra/autobusowych/tramwajowych na własnej, konfigurowalnej miniaturowej tablicy odjazdów.
-            Urządzenie będzie pobierało dane bezprzewodowo poprzez sieć WiFi. W wyniku realizacji projektu powstanie idealny gadżet do domu lub biura jak i fantastyczny prezent dla wszystkich entuzjastów kolei.
-             Przedstawiane będą rozkłady jazdy pociągów lub komunikacji miejskiej na żywo w czasie rzeczywistym zgodnym z realnym przystankiem.
-             Ilość i rodzaj dostępnych informacji zależą od dostępności serwisów API dostarczających dane w trybie on-line. 
-            <ul>
-                <li>Zaprojektowany, aby z niezwykłą szczegółowością symulować prawdziwe tablice odjazdów stacji</li>
-                <li>Ultra płynna animacja tekstu.</li>
-                <li>Podgląd odjazdów pociągów / metra / autobusów / tramwajów w czasie rzeczywistym dla wybranych stacji / przystanków​</li>
-                <li>Informacje o dodatkowych usługach pociągów / metra / autobusów / tramwajów na żywo z rzeczywistych kanałów informacyjnych</li>
-                <li>Wiele opcji i pełna konfigurowalność za pomocą aplikacji internetowej oraz mobilnej</li>
-                <li>Aktualizacja oprogramowania on-line</li>
-                <li>Opcje oszczędzania energii</li>
-                <li>Łatwa konfiguracja bezprzewodowa</li>
-                <li>Mały kompaktowy rozmiar, niska moc, Micro USB</li>
-                <li>Wbudowany głośnik do komunikatów dźwiękowych</li>
-                <li>Możliwe wprowadzenie płatnych subskrypcji</li>
-            </ul>
-        </section>
-        <section id="harmonogram">
-            <h2>Harmonogram pracy</h2>
-            <h3>Spotkania</h3>
-            <ul>
-                <li>Spotkania na uczelni 1,5/mies​</li>
-                <li>Spotkania online 1/tydz​ (Teams)</li>
-            </ul>
-            <h3>Plan pracy</h3>
-            
-            
-            
-
-        </section>
-        <section id="zespol">
-            <h2>Nasz zespół</h2>
-            <ul>
-                <li>Prowadzący: Edmund Bejgier</li>
-                <li>Rafał Rogala</li>
-                <li>Dariusz Cichocki</li>
-                <li>Wiktor Krzyczkowski</li>
-                <li>Witold Weiner</li>
-                <li>Radosław Lach</li>
-            </ul>
-        </section>
-        <section id="spotkania">
-            <h2>Lista spotkań</h2>
-            <ul>
-                <li>16.11.22 Pierwsze spotkanie. Zapoznaliśmy się z koncepcją projektu oraz ustaliliśmy w jaki sposób i kiedy będziemy odbywali kolejne spotkania.</li>
-                <li>25.11.22 Spotkanie </li>
-            </ul>
-        </section>
-        <section id="dokumentacja">
-            <h2>Dokumentacja projektu</h2>
-            <a href="#">Link do githuba</a>
-        </section>
-    </main>
+    <hr>
+    <div class="mainContainer">
+        <main>
+            <section id="oProjekcie">
+                <h2 class="decoration-solid">Miniaturowa tablica informacji pasażerskiej</h2>
+                <img src="/img/zegarek2.png" alt="">
+                <p> Tematem projektu „Miniaturowa tablica informacji pasażerskiej” jest przygotowanie kompaktowego wyświetlacza o przekątnej 3-5’’ z mikrokontrolerem wraz z oprogramowania systemu.
+                    W założeniu urządzenie będzie wyświetlało na żywo odjazdy wybranych stacji kolejowych/metra/autobusowych/tramwajowych na własnej, konfigurowalnej miniaturowej tablicy odjazdów.
+                    Urządzenie będzie pobierało dane bezprzewodowo poprzez sieć WiFi. W wyniku realizacji projektu powstanie idealny gadżet do domu lub biura jak i fantastyczny prezent dla wszystkich entuzjastów kolei.
+                    Przedstawiane będą rozkłady jazdy pociągów lub komunikacji miejskiej na żywo w czasie rzeczywistym zgodnym z realnym przystankiem.
+                    Ilość i rodzaj dostępnych informacji zależą od dostępności serwisów API dostarczających dane w trybie on-line. 
+                </p>
+                <br><br>
+                <ul class="list-disc list-inside">
+                    <li>Zaprojektowany, aby z niezwykłą szczegółowością symulować prawdziwe tablice odjazdów stacji</li>
+                    <li>Ultra płynna animacja tekstu.</li>
+                    <li>Podgląd odjazdów pociągów / metra / autobusów / tramwajów w czasie rzeczywistym dla wybranych stacji / przystanków​</li>
+                    <li>Informacje o dodatkowych usługach pociągów / metra / autobusów / tramwajów na żywo z rzeczywistych kanałów informacyjnych</li>
+                    <li>Wiele opcji i pełna konfigurowalność za pomocą aplikacji internetowej oraz mobilnej</li>
+                    <li>Aktualizacja oprogramowania on-line</li>
+                    <li>Opcje oszczędzania energii</li>
+                    <li>Łatwa konfiguracja bezprzewodowa</li>
+                    <li>Mały kompaktowy rozmiar, niska moc, Micro USB</li>
+                    <li>Wbudowany głośnik do komunikatów dźwiękowych</li>
+                    <li>Możliwe wprowadzenie płatnych subskrypcji</li>
+                </ul>
+            </section>
+            <section id="harmonogram">
+                <h2>Harmonogram pracy</h2>
+                <h3>Spotkania</h3>
+                <ul>
+                    <li>Spotkania na uczelni 1,5/mies​</li>
+                    <li>Spotkania online 1/tydz​ (Teams)</li>
+                </ul>
+                <h3>Plan pracy</h3>
+                    (TO DO)  
+            </section>
+            <section id="zespol">
+                <h2>Nasz zespół</h2>
+                <ul>
+                    <li>Prowadzący: Edmund Bejgier</li>
+                    <li>Rafał Rogala</li>
+                    <li>Dariusz Cichocki</li>
+                    <li>Wiktor Krzyczkowski</li>
+                    <li>Witold Weiner</li>
+                    <li>Radosław Lach</li>
+                </ul>
+            </section>
+            <section id="spotkania">
+                <h2>Lista spotkań</h2>
+                <ul>
+                    <li>16.11.22 Pierwsze spotkanie. Zapoznaliśmy się z koncepcją projektu oraz ustaliliśmy w jaki sposób i kiedy będziemy odbywali kolejne spotkania.</li>
+                    <li>25.11.22 Spotkanie </li>
+                </ul>
+            </section>
+            <section id="dokumentacja">
+                <h2>Dokumentacja projektu</h2>
+                <a href="#">Link do githuba</a>
+            </section>
+        </main>
+    </div>
     <footer>
         Projekt Zespołowy UMK
+        <button id="changeThemeButton">change Theme</button>
     </footer>
+    
+    <script src="/scripts/scripts.js"></script>
+
 </body>
 </html>
