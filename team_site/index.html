@@ -4,26 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style/baseStyle.css">
     <link rel="stylesheet" href="style/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
     <title>Zespół nr 2</title>
 </head>
-<body class="bg-gradient-to-r from-slate-900 via-stone-800 to-black" style="font-family: 'Russo One', sans-serif;">
-    <nav class="bg-gradient-to-r from-orange-400 to-red-600 py-0 px-0 text-black" >
-        <div class="container flex flex-wrap mx-auto justify-between items-center py-0">
-            <a href="#" class="flex items-center justify-start text-5xl ">
-                <span class="self-center whitespace-nowrap ">2.</span>
-                <img src="img/dwr.png" class="h-20 w-20 rounded-full border-0 m-2" alt="Dwr logo">
-                <span class="self-center whitespace-nowrap "> zespół</span>
-            </a>
-
-            <div class="hidden justify-end w-full md:block md:w-auto" id="navi">
-                <ul class="flex flex-col md:flex-row md:space-x-8 ">
+<body class="bg-gray-900" style="font-family: 'Russo One', sans-serif;">
+    <nav>
+              <div class="logo text-5xl">zespół nr 2</div> 
+            <div class="hidden justify-end w-full md:block md:w-auto" id="navi" style="margin-right: 3rem;">
+                <ul class="flex flex-col md:flex-row md:space-x-8  mt-2 ">
                     <li>
-                        <a href="#oProjekcie" class="block" aria-current="page">O projekcie</a>
+                        <a href="#oProjekcie" class="block" aria-current="page">Projekt</a>
                     </li>
                     <li>
                         <a href="#zespol"  class="block">Zespół</a>
@@ -42,17 +37,17 @@
         </div>
     </nav>
     <div>
-        <main>
-            <section class="w-full sm:w-4/5 m-auto justify-center bg-gradient-to-r from-orange-400 to-red-600 rounded-xl text-black sm:p-10 my-10 py-1" id="oProjekcie">
-                <h2 class="text-5xl break-words">Miniaturowa tablica informacji pasażerskiej</h2>
-                <img class="border-slate-900" src="img/zegarek2.png" alt="Little table with departures">
-                <p class="text-center m-10 text-lg"> Tematem projektu „Miniaturowa tablica informacji pasażerskiej” jest przygotowanie kompaktowego wyświetlacza o przekątnej 3-5’’ z mikrokontrolerem wraz z oprogramowania systemu.
+        <main class="text-2xl">
+            <section class="w-full sm:w-4/5 m-auto justify-center text-black  rounded-3xl sm:p-10 my-10 py-1" id="oProjekcie">          
+                <div class="h2Container"><h2 class="text-5xl break-words">Miniaturowa tablica informacji pasażerskiej</h2></div>
+                <img src="img/zegarek.png" alt="Little table with departures">
+                <p class="m-10" > Tematem projektu <strong>„Miniaturowa tablica informacji pasażerskiej”</strong> jest przygotowanie kompaktowego wyświetlacza o przekątnej 3-5’’ z mikrokontrolerem wraz z oprogramowania systemu.
                     W założeniu urządzenie będzie wyświetlało na żywo odjazdy wybranych stacji kolejowych/metra/autobusowych/tramwajowych na własnej, konfigurowalnej miniaturowej tablicy odjazdów.
                     Urządzenie będzie pobierało dane bezprzewodowo poprzez sieć WiFi. W wyniku realizacji projektu powstanie idealny gadżet do domu lub biura jak i fantastyczny prezent dla wszystkich entuzjastów kolei.
                     Przedstawiane będą rozkłady jazdy pociągów lub komunikacji miejskiej na żywo w czasie rzeczywistym zgodnym z realnym przystankiem.
                     Ilość i rodzaj dostępnych informacji zależą od dostępności serwisów API dostarczających dane w trybie on-line. 
                 </p>
-                <ul class="list-disc list-inside m-10 text-start text-lg">
+                <ul class="list-disc list-inside m-10 text-start">
                     <li>Zaprojektowany, aby z niezwykłą szczegółowością symulować prawdziwe tablice odjazdów stacji</li>
                     <li>Ultra płynna animacja tekstu.</li>
                     <li>Podgląd odjazdów pociągów / metra / autobusów / tramwajów w czasie rzeczywistym dla wybranych stacji / przystanków​</li>
@@ -66,19 +61,41 @@
                     <li>Możliwe wprowadzenie płatnych subskrypcji</li>
                 </ul>
             </section>
-            <section class="w-full sm:w-4/5 mx-auto sm:p-10 my-10 py-1 justify-center bg-gradient-to-r from-orange-400 to-red-600 rounded-xl text-black" id="harmonogram">
-                <h2 class="text-5xl m-0 p-0 break-words">Harmonogram pracy</h2>
-                <h3 class="mt-5">Spotkania</h3>
-                <ul class="m-5 text-start text-lg">
+            <section class="w-full sm:w-4/5 mx-auto sm:p-10 my-10 py-1 justify-center rounded-3xl text-black" id="harmonogram">
+                <div class="h2Container"><h2 class="text-5xl break-words">Harmonogram pracy</h2></div>
+                <h3 class="mt-5 text-4xl">Spotkania</h3>
+                <ul class="m-5 text-start">
                     <li>Spotkania na uczelni 1,5/mies​</li>
                     <li>Spotkania online 1/tydz​ (Teams)</li>
                 </ul>
-                <h3>Plan pracy</h3>
-                  <p class="m-5 text-start text-lg">(TO DO)</p>
+                <h3 class="text-4xl mb-4">Plan pracy</h3>
+                    <ul class="harmonogramPracyLista">
+                        <li><strong>Listopad 2022:</strong></li>
+                        <li>Zapoznanie się z opiekunem projektu</li>
+                        <li>Określenie tematu pracy</li>
+                        <li>Wstępne ustalenie harmonogramu pracy i spotkań</li>
+                        <li>Rozpoczęcie prac nad stroną internetową</li>
+                        <br>
+
+                        <li><strong>Grudzień 2022:</strong></li>
+                        <p>Podział obowiązków dla członków zespołu</p>
+                        <p>Udostępnienie strony internetowej</p>
+                        <p>Ustalenie dokładniejszego planu pracy</p>
+                        <p>Rozpoczęcie pracy nad back'endem</p>
+                        <br>
+                        
+                        <li><strong>Styczeń 2023:</strong></li>
+                        <p>Kontynuacja pracy nad back'endem</p>
+                        <p>Rozpoczęcie pracy nad frontendem</p>
+                        <br>
+
+                    </ul>
+
+                  </p>
             </section>
-            <section class="w-full sm:w-4/5 mx-auto sm:p-10 my-10 py-1 justify-center bg-gradient-to-r from-orange-400 to-red-600 rounded-xl text-black" id="zespol">
-                <h2 class="text-5xl m-0 p-0 break-words">Nasz zespół</h2>
-                <ul class="m-5 text-start text-lg">
+            <section class="w-full sm:w-4/5 mx-auto sm:p-10 my-10 py-1 justify-center bg-gradient-to-r rounded-3xl text-black" id="zespol">
+                <div class="h2Container"><h2 class="text-5xl break-words">Nasz zespół</h2></div>
+                <ul class="m-5 text-start">
                     <li>Prowadzący: Edmund Bejgier</li>
                     <li>Rafał Rogala</li>
                     <li>Dariusz Cichocki</li>
@@ -87,16 +104,16 @@
                     <li>Radosław Lach</li>
                 </ul>
             </section>
-            <section class="w-full sm:w-4/5 mx-auto sm:p-10 my-10 py-1 justify-center bg-gradient-to-r from-orange-400 to-red-600 rounded-xl text-black" id="spotkania">
-                <h2 class="text-5xl m-0 p-0 break-words">Lista spotkań</h2>
-                <ul class="m-5 text-start text-lg">
-                    <li>16.11.22 Pierwsze spotkanie. Zapoznaliśmy się z koncepcją projektu oraz ustaliliśmy w jaki sposób i kiedy będziemy odbywali kolejne spotkania.</li>
-                    <li>25.11.22 Spotkanie </li>
-                </ul>
+            <section class="w-full sm:w-4/5 mx-auto sm:p-10 my-10 py-1 justify-center bg-gradient-to-r  rounded-3xl text-black" id="spotkania">
+                <div class="h2Container"><h2 class="text-5xl break-words">Lista spotkań</h2></div>
+                <ol class="m-5 text-start">
+                    <li>16.11.22 <strong>Spotkanie stacjonarne</strong> Zapoznaliśmy się z koncepcją projektu oraz ustaliliśmy w jaki sposób i kiedy będziemy odbywali kolejne spotkania.</li>
+                    <li>25.11.22 <strong>Spotkanie on-line</strong> Spotkanie organizujące podział pracy</li>
+                </ol>
             </section>
-            <section class="w-full sm:w-4/5 mx-auto sm:p-10 my-10 py-1 justify-center bg-gradient-to-r from-orange-400 to-red-600 rounded-xl text-black" id="dokumentacja">
-                <h2 class="text-5xl m-0 p-0 break-words">Dokumentacja projektu</h2>
-                <a class="m-5 text-start text-lg" href="#">Link do githuba</a>
+            <section class="w-full sm:w-4/5 mx-auto sm:p-10 my-10 py-1 justify-center bg-gradient-to-r  rounded-3xl text-black" id="dokumentacja">
+                <div class="h2Container"><h2 class="text-5xl break-words">Dokumentacja projektu</h2></div>
+                <a class="m-5 text-start" href="https://github.com/rrnax/Miniaturowa_tablica_informacji_pasazerskiej">Link do githuba</a>
             </section>
         </main>
     </div>
@@ -105,12 +122,5 @@
             Projekt Zespołowy UMK , DWR
         </div>
     </footer>
-    <!--footer>
-        Projekt Zespołowy UMK
-        <button id="changeThemeButton">change Theme</button>
-    </footer>
-    
-    <script src="/scripts/scripts.js"></script-->
-
 </body>
 </html>
