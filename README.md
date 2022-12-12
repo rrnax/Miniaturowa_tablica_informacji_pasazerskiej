@@ -12,6 +12,6 @@ Radosław Lach,
 Witold Weiner,
 
 
-Team site: 
+Team site: https://rrnax.github.io/Miniaturowa_tablica_informacji_pasazerskiej/
 
 
