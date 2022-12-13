@@ -1,1 +1,61 @@
+:root {
+    --mainColor1: #50503f;
+    --mainColor2: #00cc00;
+    --textColor1: #0e160e;
+    --textColor2: white;
+}
 
+body {
+    margin: 0;
+}
+
+nav {
+    background-color: var(--mainColor1);
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navabrand {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.navabrand img {
+    padding: 0 10px;
+}
+
+.navabrand h3 {
+    padding: 0 10px;
+    color: var(--textColor1);
+}
+
+.navamenu {
+    display: flex;
+}
+
+.navamenu a {
+    text-decoration: none;
+    padding: 22px 10px;
+    color: var(--textColor1);
+}
+
+.navamenu a:hover {
+    background-color: var(--mainColor2);
+    color: var(--textColor2);
+}
+/*nav img {*/
+/*    display: inline-block;*/
+/*}*/
+
+/*nav h3 {*/
+/*    display: inline-block;*/
+/*}*/
+
+/*nav a {*/
+/*    display: inline-block;*/
+/*    float: right;*/
+/*    text-align: center;*/
+/*}*/
