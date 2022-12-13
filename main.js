@@ -1,3 +1,8 @@
 function toggleButton(){
-    var minMenu = document.querySelector("")
+    let minMenu = document.querySelector(".navamenu");
+    if(minMenu.className === "navamenu"){
+        minMenu.className += " responsive";
+    } else {
+        minMenu.className = "navamenu";
+    }
 }

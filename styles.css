@@ -1,6 +1,7 @@
 :root {
     --mainColor1: #50503f;
     --mainColor2: #00cc00;
+    --mainColor3: #191966;
     --textColor1: #0e160e;
     --textColor2: white;
 }
@@ -14,7 +15,8 @@ nav {
     overflow: hidden;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    position: sticky;
+    top: 0px;
 }
 
 .navabrand {
@@ -33,10 +35,10 @@ nav {
 }
 
 .navamenu {
-    display: flex;
 }
 
 .navamenu a {
+    display: inline-block;
     text-decoration: none;
     padding: 22px 10px;
     color: var(--textColor1);
@@ -46,16 +48,76 @@ nav {
     background-color: var(--mainColor2);
     color: var(--textColor2);
 }
-/*nav img {*/
-/*    display: inline-block;*/
-/*}*/
 
-/*nav h3 {*/
-/*    display: inline-block;*/
-/*}*/
+.toggle{
+    display: none;
+    background-color: var(--mainColor1);
+    padding: 22px 10px;
+    border: none;
+}
 
-/*nav a {*/
-/*    display: inline-block;*/
-/*    float: right;*/
-/*    text-align: center;*/
-/*}*/
+section {
+    text-align: center;
+    width: 85%;
+    margin: 20px auto;
+}
+
+.description {
+    width: 85%;
+    background-color: var(--mainColor1);
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+    border: 2px solid var(--mainColor3);
+    border-radius: 20px;
+}
+
+.people {
+    display: grid;
+    grid: 80px 80px / auto auto auto;
+    grid-gap: 10px;
+}
+
+.person {
+    background-color: var(--mainColor1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--mainColor3);
+    border-radius: 20px;
+}
+
+
+@media screen and (max-width: 900px){
+    .navamenu a { display: none ;}
+    .toggle {
+        display: flex;
+    }
+
+    .toggle:hover {
+        background-color: var(--mainColor2);
+        color: var(--textColor2);
+    }
+}
+
+@media screen and (max-width: 900px) {
+    nav {
+        display: block;
+    }
+    .navamenu.responsive {
+        position: relative;
+        display: block;
+    }
+
+    .toggle {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .navamenu.responsive a {
+        display: block;
+        text-align: left;
+        float: none;
+    }
+}
