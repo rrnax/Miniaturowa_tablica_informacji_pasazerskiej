@@ -1,20 +1,38 @@
+/*Imports*/
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Varela+Round&display=swap');
 /*Varibles about theme on website*/
 :root {
-    --mainColor1: #50503f;
-    --mainColor2: #00cc00;
+    --mainColor1: #d6d6d6;
+    --mainColor2: #f05400;
     --mainColor3: #191966;
+    --backColor: #061824;
     --textColor1: #0e160e;
     --textColor2: white;
 }
 
+/*Main elements on website*/
 body {
     margin: 0;
+    background-color: var(--backColor);
 }
 
-main{
+main {
     margin: 0;
     padding: 0;
+    font-family: 'Russo One', sans-serif;
 }
+
+.icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+}
+
+h1 {
+    color: var(--mainColor1);
+    font-size: 40px;
+}
+
 /*Dynamic navigation*/
 nav {
     background-color: var(--mainColor1);
@@ -59,16 +77,26 @@ nav {
 .toggle{
     display: none;
     background-color: var(--mainColor1);
-    padding: 22px 10px;
     border: none;
+    padding: 17px 10px;
+}
+
+.toggle_icon {
+    display: inline-block;
+}
+
+.toggle_bar {
+    width: 35px;
+    height: 5px;
+    background-color: black;
+    margin: 3px 0;
 }
 
 /*Sections styelsheets*/
 section {
     text-align: center;
     width: 100%;
-    margin: 100px auto;
-    border: 2px solid var(--mainColor3);
+    margin: 50px auto;
     position: relative;
 }
 
@@ -78,9 +106,25 @@ section {
     background-color: var(--mainColor1);
     margin: 20px auto;
     padding: 20px;
-    text-align: center;
-    border: 2px solid var(--mainColor3);
     border-radius: 20px;
+}
+
+.description h1{
+    color: #0e160e;
+}
+
+.description img{
+    width: 60%;
+    height: 30%;
+}
+
+.description p {
+    margin: 40px 20px;
+    font-size: 15px;
+}
+
+.description ul li p {
+    text-align: start;
 }
 
 /*Team members*/
@@ -92,11 +136,18 @@ section {
 }
 
 .person {
+    padding: 40px;
     background-color: var(--mainColor1);
     display: flex;
     align-items: center;
-    justify-content: center;
-    border: 2px solid var(--mainColor3);
+    justify-content: space-between;
+    /*border: 2px solid var(--mainColor3);*/
+}
+
+.role {
+    background-color: var(--mainColor2);
+    color: var(--textColor2);
+    padding: 0 10px;
     border-radius: 20px;
 }
 
