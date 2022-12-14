@@ -7,7 +7,7 @@ Team:
 
 Rafał Rogala,
 Wiktor Krzyczkowski,
-Dariusz Cichoscki,
+Dariusz Cichocki,
 Radosław Lach,
 Witold Weiner,
 
