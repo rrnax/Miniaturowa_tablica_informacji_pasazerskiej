@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="team_site/style/baseStyle.css">
     <link rel="stylesheet" href="team_site/style/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.2.228/pdf.min.js"></script>
 
     
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
@@ -131,6 +132,24 @@
     <footer class="bg-gray-100 text-center">
         <div class="text-center text-gray-700 p-4" style="background-color: rgba(0, 0, 0, 0.2);">
             Projekt Zespołowy UMK , DWR
+
+            <button id="show-pdf-button">Show PDF</button> 
+
+            <div id="pdf-main-container" style="width:100rem">
+                <div id="pdf-loader">Loading document ...</div>
+                <div id="pdf-contents">
+                    <div id="pdf-meta">
+                        <div id="pdf-buttons">
+                            <button id="pdf-prev">Previous</button>
+                            <button id="pdf-next">Next</button>
+                        </div>
+                        <div id="page-count-container">Page <div id="pdf-current-page"></div> of <div id="pdf-total-pages"></div></div>
+                    </div>
+                    <canvas id="pdf-canvas" style="width:40%;"></canvas>
+                    <div id="page-loader">Loading page ...</div>
+                </div>
+            </div>
+                <script src="team_site/scripts/pdf-viewer.js"></script>
         </div>
     </footer>
 </body>
