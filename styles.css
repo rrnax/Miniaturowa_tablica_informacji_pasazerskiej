@@ -5,7 +5,8 @@
     --mainColor1: #d6d6d6;
     --mainColor2: #f05400;
     --mainColor3: #191966;
-    --backColor: #061824;
+    /* #082639;#061824*/
+    --backColor: #082639;
     --textColor1: #0e160e;
     --textColor2: white;
 }
