@@ -35,14 +35,14 @@ h1 {
 
 /*Dynamic navigation*/
 nav {
-    background-color: var(--mainColor1);
+    background-color: rgba(214, 214, 214, 0.8);
     overflow: hidden;
     display: flex;
     justify-content: space-between;
     position: sticky;
-    opacity: 0.97;
     top: 0px;
     z-index: 2;
+    backdrop-filter: blur(8px);
     border-bottom: 3px solid var(--mainColor2);
 }
 
