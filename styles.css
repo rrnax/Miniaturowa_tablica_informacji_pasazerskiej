@@ -4,7 +4,6 @@
 :root {
     --mainColor1: #d6d6d6;
     --mainColor2: #f05400;
-    --mainColor3: #191966;
     /* #082639;#061824*/
     --backColor: #082639;
     --textColor1: #0e160e;
@@ -41,6 +40,7 @@ nav {
     display: flex;
     justify-content: space-between;
     position: sticky;
+    opacity: 0.97;
     top: 0px;
     z-index: 2;
     border-bottom: 3px solid var(--mainColor2);
@@ -223,6 +223,73 @@ section {
 }
 
 /*Updates*/
+.updates {
+
+}
+
+.updates-window {
+    position: relative;
+    width: 95%;
+    height: 400px;
+    background-color: var(--mainColor1);
+    margin: auto;
+    justify-items: center;
+}
+
+.scroll-list {
+    position: absolute;
+    width: 30%;
+    height: 380px;
+    margin: auto;
+    padding: 10px;
+    float: start;
+    overflow: scroll;
+    /*border-right: 20px solid var(--backColor);*/
+
+}
+
+.update-item {
+    background-color: var(--mainColor2);
+    height: 100px;
+    margin: 15px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--mainColor1);
+    font-size: 25px;
+}
+
+.update-item:focus {
+    background-color: var(--backColor);
+}
+
+.update-content {
+    float: right;
+    width: 64%;
+    display: none;
+    height: 90%;
+    margin: 20px;
+    text-align: start;
+    overflow: scroll;
+}
+
+.update-data {
+    justify-content: space-between;
+    display: flex;
+}
+
+/*Footer*/
+footer {
+    background-color: var(--mainColor1);
+    height: 70px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: grey;
+}
+
 
 
 /*Responsive change*/
@@ -264,17 +331,17 @@ section {
 /*Timeline*/
 @media screen and (max-width: 1000px) {
     .timeline::after{
-        left: 50px;
+        left: 40px;
     }
 
     .timeline-side{
         width: 80%;
-        padding-left: 100px;
+        padding-left: 80px;
         padding-right: 50px;
     }
 
     .right::after, .left::after{
-        left: 34px;
+        left: 24px;
     }
 
     .right {
@@ -283,7 +350,7 @@ section {
 
     .date{
         margin: 0;
-        width: 10%;
+        width: 100%;
     }
 
     .content .date{
@@ -302,4 +369,28 @@ section {
         margin-bottom: 10px;
     }
 
+}
+
+/*Updates*/
+@media screen and (max-width: 600px) {
+    .updates-window {
+        display: block;
+        height: 900px;
+    }
+
+    .scroll-list {
+        position: relative;
+        width: 90%;
+        margin: auto;
+    }
+
+    .update-content {
+        float: none;
+        margin: 20px auto;
+        height: 400px;
+    }
+
+    footer {
+        text-align: center;
+    }
 }

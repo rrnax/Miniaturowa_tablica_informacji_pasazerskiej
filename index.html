@@ -15,11 +15,11 @@
         <h3>Zespół 2</h3>
       </div>
       <div class="navamenu">
-        <a href="#">O projekcie</a>
-        <a href="#">Zespół</a>
-        <a href="#">Harmonogram Prac</a>
-        <a href="#">Aktualności</a>
-        <a href="#">Dokumentacja</a>
+        <a href="#about">O projekcie</a>
+        <a href="#team">Zespół</a>
+        <a href="#plan">Harmonogram Prac</a>
+        <a href="#info">Aktualności</a>
+        <a href="#doc">Dokumentacja</a>
       </div>
       <button class="toggle" onclick="toggleButton()">
         <div class="toggle_icon">
@@ -29,7 +29,7 @@
         </div>
       </button>
     </nav>
-    <section class="description">
+    <section class="description" id="about">
       <h1>Miniaturowa tablica informacji pasażerskiej</h1>
       <img src="img/table.png", alt="Zdjęcie urządzenia">
       <p>Tematem projektu <strong>„Miniaturowa tablica informacji pasażerskiej”</strong> jest przygotowanie kompaktowego wyświetlacza o przekątnej 3-5’’ z mikrokontrolerem wraz z oprogramowania systemu.
@@ -74,7 +74,7 @@
         </li>
       </ul>
     </section>
-    <section>
+    <section id="team">
       <h1>Zespół</h1>
       <div class="people">
         <div class="person">
@@ -115,7 +115,7 @@
         </div>
       </div>
     </section>
-    <section class="timeline">
+    <section class="timeline" id="plan">
       <h1>Harmonogram prac</h1>
       <div class="date">
         <p>07.11.2022</p>
@@ -151,24 +151,94 @@
       </div>
       <div class="timeline-side left">
         <div class="content">
+          <h2>Oprogramowanie -design i architektura</h2>
           <div class="date">
-            <p>07.11.2022</p>
+            <p>12.12.2022 - 27.01.2023</p>
           </div>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+          <ul>
+            <li>Koncepcja</li>
+            <li>Projekt</li>
+            <li>Przygotowanie architektury aplikacji (Front-End, Back-End, Interfejsy, REST API, Baza danych)</li>
+            <li>UX/UI design</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-side right">
+        <div class="content">
+          <h2>Wykonanie i walidacja prototypu</h2>
+          <div class="date">
+            <p>10.02.2023 - 24.03.2023</p>
+          </div>
+          <ul>
+            <li>Wykonanie prototypu</li>
+            <li>FAI i walidacja</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-side left">
+        <div class="content">
+          <h2>Oprogramowanie - implementacja, wdrożenie i testy</h2>
+          <div class="date">
+            <p>13.02.2023 - 12.05.2023</p>
+          </div>
+          <ul>
+            <li>Baza Danych</li>
+            <li>Implementacja modółów aplikacji</li>
+            <li>Front-End i UX/UI</li>
+            <li>Integracja oprogramowania wbudowanego</li>
+            <li>Dokumentacja projektowa</li>
+            <li>Weryfikacja, walidacja i testy</li>
+            <li>Implementacja poprawerk i re-testy</li>
+          </ul>
         </div>
       </div>
       <div class="date">
-        <p>07.11.2022</p>
+        <p>25.05.2023</p>
       </div>
     </section>
-    <section class="updates">
+    <section class="updates" id="info">
       <h1>Aktualności</h1>
+      <div class="updates-window">
+        <ul class="scroll-list">
+          <a class="update-item" onclick="zmien()">
+            Spotkanie 14.12.2022
+          </a>
+          <a class="update-item" href="">
+            Spotkanie 24.11.2022
+          </a>
+          <a class="update-item" href="">
+            Spotkanie 16.11.2022
+          </a>
+          <a class="update-item" href="">
+            Spotkanie 07.11.2022
+          </a>
+        </ul>
+        <div class="update-content" id="xd">
+          <div class="update-data">
+            <h2>Witojcie</h2>
+            <p>22.10.2222 | Zdalne</p>
+          </div>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+          <p>t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+          <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
+
+            5
+            paragraphs
+            words
+            bytes
+            lists
+            Start with 'Lorem
+            ipsum dolor sit amet...'
+          </p>
+        </div>
+      </div>
     </section>
-    <section>
+    <section id="doc">
       <h1>Dokumentacja</h1>
     </section>
   </main>
   <footer>
+    <h3>@UMK Programowanie zespołowe 2022, zespoł nr 2@</h3>
   </footer>
 </body>
 </html>
