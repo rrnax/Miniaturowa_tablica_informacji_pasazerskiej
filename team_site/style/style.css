@@ -15,10 +15,11 @@ nav{
     display:flex;
     justify-content: space-around;
     margin-bottom:1rem;
-    background-color: #e7e8eb;
+    background-color: rgba(231, 232, 235, 0.8);
     padding-bottom:1rem;
     padding-top:1rem;
     border-radius:0 0 0.5rem 0.5rem;
+    backdrop-filter: blur(8px);
 }
 
 #oProjekcie{
