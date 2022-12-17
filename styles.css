@@ -239,8 +239,8 @@ section {
 .scroll-list {
     position: absolute;
     width: 30%;
-    height: 380px;
-    margin: auto;
+    height: 360px;
+    margin: 10px auto;
     padding: 10px;
     float: start;
     overflow: scroll;
@@ -260,7 +260,7 @@ section {
     font-size: 25px;
 }
 
-.update-item:focus {
+.update-item:hover {
     background-color: var(--backColor);
 }
 
@@ -354,8 +354,8 @@ footer {
     }
 
     .content .date{
-        margin: 0 20%;
-        width: 60%;
+        margin: auto;
+        width: 80%;
     }
 }
 
@@ -388,6 +388,10 @@ footer {
         float: none;
         margin: 20px auto;
         height: 400px;
+    }
+
+    .update-data {
+        display: block;
     }
 
     footer {
