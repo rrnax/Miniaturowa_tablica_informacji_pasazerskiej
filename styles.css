@@ -62,7 +62,7 @@ h1 {
 
 .flexContainer{
     margin-top:3rem;
-    margin-left:1rem;
+    margin-left:2rem;
     display:flex;
     flex-flow: row wrap;
 }
