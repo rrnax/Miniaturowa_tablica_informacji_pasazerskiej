@@ -32,6 +32,41 @@ h1 {
     color: var(--mainColor1);
     font-size: 40px;
 }
+
+.description h1{
+    color:var(--backColor);
+}
+.description u{
+    text-decoration-color:var(--mainColor2);
+    text-decoration-thickness: 0.2rem;
+}
+.projectDescription{
+    width:55%;
+    text-align:start;
+    font-size:1.3rem;
+    word-spacing: 0.2rem;
+    line-height: 1.5rem;
+    word-wrap: break-word;
+}
+.projectImages{
+    width:45%;
+    display:flex;
+    flex-flow: column wrap;
+}
+.description img{
+    width:90%;
+    border-radius: 1rem;
+    border:3px solid var(--mainColor2);
+    margin-left:2rem;
+}
+
+.flexContainer{
+    margin-top:3rem;
+    margin-left:1rem;
+    display:flex;
+    flex-flow: row wrap;
+}
+
 .description li{
 
     font-size:1.2rem;
@@ -136,15 +171,6 @@ section {
     margin: 20px auto;
     padding: 20px;
     border-radius: 20px;
-}
-
-.description h1{
-    color: #0e160e;
-}
-
-.description img{
-    width: 60%;
-    height: 30%;
 }
 
 .description p {
@@ -360,6 +386,18 @@ footer {
         margin-left:0.5rem;
         margin-right:0.1rem;
     }
+    .flexContainer{
+        display:flex;
+        flex-flow: column-reverse wrap;
+    }
+    .projectDescription{
+        width:100%;
+        margin-top:3rem;
+    }
+    .projectImages{
+        width:100%;
+    }
+    
 }
 
 /*Timeline*/
