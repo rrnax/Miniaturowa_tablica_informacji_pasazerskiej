@@ -32,6 +32,33 @@ h1 {
     color: var(--mainColor1);
     font-size: 40px;
 }
+.description li{
+
+    font-size:1.2rem;
+    margin-top:1rem;
+    margin-right:2rem;
+    display:flex;
+    flex-flow:row nowrap;
+    justify-content: flex-start;
+    align-items:flex-start;
+    text-align: start;
+}
+.description ul{
+    list-style: none;
+    display:flex;
+    flex-flow:column wrap;
+    justify-content: flex-start;
+    align-items:flex-start;
+    margin-left:-2rem;
+}
+.description ul li::before{
+    content: "•";
+    color:red;
+    margin-top:-0.5rem;
+    margin-right:1rem;
+    font-size:2rem;
+
+}
 
 /*Dynamic navigation*/
 nav {
@@ -325,6 +352,13 @@ footer {
         display: block;
         text-align: left;
         float: none;
+    }
+    .description li{
+
+        font-size:1.2rem;
+        margin-top:0.5rem;
+        margin-left:0.5rem;
+        margin-right:0.1rem;
     }
 }
 
