@@ -7,7 +7,26 @@
   <link rel="stylesheet" href="styles.css">
   <script src="main.js" defer></script>
 </head>
-<body>
+<body onresize="buildTracks()">
+  <div id="animation">
+    <div id="train">
+      <img src="img/thomas.gif">
+    </div>
+    <div id="greeting">
+      <h1>Wi</h1>
+      <h1>ta</h1>
+      <h1>j </h1>
+      <h1>n</h1>
+      <h1>a </h1>
+      <h1>str</h1>
+      <h1>oni</h1>
+      <h1>e </h1>
+      <h1>Ze</h1>
+      <h1>spo</h1>
+      <h1>łu </h1>
+      <h1>2</h1>
+    </div>
+  </div>
   <main>
     <nav>
       <div class="navabrand">
@@ -122,12 +141,15 @@
         </div>
       </div>
     </section>
-    <section class="timeline" id="plan">
+    <section class="timeline"  id="plan">
       <h1>Harmonogram prac</h1>
       <div class="date">
         <p>07.11.2022</p>
       </div>
       <div class="timeline-side left">
+        <div id="wood">
+          <img src="img/drewno.jpg" id="one_wood">
+        </div>
         <div class="content">
           <h2>Planowanie</h2>
           <div class="date">
@@ -199,7 +221,7 @@
           </ul>
         </div>
       </div>
-      <div class="date">
+      <div class="date" style="margin-top: 100px">
         <p>25.05.2023</p>
       </div>
     </section>
