@@ -1,7 +1,7 @@
 package dwr.MiniaturowaTablica.api;
 
-import dwr.MiniaturowaTablica.api.Depot.Depot;
-import dwr.MiniaturowaTablica.api.Depot.DepotRepository;
+import dwr.MiniaturowaTablica.api.models.Depot;
+import dwr.MiniaturowaTablica.api.repository.DepotRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

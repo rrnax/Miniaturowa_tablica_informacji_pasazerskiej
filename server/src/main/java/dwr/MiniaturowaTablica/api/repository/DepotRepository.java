@@ -1,8 +1,7 @@
-package dwr.MiniaturowaTablica.api.Depot;
+package dwr.MiniaturowaTablica.api.repository;
 
+import dwr.MiniaturowaTablica.api.models.Depot;
 import org.springframework.data.mongodb.repository.MongoRepository;
-
-import java.util.Optional;
 
 public interface DepotRepository extends MongoRepository<Depot,String> {
 }

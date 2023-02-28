@@ -1,5 +1,7 @@
-package dwr.MiniaturowaTablica.api.Depot;
+package dwr.MiniaturowaTablica.api.services;
 
+import dwr.MiniaturowaTablica.api.models.Depot;
+import dwr.MiniaturowaTablica.api.repository.DepotRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
