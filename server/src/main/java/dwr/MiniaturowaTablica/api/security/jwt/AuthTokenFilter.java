@@ -2,12 +2,13 @@ package dwr.MiniaturowaTablica.api.security.jwt;
 
 import java.io.IOException;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 
 import dwr.MiniaturowaTablica.api.services.UserDetailsServiceImpl;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-
+@Component
 public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtUtils;
@@ -40,9 +42,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(jakarta.servlet.http.HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response, jakarta.servlet.FilterChain filterChain) throws jakarta.servlet.ServletException, IOException {
+    protected void doFilterInternal(
+          @NotNull HttpServletRequest request,
+          @NotNull HttpServletResponse response,
+          @NotNull FilterChain filterChain
+    ) throws ServletException, IOException {
         try {
-            String jwt = parseJwt((HttpServletRequest) request); // casting
+            String jwt = parseJwt(request); // casting
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
