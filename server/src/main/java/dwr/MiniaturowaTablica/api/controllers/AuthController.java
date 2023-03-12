@@ -17,19 +17,17 @@ import dwr.MiniaturowaTablica.api.payload.response.MessageResponse;
 import dwr.MiniaturowaTablica.api.repository.RoleRepository;
 import dwr.MiniaturowaTablica.api.repository.UserRepository;
 import dwr.MiniaturowaTablica.api.security.jwt.JwtUtils;
+import dwr.MiniaturowaTablica.api.services.EmailConfirmationService;
 import dwr.MiniaturowaTablica.api.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @CrossOrigin(origins = "*", maxAge = 200)
@@ -50,6 +48,9 @@ public class AuthController {
 
     @Autowired
     JwtUtils jwtUtils;
+
+    @Autowired
+    private EmailConfirmationService emailConfirmationService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -123,7 +124,12 @@ public class AuthController {
 
         user.setRoles(roles);
         userRepository.save(user);
-
+        emailConfirmationService.sendEmail(user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    @GetMapping(value = "/confirm-account", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> confirmUserAccount(@RequestParam("token") String confirmationToken) {
+        return emailConfirmationService.confirmEmail(confirmationToken);
     }
 }
