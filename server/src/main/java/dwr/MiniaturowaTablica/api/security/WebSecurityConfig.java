@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -59,11 +60,32 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**","/api/test/**")
                 .permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and().logout().invalidateHttpSession(true).
+                clearAuthentication(true).
+                logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout").permitAll();
 
+        //http.csrf().disable().authorizeHttpRequests().requestMatchers("/**").permitAll();
+//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//                .authorizeHttpRequests(auth-> auth .requestMatchers("/api/auth/**").permitAll()
+//                        .requestMatchers("/api/test/**").permitAll().anyRequest().authenticated());
+
+
+//    .requestMatchers("/api/auth/**").permitAll()
+//                .requestMatchers("/api/test/**").permitAll()
+//                .anyRequest().authenticated();
+
+//    .authorizeHttpRequests(auth -> auth
+//                .requestMatchers("/token/**").permitAll()
+//                .anyRequest().authenticated()
+//        )
         http.authenticationProvider(authenticationProvider());
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+
 
         return http.build();
     }
