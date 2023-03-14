@@ -78,6 +78,22 @@ public class UsersController {
         userRepository.delete(user);
         return ResponseEntity.ok(0 );
     }
+    @PostMapping("/allUsers")
+    //Authority
+    public ResponseEntity<?> ALLUser(@RequestBody LoginRequest loginRequest){
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        // find user
+        User user = userRepository.findByUsername(loginRequest.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + loginRequest.getUsername()));
+        if(user.getRoles().equals("admin")){
+            return ResponseEntity.ok(userRepository.findAll());
+        }
+        else{
+            return ResponseEntity.ok(-1);
+        }
+    }
+
     //dla bezpieczeństwa lepiej by zmieniać role ręcznie
     //    @PostMapping("/updateRole")
     //    public ResponseEntity<?> UpdateRole(@RequestBody SignupRequest signUpRequest){
