@@ -6,8 +6,10 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+
 
 @Data
 @Document(collection="users")
@@ -36,5 +38,8 @@ public class User {
         this.email = email;
         this.password = password;
     }
-
+    public ERole getName(){
+        ArrayList<Role> role = new ArrayList<>(roles);
+        return role.get(0).getName();
+    }
 }

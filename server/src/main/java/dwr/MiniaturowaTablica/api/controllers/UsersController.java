@@ -1,5 +1,6 @@
 package dwr.MiniaturowaTablica.api.controllers;
 
+import dwr.MiniaturowaTablica.api.models.ERole;
 import dwr.MiniaturowaTablica.api.models.User;
 import dwr.MiniaturowaTablica.api.payload.request.LoginRequest;
 import dwr.MiniaturowaTablica.api.payload.request.SignupRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 /**
  * It is a class to modify and delete users.
@@ -78,6 +80,12 @@ public class UsersController {
         userRepository.delete(user);
         return ResponseEntity.ok(0 );
     }
+
+    /**
+     * Method to check the list of users
+     * @param loginRequest it is a param to identify and authority user.
+     * @return List of users when role is Admin or -1 when user role isn't Admin
+     */
     @PostMapping("/allUsers")
     //Authority
     public ResponseEntity<?> ALLUser(@RequestBody LoginRequest loginRequest){
@@ -86,7 +94,7 @@ public class UsersController {
         // find user
         User user = userRepository.findByUsername(loginRequest.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + loginRequest.getUsername()));
-        if(user.getRoles().equals("admin")){
+        if(user.getName().equals(ERole.ROLE_ADMIN)){
             return ResponseEntity.ok(userRepository.findAll());
         }
         else{

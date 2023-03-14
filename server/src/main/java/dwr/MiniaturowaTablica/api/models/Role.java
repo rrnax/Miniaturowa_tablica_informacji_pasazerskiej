@@ -9,5 +9,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Role {
     @Id
     private String id;
+
+    public ERole getName() {
+        return name;
+    }
+
     private ERole name;
+
 }
