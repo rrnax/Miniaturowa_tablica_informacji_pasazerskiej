@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+
 /**
  * It is a class to modify and delete users.
  */
@@ -68,7 +69,7 @@ public class UsersController {
      */
     @PostMapping("/deleteUser")
     //Authority
-    public ResponseEntity<?> DeleteUser(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<?> deleteUser(@RequestBody LoginRequest loginRequest){
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -88,7 +89,7 @@ public class UsersController {
      */
     @PostMapping("/allUsers")
     //Authority
-    public ResponseEntity<?> ALLUser(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<?> allUser(@RequestBody LoginRequest loginRequest){
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         // find user
@@ -100,6 +101,17 @@ public class UsersController {
         else{
             return ResponseEntity.ok(-1);
         }
+    }
+    @PostMapping("/getUserByUsername")
+    //Authority
+    public ResponseEntity<?> getUserByUsername(@RequestBody LoginRequest loginRequest){
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        // find user
+        User user = userRepository.findByUsername(loginRequest.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + loginRequest.getUsername()));
+        user.setPassword("");
+        return ResponseEntity.ok(user);
     }
 
     //dla bezpieczeństwa lepiej by zmieniać role ręcznie
