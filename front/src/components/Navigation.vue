@@ -1,6 +1,8 @@
 <template>
   <nav>
-    <h1 class="nav-title">Home</h1>
+    <h1 class="nav-title">
+      <router-link to="/">Home</router-link>
+    </h1>
     <div class="options">
       <router-link to="/login">Zaloguj się</router-link>
     </div>

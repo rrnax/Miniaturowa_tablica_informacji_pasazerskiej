@@ -1,12 +1,19 @@
 <template>
-<div>
-  Zarejestruj sie
-</div>
+  <div class="panel">
+    <h1>Rejestracaj</h1>
+    <hr class="division">
+    <RegistrationForm />
+  </div>
 </template>
 
 <script>
+import RegistrationForm from "@/components/forms/RegistrationForm.vue";
+
 export default {
-  name: "RegistrationView"
+  name: "RegistrationView",
+  components: {
+    RegistrationForm,
+  },
 }
 </script>
 
