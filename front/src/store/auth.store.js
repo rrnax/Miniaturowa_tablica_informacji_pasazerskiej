@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('auth', {
     actions: {
         //Registration
         async userSignUp(email, password) {
-            await axios.post('auth/signup', {
+            await axios.post('api/auth/signup', {
                 "email": email,
                 "password": password,
             }).then(response => {
@@ -32,7 +32,7 @@ export const useAuthStore = defineStore('auth', {
 
         //Login
         async userSignIn(email, password) {
-            await axios.post('auth/signin', {
+            await axios.post('api/auth/signin', {
                 "email": email,
                 "password": password,
             }).then(response => {
@@ -62,7 +62,7 @@ export const useAuthStore = defineStore('auth', {
             return user;
         },
 
-        async getAuthenticatedUser() {
+        async getAuthenticatedUser() {              //screap information about current user
             const response = await axios.get("user")
                 .catch(error => console.log(error));
             if (response.status === 200){
