@@ -1,16 +1,17 @@
-import Vue from "vue";
+import { createApp } from "vue"
+import { createPinia } from "pinia";
 import App from './App.vue'
-import router from './router';
-import store from './store';
-import axios from "axios";
+import router from './router'
+import axios from "axios"
 
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:3001';
+axios.defaults.withCredentials = true
+// axios.defaults.baseURL = 'http://localhost:3001/'
+axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com/'
 
-new Vue({
-    store,
-    router,
-    render: h => h(App)
-}).$mount('#app')
+const pinia = createPinia()
+const app = createApp(App)
 
-// createApp(App).use(router).mount('#app')
+app.use(pinia)
+app.use(router)
+app.mount('#app')
+

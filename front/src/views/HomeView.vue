@@ -4,13 +4,22 @@
     <select name="lister_stops" id="stops-list">
       <option v-for="(p) in stops" :key="p.name">{{p.name}}</option>
     </select>
+<!--    <button @click="userStore.downloadAllUsers()">Wyswietl</button>-->
+<!--    <p v-for="user in userStore.getAllUsers" :key="user.id">{{user}}</p>-->
   </div>
 </template>
 
 <script>
+import {useAuthStore} from "@/store/auth.store";
 
 export default {
   name: 'HomeView',
+
+  setup(){
+    const userStore = useAuthStore();
+    return { userStore };
+  },
+
   data() {
     return {
       stops: [],
