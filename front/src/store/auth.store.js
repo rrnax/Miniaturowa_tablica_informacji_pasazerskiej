@@ -3,12 +3,13 @@ import axios from "axios";
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({          //store data about user from backend, initial is null
-        userData: {
-            id: 0,
-            email: "",
-            updated_at: "",
-            isAdmin: false,
-        },
+        // userData: {
+        //     id: 0,
+        //     email: "",
+        //     updated_at: "",
+        //     isAdmin: false,
+        // },
+        userData: {},
         serverMessage: "",
         authStatus: false,      //status told us that user is loged in(true) or looged out(false)
     }),
@@ -25,8 +26,9 @@ export const useAuthStore = defineStore('auth', {
                 "password": password,
             }).then(response => {
                 console.log(response);
-                this.userData = this.parseUserData(response.data);           //returning data from REGISTRATION backend to userData without parsing
-                this.serverMessage = response.data.message;        //returning message from backend site
+                this.userData = response.data;           //returning data from REGISTRATION backend to userData without parsing
+                // this.serverMessage = response.data.message;        //returning message from backend site
+                this.authStatus = true;
             }).catch(error => console.log(error));
         },
 
@@ -37,8 +39,8 @@ export const useAuthStore = defineStore('auth', {
                 "password": password,
             }).then(response => {
                 console.log(response);
-                this.userData = this.parseUserData(response.data);         //returning data from LOGIN backend to userData with parsing
-                this.serverMessage = response.data.message;      //returning message from backend site
+                this.userData = response.data;         //returning data from LOGIN backend to userData with parsing
+                // this.serverMessage = response.data.message;      //returning message from backend site
                 this.authStatus = true;
             }).catch(error => console.log(error));
         },
