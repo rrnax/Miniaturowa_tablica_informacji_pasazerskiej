@@ -19,6 +19,7 @@ import dwr.MiniaturowaTablica.api.repository.UserRepository;
 import dwr.MiniaturowaTablica.api.security.jwt.JwtUtils;
 import dwr.MiniaturowaTablica.api.services.EmailConfirmationService;
 import dwr.MiniaturowaTablica.api.services.UserDetailsImpl;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +54,7 @@ public class AuthController {
     private EmailConfirmationService emailConfirmationService;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -66,8 +67,9 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
+        response.addHeader("Authorization","Bearer:"+jwt);
+
+        return ResponseEntity.ok(new JwtResponse(userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 roles));
