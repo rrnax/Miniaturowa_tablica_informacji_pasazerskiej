@@ -5,7 +5,7 @@ import java.io.IOException;
 import jakarta.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 
-import dwr.MiniaturowaTablica.api.services.UserDetailsServiceImpl;
+import dwr.MiniaturowaTablica.api.services.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,7 +26,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private JwtUtils jwtUtils;
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private UserService userDetailsService;
 
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 

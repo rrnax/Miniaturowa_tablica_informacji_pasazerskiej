@@ -3,7 +3,7 @@ package dwr.MiniaturowaTablica.api.security.jwt;
 
 import java.util.Date;
 
-import dwr.MiniaturowaTablica.api.services.UserDetailsImpl;
+import dwr.MiniaturowaTablica.api.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +24,7 @@ public class JwtUtils {
 
     public String generateJwtToken(Authentication authentication) {
 
-        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+        User userPrincipal = (User) authentication.getPrincipal();
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
@@ -55,5 +55,10 @@ public class JwtUtils {
         }
 
         return false;
+    }
+
+    public String headerToToken(String header){
+        if(header == null) return "";
+        return header.substring(7,header.length());
     }
 }

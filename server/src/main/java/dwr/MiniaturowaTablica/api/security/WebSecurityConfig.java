@@ -2,7 +2,7 @@ package dwr.MiniaturowaTablica.api.security;
 
 import dwr.MiniaturowaTablica.api.security.jwt.AuthEntryPointJwt;
 import dwr.MiniaturowaTablica.api.security.jwt.AuthTokenFilter;
-import dwr.MiniaturowaTablica.api.services.UserDetailsServiceImpl;
+import dwr.MiniaturowaTablica.api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class WebSecurityConfig {
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    UserService userDetailsService;
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
