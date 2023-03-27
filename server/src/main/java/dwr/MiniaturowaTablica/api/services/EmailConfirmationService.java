@@ -1,13 +1,11 @@
 package dwr.MiniaturowaTablica.api.services;
 
-import com.google.gson.Gson;
 import dwr.MiniaturowaTablica.api.models.EmailConfirmationToken;
 import dwr.MiniaturowaTablica.api.models.User;
 import dwr.MiniaturowaTablica.api.repository.EmailConfirmationRepository;
 import dwr.MiniaturowaTablica.api.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
@@ -17,18 +15,16 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class EmailConfirmationService {
 
-   @Autowired
-   private JavaMailSender javaMailSender;
-   @Autowired
-   private EmailConfirmationRepository emailConfirmationRepository;
-   @Autowired
-   private UserRepository userRepository;
+   private final JavaMailSender javaMailSender;
+
+   private final EmailConfirmationRepository emailConfirmationRepository;
+
+   private final UserRepository userRepository;
    @Value("${frontend.url}")
    private String frontendUrl;
-   @Autowired
-   private Gson gson;
 
 
    @Async
@@ -46,7 +42,7 @@ public class EmailConfirmationService {
       javaMailSender.send(mailMessage);
    }
 
-   public ResponseEntity<?> confirmEmail(String confirmationToken) {
+   public String confirmEmail(String confirmationToken) {
 
       EmailConfirmationToken token = emailConfirmationRepository.findByConfirmationToken(confirmationToken);
 
@@ -55,9 +51,9 @@ public class EmailConfirmationService {
          user.setActive(true);
          userRepository.save(user);
          emailConfirmationRepository.delete(token);
-         return ResponseEntity.ok(gson.toJson("Email verified successfully!"));
+         return "Email verified successfully!";
       }
-      return ResponseEntity.badRequest().body(gson.toJson("Couldn't verify email"));
+      throw new RuntimeException("Couldn't verify email");
    }
 
 
