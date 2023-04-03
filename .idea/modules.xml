@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Miniaturowa_tablica_informacji_pasazerskiej.iml" filepath="$PROJECT_DIR$/.idea/Miniaturowa_tablica_informacji_pasazerskiej.iml" />
       <module fileurl="file://$PROJECT_DIR$/server/api.iml" filepath="$PROJECT_DIR$/server/api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/projekt.iml" filepath="$PROJECT_DIR$/.idea/projekt.iml" />
     </modules>
   </component>
 </project>
