@@ -6,7 +6,6 @@ import dwr.MiniaturowaTablica.api.payload.request.LoginRequest;
 import dwr.MiniaturowaTablica.api.payload.request.RoleRequest;
 import dwr.MiniaturowaTablica.api.payload.request.SignupRequest;
 import dwr.MiniaturowaTablica.api.payload.request.UsernameRequest;
-import dwr.MiniaturowaTablica.api.payload.response.MessageResponse;
 import dwr.MiniaturowaTablica.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -55,8 +54,7 @@ public class UsersController {
         // whether the email is unique
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+                    .badRequest().body("");
         }
 
         // find user
