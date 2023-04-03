@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BlockedJwtRepository extends MongoRepository<BlockedJwt,String> {
+   Boolean existsByToken(String token);
 }

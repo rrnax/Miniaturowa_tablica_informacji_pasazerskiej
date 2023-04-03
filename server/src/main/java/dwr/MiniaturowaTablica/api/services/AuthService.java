@@ -59,7 +59,7 @@ public class AuthService {
             .map(item -> item.getAuthority())
             .collect(Collectors.toList());
 
-      response.addHeader("Authorization","Bearer:"+jwt);
+      response.addHeader("Authorization","Bearer "+jwt);
 
       return new JwtResponse(userDetails.getId(),
             userDetails.getUsername(),
