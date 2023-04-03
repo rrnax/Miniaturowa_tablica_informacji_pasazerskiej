@@ -26,10 +26,7 @@ public class WebSecurityConfig {
 
    private final AuthEntryPointJwt unauthorizedHandler;
 
-   @Bean
-   public AuthTokenFilter authenticationJwtTokenFilter() {
-      return new AuthTokenFilter();
-   }
+   private final AuthTokenFilter authTokenFilter;
 
    @Bean
    public DaoAuthenticationProvider authenticationProvider() {
@@ -58,7 +55,7 @@ public class WebSecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeHttpRequests()
             .requestMatchers("/api/auth/**", "/api/test/**").permitAll()
-            .requestMatchers("/api/v1/depots/**").hasAuthority("ROLE_USER")
+            .requestMatchers("/api/departures/**").hasAuthority("ROLE_USER")
             .anyRequest().authenticated()
             .and().logout().invalidateHttpSession(true).
             clearAuthentication(true).
@@ -82,7 +79,7 @@ public class WebSecurityConfig {
 //        )
       http.authenticationProvider(authenticationProvider());
 
-      http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+      http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
 
       return http.build();
