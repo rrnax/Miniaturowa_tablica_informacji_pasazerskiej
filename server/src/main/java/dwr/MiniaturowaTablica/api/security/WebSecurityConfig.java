@@ -58,7 +58,7 @@ public class WebSecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**","/api/test/**")
+                .requestMatchers("/api/auth/**","/api/test/**","/api/displays")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and().logout().invalidateHttpSession(true).
@@ -66,21 +66,6 @@ public class WebSecurityConfig {
                 logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login?logout").permitAll();
 
-        //http.csrf().disable().authorizeHttpRequests().requestMatchers("/**").permitAll();
-//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//                .authorizeHttpRequests(auth-> auth .requestMatchers("/api/auth/**").permitAll()
-//                        .requestMatchers("/api/test/**").permitAll().anyRequest().authenticated());
-
-
-//    .requestMatchers("/api/auth/**").permitAll()
-//                .requestMatchers("/api/test/**").permitAll()
-//                .anyRequest().authenticated();
-
-//    .authorizeHttpRequests(auth -> auth
-//                .requestMatchers("/token/**").permitAll()
-//                .anyRequest().authenticated()
-//        )
         http.authenticationProvider(authenticationProvider());
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
