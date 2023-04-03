@@ -1,64 +1,69 @@
 package dwr.MiniaturowaTablica.api.security.jwt;
 
 
-import java.util.Date;
-
 import dwr.MiniaturowaTablica.api.models.User;
+import dwr.MiniaturowaTablica.api.repository.BlockedJwtRepository;
+import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.*;
+import java.util.Date;
 
 @Component
+@RequiredArgsConstructor
 public class JwtUtils {
-    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+   private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+   private final BlockedJwtRepository blockedJwtRepository;
+   @Value("${dwr.MiniaturowaTablica.jwtSecret}")
+   private String jwtSecret;
+   @Value("${dwr.MiniaturowaTablica.jwtExpirationMs}")
+   private int jwtExpirationMs;
 
-    @Value("${dwr.MiniaturowaTablica.jwtSecret}")
-    private String jwtSecret;
+   public String generateJwtToken(Authentication authentication) {
 
-    @Value("${dwr.MiniaturowaTablica.jwtExpirationMs}")
-    private int jwtExpirationMs;
+      User userPrincipal = (User) authentication.getPrincipal();
 
-    public String generateJwtToken(Authentication authentication) {
+      return Jwts.builder()
+            .setSubject((userPrincipal.getUsername()))
+            .setIssuedAt(new Date())
+            .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+            .signWith(SignatureAlgorithm.HS512, jwtSecret)
+            .compact();
+   }
 
-        User userPrincipal = (User) authentication.getPrincipal();
+   public String getUserNameFromJwtToken(String token) {
+      return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+   }
 
-        return Jwts.builder()
-                .setSubject((userPrincipal.getUsername()))
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
-    }
+   public boolean validateJwtToken(String authToken) {
+      try {
+         Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+         return true;
+      } catch (SignatureException e) {
+         logger.error("Invalid JWT signature: {}", e.getMessage());
+      } catch (MalformedJwtException e) {
+         logger.error("Invalid JWT token: {}", e.getMessage());
+      } catch (ExpiredJwtException e) {
+         logger.error("JWT token is expired: {}", e.getMessage());
+      } catch (UnsupportedJwtException e) {
+         logger.error("JWT token is unsupported: {}", e.getMessage());
+      } catch (IllegalArgumentException e) {
+         logger.error("JWT claims string is empty: {}", e.getMessage());
+      }
 
-    public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
-    }
+      return false;
+   }
 
-    public boolean validateJwtToken(String authToken) {
-        try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
-            return true;
-        } catch (SignatureException e) {
-            logger.error("Invalid JWT signature: {}", e.getMessage());
-        } catch (MalformedJwtException e) {
-            logger.error("Invalid JWT token: {}", e.getMessage());
-        } catch (ExpiredJwtException e) {
-            logger.error("JWT token is expired: {}", e.getMessage());
-        } catch (UnsupportedJwtException e) {
-            logger.error("JWT token is unsupported: {}", e.getMessage());
-        } catch (IllegalArgumentException e) {
-            logger.error("JWT claims string is empty: {}", e.getMessage());
-        }
+   public boolean jwtIsBlackListed(String authToken) {
+      return blockedJwtRepository.existsByToken(authToken);
+   }
 
-        return false;
-    }
-
-    public String headerToToken(String header){
-        if(header == null) return "";
-        return header.substring(7,header.length());
-    }
+   public String headerToToken(String header) {
+      if (header == null) return "";
+      return header.substring(7);
+   }
 }

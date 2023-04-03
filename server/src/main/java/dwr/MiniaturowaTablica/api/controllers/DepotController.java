@@ -17,7 +17,7 @@ public class DepotController {
 
     private final DepotService depotService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Depot> fetchAllDepots() {
         return depotService.getAllDepots();
     }
