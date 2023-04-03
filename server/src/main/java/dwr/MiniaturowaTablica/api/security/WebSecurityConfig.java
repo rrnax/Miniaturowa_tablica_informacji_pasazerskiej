@@ -3,7 +3,7 @@ package dwr.MiniaturowaTablica.api.security;
 import dwr.MiniaturowaTablica.api.security.jwt.AuthEntryPointJwt;
 import dwr.MiniaturowaTablica.api.security.jwt.AuthTokenFilter;
 import dwr.MiniaturowaTablica.api.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,58 +20,71 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig {
-    @Autowired
-    UserService userDetailsService;
+   private final UserService userDetailsService;
 
-    @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
+   private final AuthEntryPointJwt unauthorizedHandler;
 
-    @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
-    }
+   @Bean
+   public AuthTokenFilter authenticationJwtTokenFilter() {
+      return new AuthTokenFilter();
+   }
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+   @Bean
+   public DaoAuthenticationProvider authenticationProvider() {
+      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
+      authProvider.setUserDetailsService(userDetailsService);
+      authProvider.setPasswordEncoder(passwordEncoder());
 
-        return authProvider;
-    }
+      return authProvider;
+   }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
-    }
+   @Bean
+   public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+      return authConfig.getAuthenticationManager();
+   }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+   @Bean
+   public PasswordEncoder passwordEncoder() {
+      return new BCryptPasswordEncoder();
+   }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**","/api/test/**","/api/displays")
-                .permitAll()
-                .anyRequest().authenticated()
-                .and().logout().invalidateHttpSession(true).
-                clearAuthentication(true).
-                logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout").permitAll();
+   @Bean
+   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+      http.cors().and().csrf().disable()
+            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            .authorizeHttpRequests()
+            .requestMatchers("/api/auth/**", "/api/test/**").permitAll()
+            .requestMatchers("/api/v1/depots/**").hasAuthority("ROLE_USER")
+            .anyRequest().authenticated()
+            .and().logout().invalidateHttpSession(true).
+            clearAuthentication(true).
+            logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+            .logoutSuccessUrl("/login?logout").permitAll();
 
-        http.authenticationProvider(authenticationProvider());
+      //http.csrf().disable().authorizeHttpRequests().requestMatchers("/**").permitAll();
+//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//                .authorizeHttpRequests(auth-> auth .requestMatchers("/api/auth/**").permitAll()
+//                        .requestMatchers("/api/test/**").permitAll().anyRequest().authenticated());
 
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+//    .requestMatchers("/api/auth/**").permitAll()
+//                .requestMatchers("/api/test/**").permitAll()
+//                .anyRequest().authenticated();
+
+//    .authorizeHttpRequests(auth -> auth
+//                .requestMatchers("/token/**").permitAll()
+//                .anyRequest().authenticated()
+//        )
+      http.authenticationProvider(authenticationProvider());
+
+      http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
 
-
-        return http.build();
-    }
+      return http.build();
+   }
 }
