@@ -1,0 +1,51 @@
+#You should have docker engine version: 18.02.0+
+version: '3.6'
+services:
+  forntend-vuejs:
+    container_name: forntend-vuejs
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    ports:
+      - 28882:8080
+  backend-server-spring:
+    container_name: backend-server-spring
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 28888:8080
+  database:
+    image: mongo
+    ports:
+      - 27017:27017
+    container_name: m_tip_mongo
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 50k
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=haslo
+    volumes:
+      - ./database:/data/db
+
+    networks:
+      - M_TIP_DATABASE
+  mongo-client:
+    image: mongo-express
+    container_name: m_tip_client_database
+    restart: unless-stopped
+    ports:
+      - 28881:8081
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=haslo
+      - ME_CONFIG_MONGODB_SERVER=database
+      - ME_CONFIG_MONGODB_PORT=27017
+    networks:
+      - M_TIP_DATABASE
+
+networks:
+  M_TIP_DATABASE:
+    name: m_tip_database
