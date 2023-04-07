@@ -1,22 +1,30 @@
 #You should have docker engine version: 18.02.0+
 version: '3.6'
 services:
-  forntend-vuejs:
+  forntend-vuejs:                         #Vue on Frontend
     container_name: forntend-vuejs
     build:
       context: ./front
       dockerfile: Dockerfile
     ports:
       - 28882:8080
-  backend-server-spring:
+
+  backend-server-spring:                #Java with spring-boot API with connection to mongo
     container_name: backend-server-spring
     build:
       context: ./server
       dockerfile: Dockerfile
+    restart: always
     ports:
-      - 28888:8080
-  database:
+      - 8080:8080
+    depends_on:
+      - mongo_db
+    networks:
+      - M_TIP_DATABASE
+
+  mongo_db:                         #Mongo as database
     image: mongo
+    restart: always
     ports:
       - 27017:27017
     container_name: m_tip_mongo
@@ -28,11 +36,12 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=haslo
     volumes:
-      - ./database:/data/db
-
+      - ./database:/data
     networks:
       - M_TIP_DATABASE
-  mongo-client:
+    command: ["--bind_ip", "0.0.0.0"]
+
+  mongo-client:                    #Mongo Express to better knowledge about data
     image: mongo-express
     container_name: m_tip_client_database
     restart: unless-stopped
@@ -41,7 +50,7 @@ services:
     environment:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=root
       - ME_CONFIG_MONGODB_ADMINPASSWORD=haslo
-      - ME_CONFIG_MONGODB_SERVER=database
+      - ME_CONFIG_MONGODB_SERVER=mongo_db
       - ME_CONFIG_MONGODB_PORT=27017
     networks:
       - M_TIP_DATABASE
