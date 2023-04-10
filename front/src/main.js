@@ -4,9 +4,7 @@ import App from './App.vue'
 import router from './router'
 import axios from "axios"
 
-axios.defaults.withCredentials = true
-// axios.defaults.baseURL = 'http://localhost:3001/'
-axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com/'
+axios.defaults.baseURL = 'http://localhost:8080/'
 
 const pinia = createPinia()
 const app = createApp(App)

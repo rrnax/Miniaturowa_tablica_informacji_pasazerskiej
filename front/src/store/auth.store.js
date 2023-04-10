@@ -16,14 +16,17 @@ export const useAuthStore = defineStore('auth', {
 
     getters: {
         getUser: (state) => state.userData,
+        getAuthStatus: (state) => state.authStatus,
     },
 
     actions: {
         //Registration
-        async userSignUp(email, password) {
+        async userSignUp(username, email, password) {
             await axios.post('api/auth/signup', {
+                "username": username,
                 "email": email,
                 "password": password,
+                "role": []
             }).then(response => {
                 console.log(response);
                 this.userData = response.data;           //returning data from REGISTRATION backend to userData without parsing
@@ -35,11 +38,12 @@ export const useAuthStore = defineStore('auth', {
         //Login
         async userSignIn(email, password) {
             await axios.post('api/auth/signin', {
-                "email": email,
+                "username": email,
                 "password": password,
             }).then(response => {
                 console.log(response);
-                this.userData = response.data;         //returning data from LOGIN backend to userData with parsing
+                console.log(response.headers.getAuthorization('Authorization'));
+                this.userData = response.data;         //returning data from LOGIN backend to userData without parsing
                 // this.serverMessage = response.data.message;      //returning message from backend site
                 this.authStatus = true;
             }).catch(error => console.log(error));
