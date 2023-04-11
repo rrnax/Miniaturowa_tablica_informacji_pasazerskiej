@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*", maxAge = 200)
 @RestController
 @RequestMapping("/api/departures")
 @AllArgsConstructor
