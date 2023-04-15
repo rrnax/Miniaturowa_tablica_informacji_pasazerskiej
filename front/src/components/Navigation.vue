@@ -24,9 +24,16 @@ export default {
 
   methods: {       //loging out with reset state
     async logOut(){
+      localStorage.removeItem("auth");
       await this.userStore.userSignOut();
-      this.userStore.$reset();
-      this.$router.push('/');
+      if(this.userStore.getHttpCode === 200){
+        this.userStore.sessionIntervalStop();
+        this.userStore.$reset();
+        this.$router.push('/login');
+        alert("Wylogowano pomyślnie!");
+      }else{
+        alert("Brakl połączenia z serwerem, nie można było wylogować!");
+      }
     },
   },
 }
