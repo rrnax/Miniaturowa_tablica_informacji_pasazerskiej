@@ -26,10 +26,9 @@ import java.io.IOException;
 public class AuthTokenFilter extends OncePerRequestFilter {
    private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
-
    private final JwtUtils jwtUtils;
 
-   private final UserService userDetailsService;
+   private final UserService userService;
 
    private String parseJwt(HttpServletRequest request) {
       String headerAuth = request.getHeader("Authorization");
@@ -52,7 +51,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
          if (jwt != null && jwtUtils.validateJwtToken(jwt) && !jwtUtils.jwtIsBlackListed(jwt)) {
             String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = userService.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
                   userDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

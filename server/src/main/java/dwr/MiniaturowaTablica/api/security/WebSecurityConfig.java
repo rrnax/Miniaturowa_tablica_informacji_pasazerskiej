@@ -2,7 +2,6 @@ package dwr.MiniaturowaTablica.api.security;
 
 import dwr.MiniaturowaTablica.api.security.jwt.AuthEntryPointJwt;
 import dwr.MiniaturowaTablica.api.security.jwt.AuthTokenFilter;
-import dwr.MiniaturowaTablica.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +11,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -22,18 +21,20 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
-   private final UserService userDetailsService;
+   private final UserDetailsService userDetailsService;
 
    private final AuthEntryPointJwt unauthorizedHandler;
 
    private final AuthTokenFilter authTokenFilter;
+
+   private final PasswordEncoder passwordEncoder;
 
    @Bean
    public DaoAuthenticationProvider authenticationProvider() {
       DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
       authProvider.setUserDetailsService(userDetailsService);
-      authProvider.setPasswordEncoder(passwordEncoder());
+      authProvider.setPasswordEncoder(passwordEncoder);
 
       return authProvider;
    }
@@ -44,11 +45,6 @@ public class WebSecurityConfig {
    }
 
    @Bean
-   public PasswordEncoder passwordEncoder() {
-      return new BCryptPasswordEncoder();
-   }
-
-   @Bean
    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
       http.cors().and().csrf().disable()
             .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
@@ -56,7 +52,7 @@ public class WebSecurityConfig {
             .authorizeHttpRequests()
             .requestMatchers("/api/auth/**", "/api/test/**").permitAll()
             .requestMatchers("/api/departures/**", "/api/user/all/**").hasAuthority("ROLE_USER")
-            .requestMatchers( "/api/user/admin/**").hasAuthority("ROLE_ADMIN")
+            .requestMatchers("/api/user/admin/**").hasAuthority("ROLE_ADMIN")
             .anyRequest().authenticated()
             .and().logout().invalidateHttpSession(true).
             clearAuthentication(true).
