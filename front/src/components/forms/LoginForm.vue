@@ -9,7 +9,7 @@
       <input v-model="password" type="password" id="password" placeholder="Podaj hasło"/>
     </div>
   </form>
-  <button @click="submit" class="submited-btn">Zaloguj</button>
+  <button @click="submit" class="option-btn sumbit">Zaloguj</button>
   <p id="response-warning"></p>
 </template>
 
@@ -53,7 +53,16 @@ export default {
 <style scoped>
 
 .data-input {
-  margin: 10px;
+  margin: 20px;
+  display: grid;
+  text-align: left;
+  font-size: 20px;
 }
+
+#response-warning {
+  font-size: 20px;
+  color: red;
+}
+
 
 </style>

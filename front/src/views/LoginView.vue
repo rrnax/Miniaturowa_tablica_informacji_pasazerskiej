@@ -3,7 +3,11 @@
     <h1>Logowanie</h1>
     <hr class="division">
     <LoginForm />
-    <p>lub</p>
+    <div class="maybe">
+      <hr class="diver"/>
+      <p>lub</p>
+      <hr class="diver"/>
+    </div>
     <div id="question">
       <p>Nie masz konta?</p>
       <router-link to="/registration"> Zarejestruj się!</router-link>
@@ -24,9 +28,24 @@ export default {
 
 <style scoped>
 
+.maybe {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.diver {
+  width: 25%;
+  height: 0;
+  border: 1px solid var(--appblue);
+}
+
 #question {
   display: flex;
   justify-content: space-around;
+  align-items: center;
+  font-size: 19px;
+  margin-bottom: 10px;
 }
 
 </style>

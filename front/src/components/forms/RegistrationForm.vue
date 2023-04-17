@@ -18,7 +18,7 @@
     </div>
   </form>
   <p id="validation_warning"></p>
-  <button @click="submit" class="submited-btn">Zarejestruj</button>
+  <button @click="submit" class="option-btn">Zarejestruj</button>
 </template>
 
 <script>
@@ -81,5 +81,12 @@ export default {
 <style scoped>
 .data-register{
   margin: 20px;
+  display: grid;
+  text-align: left;
+  font-size: 20px;
+}
+#validation_warning {
+  font-size: 20px;
+  color: red;
 }
 </style>
