@@ -15,7 +15,7 @@ import java.util.List;
 public class StopController {
    private final StopService stopService;
 
-   @GetMapping
+   @GetMapping("/all")
    public List<Stop> fetchAllStops() {
       return stopService.getAllStops();
    }

@@ -15,7 +15,7 @@ import java.util.List;
 public class DisplayController {
    private final DisplayService displayService;
 
-   @GetMapping
+   @GetMapping("/all")
    public List<Display> fetchAllDisplays() {
       return displayService.getAllDisplays();
    }
