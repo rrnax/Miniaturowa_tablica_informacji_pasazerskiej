@@ -55,7 +55,8 @@ public class WebSecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeHttpRequests()
             .requestMatchers("/api/auth/**", "/api/test/**").permitAll()
-            .requestMatchers("/api/departures/**").hasAuthority("ROLE_USER")
+            .requestMatchers("/api/departures/**", "/api/user/all/**").hasAuthority("ROLE_USER")
+            .requestMatchers( "/api/user/admin/**").hasAuthority("ROLE_ADMIN")
             .anyRequest().authenticated()
             .and().logout().invalidateHttpSession(true).
             clearAuthentication(true).
