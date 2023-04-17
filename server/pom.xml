@@ -106,6 +106,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>backend_app.jar</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
