@@ -1,14 +1,12 @@
-package dwr.tablica.api2.ZTMApiDownload;
+package dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import dwr.tablica.api2.ZTMApiDownload.Models.Departure_.*;
-import dwr.tablica.api2.ZTMApiDownload.Models.Display_.Display;
-import dwr.tablica.api2.ZTMApiDownload.Models.Display_.DisplayAssembler;
-import dwr.tablica.api2.ZTMApiDownload.Models.Display_.DisplayDTO;
-import dwr.tablica.api2.ZTMApiDownload.Models.Display_.DisplaysRepository;
-import dwr.tablica.api2.ZTMApiDownload.Models.Stop_.StopDTO;
-import dwr.tablica.api2.ZTMApiDownload.Models.Stop_.StopsRepository;
+
+import dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Departure_.*;
+import dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Display_.*;
+import dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Stop_.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

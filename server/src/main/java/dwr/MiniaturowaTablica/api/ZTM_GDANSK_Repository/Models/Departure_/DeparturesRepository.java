@@ -1,4 +1,4 @@
-package dwr.tablica.api2.ZTMApiDownload.Models.Departure_;
+package dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Departure_;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;

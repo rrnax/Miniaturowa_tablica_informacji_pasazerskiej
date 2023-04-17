@@ -1,4 +1,4 @@
-package dwr.tablica.api2.ZTMApiDownload.Models.Display_;
+package dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Display_;
 
 import org.springframework.stereotype.Service;
 

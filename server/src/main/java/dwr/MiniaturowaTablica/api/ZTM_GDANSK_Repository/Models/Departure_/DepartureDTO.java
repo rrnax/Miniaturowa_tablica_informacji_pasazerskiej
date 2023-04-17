@@ -1,10 +1,9 @@
-package dwr.tablica.api2.ZTMApiDownload.Models.Departure_;
+package dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Departure_;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-// TODO jezeli bedziemy tworzyc wiecej operacji w mongo na tych danych, trzeba bedzie stworzyc asembler do tworzenia klasy jak w przypadku klas display!
 @Getter
 @Setter
 @Document(collection = "departures")
