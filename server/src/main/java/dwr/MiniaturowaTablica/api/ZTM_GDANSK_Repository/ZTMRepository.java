@@ -35,6 +35,8 @@ public class ZTMRepository {
     DeparturesRepository departuresRepository;
     @Autowired
     StopAssembler stopAssembler;
+
+    private final int MAX_OUTPUT_VALUES = 10;
     public static HttpClient httpClientConf() {
 
         // Create a trust manager that does not validate certificate chains
@@ -231,7 +233,9 @@ public class ZTMRepository {
                 List<Departure> departures = generalInfoDepartures.getDepartures();
                 List<DepartureDTO> listToSend = new ArrayList<>();
                 System.out.println(departures.size());
+                int i=0;
                 for (Departure departure : departures) {
+
                     DepartureDTO dto = departureAssembler.toDepartureDTO(departure,stopid);
                     listToSend.add(dto);
 
@@ -304,24 +308,28 @@ public class ZTMRepository {
             displayInfo.addProperty("name", display.get().getName());
 
             JsonArray departuresArray = new JsonArray();
+            int i=0;
             for (DepartureDTO departure : odjazdy) {
-                JsonObject tmp_dep = new JsonObject();
-                tmp_dep.addProperty("id", departure.getId());
-                tmp_dep.addProperty("delayInSeconds", departure.getDelayInSeconds());
-                tmp_dep.addProperty("estimatedTime", departure.getEstimatedTime());
-                tmp_dep.addProperty("headsign", departure.getHeadsign());
-                tmp_dep.addProperty("routeId", departure.getRouteId());
-                tmp_dep.addProperty("scheduledTripStartTime", departure.getScheduledTripStartTime());
-                tmp_dep.addProperty("tripId", departure.getTripId());
-                tmp_dep.addProperty("status", departure.getStatus());
-                tmp_dep.addProperty("theoreticalTime", departure.getTheoreticalTime());
-                tmp_dep.addProperty("timestamp", departure.getTimestamp());
-                tmp_dep.addProperty("trip", departure.getTrip());
-                tmp_dep.addProperty("vehicleCode", departure.getVehicleCode());
-                tmp_dep.addProperty("vehicleId", departure.getVehicleId());
-                tmp_dep.addProperty("vehicleService", departure.getVehicleService());
-                tmp_dep.addProperty("StopID",departure.getStopID_fromRequest());
-                departuresArray.add(tmp_dep);
+                if (i < MAX_OUTPUT_VALUES) {
+                    JsonObject tmp_dep = new JsonObject();
+                    tmp_dep.addProperty("id", departure.getId());
+                    tmp_dep.addProperty("delayInSeconds", departure.getDelayInSeconds());
+                    tmp_dep.addProperty("estimatedTime", departure.getEstimatedTime());
+                    tmp_dep.addProperty("headsign", departure.getHeadsign());
+                    tmp_dep.addProperty("routeId", departure.getRouteId());
+                    tmp_dep.addProperty("scheduledTripStartTime", departure.getScheduledTripStartTime());
+                    tmp_dep.addProperty("tripId", departure.getTripId());
+                    tmp_dep.addProperty("status", departure.getStatus());
+                    tmp_dep.addProperty("theoreticalTime", departure.getTheoreticalTime());
+                    tmp_dep.addProperty("timestamp", departure.getTimestamp());
+                    tmp_dep.addProperty("trip", departure.getTrip());
+                    tmp_dep.addProperty("vehicleCode", departure.getVehicleCode());
+                    tmp_dep.addProperty("vehicleId", departure.getVehicleId());
+                    tmp_dep.addProperty("vehicleService", departure.getVehicleService());
+                    tmp_dep.addProperty("StopID", departure.getStopID_fromRequest());
+                    departuresArray.add(tmp_dep);
+                    i++;
+                }
             }
             displayInfo.add("departures", departuresArray);
 
@@ -384,8 +392,9 @@ public class ZTMRepository {
             displayInfo.addProperty("name", display.get().getName());
 
             JsonArray departuresArray = new JsonArray();
+            int i=0;
             for (DepartureDTO departure : odjazdy) {
-                if (departure.getRouteId() == lineId)
+                if (i < MAX_OUTPUT_VALUES &&  departure.getRouteId() == lineId)
                 {
                     JsonObject tmp_dep = new JsonObject();
                     tmp_dep.addProperty("id", departure.getId());
@@ -404,6 +413,7 @@ public class ZTMRepository {
                     tmp_dep.addProperty("vehicleService", departure.getVehicleService());
                     tmp_dep.addProperty("StopID",departure.getStopID_fromRequest());
                     departuresArray.add(tmp_dep);
+                    i++;
                 }
 
 
