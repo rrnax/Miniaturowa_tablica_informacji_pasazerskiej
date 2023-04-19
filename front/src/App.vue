@@ -21,6 +21,7 @@ export default {
   --appblue: #3b64c5;
   --whiteText: #ffffff;
   --navMenuColor: #d9e7fc;
+  --changableElements: #1c232e;
 }
 
 .panel {
