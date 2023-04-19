@@ -1,5 +1,6 @@
 package dwr.MiniaturowaTablica.api.security;
 
+import dwr.MiniaturowaTablica.api.models.ERole;
 import dwr.MiniaturowaTablica.api.security.jwt.AuthEntryPointJwt;
 import dwr.MiniaturowaTablica.api.security.jwt.AuthTokenFilter;
 import lombok.RequiredArgsConstructor;
@@ -51,8 +52,8 @@ public class WebSecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeHttpRequests()
             .requestMatchers("/api/auth/**", "/api/test/**").permitAll()
-            .requestMatchers("/api/departures/**", "/api/user/all/**").hasAuthority("ROLE_USER")
-            .requestMatchers("/api/user/admin/**").hasAuthority("ROLE_ADMIN")
+            .requestMatchers("/api/departures/**", "/api/user/all/**").hasAuthority(String.valueOf(ERole.ROLE_USER))
+            .requestMatchers("/api/user/admin/**").hasAuthority(String.valueOf(ERole.ROLE_ADMIN))
             .anyRequest().authenticated()
             .and().logout().invalidateHttpSession(true).
             clearAuthentication(true).
