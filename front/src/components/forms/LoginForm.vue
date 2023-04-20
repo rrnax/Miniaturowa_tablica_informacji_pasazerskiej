@@ -9,7 +9,8 @@
       <input v-model="password" type="password" id="password" placeholder="Podaj hasło"/>
     </div>
   </form>
-  <button @click="submit" class="submited-btn">Zaloguj</button>
+  <button @click="submit" class="option-btn sumbit">Zaloguj</button>
+  <p id="response-warning"></p>
 </template>
 
 <script>
@@ -34,9 +35,15 @@ export default {
     async submit() {        //passing data for loging action, it must be async bc we must wait for response
       await this.userStore.userSignIn(this.username, this.password);
       if (this.userStore.getAuthStatus){
+        this.userStore.sessionIntervalStart();
         this.$router.push('/');
-      } else {
-        alert('Nie można było się zalogować, problemy z serwerm');
+      } else {      //deal with bad request or crashed backend srver
+        let responseWarning = document.querySelector("#response-warning");
+        if(this.userStore.getHttpCode === 400){
+          responseWarning.innerText="Nieprawidłowe hasło lub nazwa!";
+        }else{
+          responseWarning.innerText="Nie można połączyć się z serwerem!";
+        }
       }
     }
   }
@@ -46,7 +53,16 @@ export default {
 <style scoped>
 
 .data-input {
-  margin: 10px;
+  margin: 20px;
+  display: grid;
+  text-align: left;
+  font-size: 20px;
 }
+
+#response-warning {
+  font-size: 20px;
+  color: red;
+}
+
 
 </style>

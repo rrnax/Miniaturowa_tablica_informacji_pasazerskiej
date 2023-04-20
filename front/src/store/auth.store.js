@@ -1,22 +1,23 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 
+
 export const useAuthStore = defineStore('auth', {
-    state: () => ({          //store data about user from backend, initial is null
-        // userData: {
-        //     id: 0,
-        //     email: "",
-        //     updated_at: "",
-        //     isAdmin: false,
-        // },
-        userData: {},
+
+    state: () => ({          //store data about authorization and user
+        userData: {},           //include id, usernam, email
+        userJwt: "",
         serverMessage: "",
         authStatus: false,      //status told us that user is loged in(true) or looged out(false)
+        lastHttpCode: "",
+        session: null
     }),
 
     getters: {
         getUser: (state) => state.userData,
         getAuthStatus: (state) => state.authStatus,
+        getHttpCode: (state) => state.lastHttpCode,
+        getJwt: (state) => state.userJwt,
     },
 
     actions: {
@@ -26,13 +27,17 @@ export const useAuthStore = defineStore('auth', {
                 "username": username,
                 "email": email,
                 "password": password,
-                "role": []
+                "roles": []
             }).then(response => {
+                this.lastHttpCode = response.status;
                 console.log(response);
-                this.userData = response.data;           //returning data from REGISTRATION backend to userData without parsing
-                // this.serverMessage = response.data.message;        //returning message from backend site
-                this.authStatus = true;
-            }).catch(error => console.log(error));
+            }).catch(error => {
+                if(!(error.code === "ERR_NETWORK")){
+                    this.lastHttpCode = error.response.status;
+                }else {
+                    this.lastHttpCode = 500;
+                }console.log(error)
+            });
         },
 
         //Login
@@ -41,41 +46,47 @@ export const useAuthStore = defineStore('auth', {
                 "username": email,
                 "password": password,
             }).then(response => {
-                console.log(response);
-                console.log(response.headers.getAuthorization('Authorization'));
-                this.userData = response.data;         //returning data from LOGIN backend to userData without parsing
-                // this.serverMessage = response.data.message;      //returning message from backend site
                 this.authStatus = true;
-            }).catch(error => console.log(error));
+                this.lastHttpCode = response.status;
+                this.userData = response.data;         //returning data from LOGIN backend to userData without parsing
+                this.userJwt = response.headers.authorization;
+                axios.defaults.headers.common['Authorization'] = response.headers.authorization;
+            }).catch(error => {
+                if(!(error.code === "ERR_NETWORK")){
+                    this.lastHttpCode = error.response.status;
+                }else {
+                    this.lastHttpCode = 500;
+                }console.log(error);
+            });
         },
 
         //Logout
         async userSignOut() {
-            await axios.delete('auth/singout')
+            await axios.post('api/auth/logout')
                 .then(response => {
-                console.log(response);
-            }).catch(error => console.log(error));
+                    delete axios.defaults.headers.common['Authorization'];
+                    this.lastHttpCode = response.status;
+                    console.log(response);
+                })
+                .catch(error => {
+                    if(!(error.code === "ERR_NETWORK")){
+                        this.lastHttpCode = error.response.status;
+                    }else {
+                        this.lastHttpCode = 500;
+                    } console.log(error)
+                });
         },
 
-        parseUserData(data) {            //filtr information
-            let user = {
-                id: data.id,
-                email: data.email,
-                updated_at: data.updated_at,
-                isAdmin: data.isAdmin,
-            };
-
-            return user;
+        //Session
+        sessionIntervalStart() {
+            this.session = setInterval(() => {
+                console.log("int");
+            }, 4000);
         },
 
-        async getAuthenticatedUser() {              //screap information about current user
-            const response = await axios.get("user")
-                .catch(error => console.log(error));
-            if (response.status === 200){
-                this.userData = this.parseUserData(response.data);
-                this.authStatus = true;
-            }
-        }
+        sessionIntervalStop() {
+            clearInterval(this.session);
+        },
 
     },
 
