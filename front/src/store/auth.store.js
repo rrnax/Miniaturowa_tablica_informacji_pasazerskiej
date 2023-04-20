@@ -77,6 +77,18 @@ export const useAuthStore = defineStore('auth', {
                 });
         },
 
+        //Account Confirmation
+        async confirmAccount(token) {
+            let confirmUrl = "api/auth/confirm-account?token=" + token;
+            await axios.get(confirmUrl)
+                .then(response => {
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+
         //Session
         sessionIntervalStart() {
             this.session = setInterval(() => {

@@ -4,6 +4,7 @@ import LoginView from "@/views/LoginView.vue";
 import RegistrationView from "@/views/RegistrationView.vue";
 import {useAuthStore} from "@/store/auth.store";
 import AccountView from "@/views/AccountView";
+import AccountConfirmationView from "@/views/AccountConfirmationView";
 
 const routes = [
   {
@@ -22,6 +23,12 @@ const routes = [
     path: '/registration',
     name: 'registration',
     component: RegistrationView,
+    meta: { requiredAuth: false },
+  },
+  {
+    path: '/account-confirmation',
+    name: 'account-donfirmation',
+    component: AccountConfirmationView,
     meta: { requiredAuth: false },
   },
   {
