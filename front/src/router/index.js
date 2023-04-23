@@ -27,7 +27,7 @@ const routes = [
   },
   {
     path: '/account-confirmation',
-    name: 'account-donfirmation',
+    name: 'account-confirmation',
     component: AccountConfirmationView,
     meta: { requiredAuth: false },
   },

@@ -38,7 +38,7 @@ public class EmailConfirmationService {
       mailMessage.setTo(user.getEmail());
       mailMessage.setSubject("Complete Registration!");
       mailMessage.setText("To confirm your account, please click here : "
-            + frontendUrl + "api/auth/confirm-account?token=" + confirmationToken.getConfirmationToken());
+            + frontendUrl + "account-confirmation?token=" + confirmationToken.getConfirmationToken());
       javaMailSender.send(mailMessage);
    }
 
