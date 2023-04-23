@@ -9,16 +9,28 @@
        <li class="row">
          <div class="edit-field">
            <p>Nazwa użytkownika</p>
-           <p class="changable">rrnax</p>
+           <input v-model="nameInput" class="editable-inputs" v-if="nameEditon" id="name">
+           <p v-if="!nameEditon" class="changable">{{ userStore.getName }}</p>
          </div>
-        <a class="edit-btn">Edytuj</a>
+         <div>
+           <a v-if="!nameEditon" class="edit-btn" @click="makeInputName()">Edytuj</a>
+           <a v-if="nameEditon" class="edit-btn" >Zapisz</a>
+           <p v-if="nameEditon" style="display: inline"> | </p>
+           <a v-if="nameEditon" class="edit-btn" @click="this.nameEditon = !this.nameEditon">Cofnij</a>
+         </div>
        </li>
        <li class="row">
          <div class="edit-field">
-          <p>Email</p>
-          <p class="changable">wp@wp.pl</p>
+           <p>Email</p>
+           <input v-model="emailInput" class="editable-inputs" v-if="emailEditon" id="email"/>
+           <p v-if="!emailEditon" class="changable">{{ userStore.getEmail }}</p>
          </div>
-         <a class="edit-btn">Edytuj</a>
+         <div>
+           <a v-if="!emailEditon" class="edit-btn" @click="this.makeInputEmail()">Edytuj</a>
+           <a v-if="emailEditon" class="edit-btn" @click="this.updateEmail">Zapisz</a>
+           <p v-if="emailEditon" style="display: inline"> | </p>
+           <a v-if="emailEditon" class="edit-btn" @click="this.emailEditon = !this.emailEditon">Cofnij</a>
+         </div>
        </li>
      </ul>
     </div>
@@ -28,10 +40,10 @@
     </div>
     <div class="security-data">
       <label for="old-password">Stare hasło</label>
-      <input id="old-password"/>
+      <input v-model="oldPassword" type="password" id="old-password"/>
       <label for="new-password">Nowe hasło</label>
-      <input id="new-password"/>
-      <a class="save-pass">Zmień hasło</a>
+      <input v-model="newPassword" type="password" id="new-password"/>
+      <a @click="this.updatePassword" class="save-pass">Zmień hasło</a>
     </div>
     <div class="section-title">
       <h1 class="section-header">Urządzenia powiązane z kontem</h1>
@@ -61,21 +73,63 @@
       <hr>
     </div>
     <div class="delete-btn">
-      <button class="danger-btn">Usuń konto</button>
+      <button @click="deleteAccount" class="danger-btn">Usuń konto</button>
     </div>
   </div>
 </template>
 
 <script>
-import {useAuthStore} from "@/store/auth.store";
+import {useUserStore} from "@/store/user.stroe";
 
 export default {
   name: "AccountView",
 
+  data(){
+    return{
+      emailEditon: false,
+      nameEditon: false,
+      emailInput: "",
+      nameInput: "",
+      oldPassword: "",
+      newPassword: ""
+    }
+  },
 
   setup(){
-    const userStore = useAuthStore();
-    return userStore;
+    const userStore = useUserStore();
+    return { userStore };
+  },
+
+  methods: {
+    makeInputEmail(){
+      this.emailEditon = !this.emailEditon;
+      this.emailInput = this.userStore.getEmail;
+    },
+
+    makeInputName(){
+      this.nameEditon = !this.nameEditon;
+      this.nameInput = this.userStore.getName;
+    },
+
+    async updateEmail(){
+      await this.userStore.saveNewEmail(this.emailInput);
+    },
+
+    async updatePassword(){
+      if(this.oldPassword === this.userStore.getPassword){
+        await this.userStore.saveNewPassword(this.newPassword);
+      } else {
+        alert("Podano nieprawidłowe hasło");
+      }
+    },
+
+    async deleteAccount(){
+      if(confirm("Na pewno chcesz usunąć konto?") === true){
+        await this.userStore.deleteUser();
+        this.userStore.$reset();
+        this.$router.push("/login");
+      }
+    }
   }
 }
 </script>
@@ -133,10 +187,16 @@ hr {
 }
 
 .edit-field{
-  width: 300px;
+  width: 400px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
+
+.editable-inputs {
+  height: 22px;
+}
+
 
 .changable {
   color: var(--changableElements);
@@ -179,6 +239,7 @@ th, td {
   color: var(--whiteText);
   border: none;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 1500px){
