@@ -2,6 +2,8 @@ package dwr.MiniaturowaTablica.api.controllers;
 
 import com.google.gson.Gson;
 import dwr.MiniaturowaTablica.api.models.User;
+import dwr.MiniaturowaTablica.api.payload.request.NewEmailRequest;
+import dwr.MiniaturowaTablica.api.payload.request.NewPasswordRequest;
 import dwr.MiniaturowaTablica.api.payload.request.UsernameRequest;
 import dwr.MiniaturowaTablica.api.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -22,14 +25,20 @@ public class UsersController {
    private final Gson gson;
 
    @PostMapping("/all/updateEmail")
-   public ResponseEntity<User> updatedEmail(@RequestBody String newEmail, @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt) {
-      User user = userService.updateUserEmail(newEmail, jwt);
+   public ResponseEntity<User> updatedEmail(
+         @RequestBody @Valid NewEmailRequest newEmailRequest,
+         @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt
+   ) {
+      User user = userService.updateUserEmail(newEmailRequest.getNewEmail(), jwt);
       return ResponseEntity.ok(user);
    }
 
    @PostMapping("/all/updatePassword")
-   public ResponseEntity<User> updatedPassword(@RequestBody String newPassword, @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt) {
-      User user = userService.updatedPassword(newPassword, jwt);
+   public ResponseEntity<User> updatedPassword(
+         @RequestBody @Valid NewPasswordRequest newPasswordRequest,
+         @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt
+   ) {
+      User user = userService.updatedPassword(newPasswordRequest.getNewPassword(), jwt);
       return ResponseEntity.ok(user);
    }
 
