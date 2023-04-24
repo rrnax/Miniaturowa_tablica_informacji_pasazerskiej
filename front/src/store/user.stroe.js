@@ -32,7 +32,7 @@ export const useUserStore = defineStore("user", {
         //Updating email
         async saveNewEmail(newMail){
             console.log(axios.defaults.headers);
-            await axios.post("all/updateEmail",{
+            await axios.post("api/user/all/updateEmail",{
                 "newEmail": newMail
             }).then(response => {
                 console.log(response);
