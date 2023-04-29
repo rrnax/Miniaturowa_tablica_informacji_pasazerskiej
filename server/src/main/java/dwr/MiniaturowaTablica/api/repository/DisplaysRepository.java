@@ -1,5 +1,6 @@
-package dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Display_;
+package dwr.MiniaturowaTablica.api.repository;
 
+import dwr.MiniaturowaTablica.api.models.ztm.DisplayDTO;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.repository.MongoRepository;

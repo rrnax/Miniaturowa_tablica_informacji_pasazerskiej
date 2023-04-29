@@ -7,6 +7,8 @@ import com.google.gson.*;
 import dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Departure_.*;
 import dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Display_.*;
 import dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Stop_.*;
+import dwr.MiniaturowaTablica.api.models.ztm.DisplayDTO;
+import dwr.MiniaturowaTablica.api.repository.DisplaysRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
