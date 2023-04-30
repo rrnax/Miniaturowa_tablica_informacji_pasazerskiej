@@ -13,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.MailParseException;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
 
 
 @RestController
@@ -53,7 +50,7 @@ public class AuthController {
         return ResponseEntity.ok(gson.toJson(logoutMessage));
     }
 
-    @ExceptionHandler({RuntimeException.class, ParseException.class, MailParseException.class})
+    @ExceptionHandler({RuntimeException.class})
     public ResponseEntity<String> handleException(RuntimeException exception) {
         return ResponseEntity.badRequest().body(gson.toJson(exception.getMessage()));
     }
