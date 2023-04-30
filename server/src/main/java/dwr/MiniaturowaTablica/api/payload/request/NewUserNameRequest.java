@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewPasswordRequest {
+public class NewUserNameRequest {
     @NotBlank
-    private String newPassword;
+    private String newUsername;
 }
