@@ -14,7 +14,7 @@
          </div>
          <div>
            <a v-if="!nameEditon" class="edit-btn" @click="makeInputName()">Edytuj</a>
-           <a v-if="nameEditon" class="edit-btn" >Zapisz</a>
+           <a v-if="nameEditon" class="edit-btn" @click="this.updateUsername">Zapisz</a>
            <p v-if="nameEditon" style="display: inline"> | </p>
            <a v-if="nameEditon" class="edit-btn" @click="this.nameEditon = !this.nameEditon">Cofnij</a>
          </div>
@@ -34,6 +34,7 @@
        </li>
      </ul>
     </div>
+      <p  v-if="validationEmail" class="validation-warning">Nie poprawny email!</p>
     <div class="section-title">
       <h1 class="section-header">Bezpieczeństwo</h1>
       <hr>
@@ -44,6 +45,7 @@
       <label for="new-password">Nowe hasło</label>
       <input v-model="newPassword" type="password" id="new-password"/>
       <a @click="this.updatePassword" class="save-pass">Zmień hasło</a>
+        <p v-if="validationPassword" class="validation-warning" id="pass-info">Za krótkie hasło, przynajmniej 8 znaków!</p>
     </div>
     <div class="section-title">
       <h1 class="section-header">Urządzenia powiązane z kontem</h1>
@@ -91,7 +93,9 @@ export default {
       emailInput: "",
       nameInput: "",
       oldPassword: "",
-      newPassword: ""
+      newPassword: "",
+        validationPassword: false,
+        validationEmail: false,
     }
   },
 
@@ -111,13 +115,30 @@ export default {
       this.nameInput = this.userStore.getName;
     },
 
+    async updateUsername(){
+      await this.userStore.saveNewUserName(this.nameInput);
+      this.nameEditon = false;
+    },
+
     async updateEmail(){
-      await this.userStore.saveNewEmail(this.emailInput);
+        if (this.emailInput.includes("@")){
+            await this.userStore.saveNewEmail(this.emailInput);
+            this.emailEditon = false;
+            this.validationEmail = false;
+        } else {
+            this.validationEmail = true;
+        }
     },
 
     async updatePassword(){
       if(this.oldPassword === this.userStore.getPassword){
-        await this.userStore.saveNewPassword(this.newPassword);
+          if(this.newPassword.length > 8){
+              await this.userStore.saveNewPassword(this.newPassword);
+              alert("Udało się");
+              this.validationPassword = false;
+          } else {
+              this.validationPassword = true;
+          }
       } else {
         alert("Podano nieprawidłowe hasło");
       }
@@ -129,7 +150,7 @@ export default {
         this.userStore.$reset();
         this.$router.push("/login");
       }
-    }
+    },
   }
 }
 </script>
@@ -194,7 +215,7 @@ hr {
 }
 
 .editable-inputs {
-  height: 22px;
+    height: 22px;
 }
 
 
@@ -242,6 +263,13 @@ th, td {
   cursor: pointer;
 }
 
+.validation-warning {
+    color: red;
+    width: 100%;
+    text-align: center;
+    font-size: 22px;
+}
+
 @media screen and (max-width: 1500px){
   .account {
     width: 70%;
@@ -253,6 +281,24 @@ th, td {
   .account{
     width: 90%;
   }
+}
+
+@media screen and (max-width: 600px){
+    .edit-field{
+        width: 65%;
+    }
+
+    .editable-inputs{
+     width: 50%;
+    }
+
+    #old-password{
+        width: 100%;
+    }
+
+    #new-password{
+        width: 100%;
+    }
 }
 
 </style>

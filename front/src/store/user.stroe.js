@@ -31,47 +31,55 @@ export const useUserStore = defineStore("user", {
 
         //Updating email
         async saveNewEmail(newMail){
-            console.log(axios.defaults.headers);
-            await axios.post("api/user/all/updateEmail",{
+            await axios.put("api/user/all/update/email",{
                 "newEmail": newMail
+                // eslint-disable-next-line no-unused-vars
             }).then(response => {
-                console.log(response);
+                // console.log(response);
                 this.email = newMail;
                 alert("zmieniono pomyślnie!")
+                // eslint-disable-next-line no-unused-vars
             }).catch(error => {
-                console.log(error);
+                // console.log(error);
                 alert("Nie można było zaktualizować, spróbuj później!")
             })
         },
 
         //Updating user name
-        // async saveNewUserName(newName){
-        //     await axios.post("all/updateEmail",{
-        //         "newUsername": newName
-        //     }).then(response => {
-        //         console.log(response);
-        //     }).catch(error => {
-        //         console.log(error);
-        //     })
-        // },
+        async saveNewUserName(newName){
+            await axios.put("api/user/all/update/username",{
+                "newUsername": newName
+                // eslint-disable-next-line no-unused-vars
+            }).then(response => {
+                // console.log(response);
+                this.username = newName;
+                alert("Zmieniono pomyślnie!");
+                // eslint-disable-next-line no-unused-vars
+            }).catch(error => {
+                // console.log(error);
+                alert("Nie można było zaktualizować, spróbuj później!")
+            })
+        },
 
         //Update password
         async saveNewPassword(newPassword){
-            await axios.post("all/updatePassword", {
+            await axios.put("api/user/all/update/password", {
                 "newPassword": newPassword
+                // eslint-disable-next-line no-unused-vars
             }).then(response => {
-                console.log(response);
+                // console.log(response);
                 this.password = newPassword;
-                alert("zmieniono pomyślnie!");
+                alert("Zmieniono pomyślnie!");
+                // eslint-disable-next-line no-unused-vars
             }).catch(error => {
-                console.log(error);
+                // console.log(error);
                 alert("Nie można było zaktualizować, spróbuj później!");
             })
         },
 
         async deleteUser(){
             const authStore = useAuthStore();
-            await axios.delete("all/deleteUser")
+            await axios.delete("api/user/all/delete/user")
                 .then(response => {
                     console.log(response);
                     authStore.$reset();

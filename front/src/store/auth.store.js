@@ -26,7 +26,7 @@ export const useAuthStore = defineStore('auth', {
                 "username": username,
                 "email": email,
                 "password": password,
-                "roles": []
+                "roles": ["user"]
             }).then(response => {
                 this.lastHttpCode = response.status;
                 // console.log(response);
