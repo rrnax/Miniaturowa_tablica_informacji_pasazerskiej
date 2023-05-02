@@ -1,18 +1,21 @@
 package dwr.MiniaturowaTablica.api.controllers;
 
 import com.google.gson.Gson;
+import dwr.MiniaturowaTablica.api.assemblers.UserAssembler;
 import dwr.MiniaturowaTablica.api.models.User;
 import dwr.MiniaturowaTablica.api.payload.request.NewEmailRequest;
 import dwr.MiniaturowaTablica.api.payload.request.NewPasswordRequest;
+import dwr.MiniaturowaTablica.api.payload.request.NewUserNameRequest;
 import dwr.MiniaturowaTablica.api.payload.request.UsernameRequest;
+import dwr.MiniaturowaTablica.api.payload.response.UserResponse;
 import dwr.MiniaturowaTablica.api.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 
@@ -21,44 +24,54 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UsersController {
 
-   private final UserService userService;
-   private final Gson gson;
+    private final UserService userService;
+    private final Gson gson;
+    private final UserAssembler userAssembler;
 
-   @PostMapping("/all/updateEmail")
-   public ResponseEntity<User> updatedEmail(
-         @RequestBody @Valid NewEmailRequest newEmailRequest,
-         @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt
-   ) {
-      User user = userService.updateUserEmail(newEmailRequest.getNewEmail(), jwt);
-      return ResponseEntity.ok(user);
-   }
+    @PutMapping("/all/update/email")
+    public ResponseEntity<UserResponse> updatedEmail(
+            @RequestBody @Valid NewEmailRequest newEmailRequest,
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt
+    ) {
+        User user = userService.updateUserEmail(newEmailRequest.getNewEmail(), jwt);
+        return ResponseEntity.ok(userAssembler.toUserResponse(user));
+    }
 
-   @PostMapping("/all/updatePassword")
-   public ResponseEntity<User> updatedPassword(
-         @RequestBody @Valid NewPasswordRequest newPasswordRequest,
-         @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt
-   ) {
-      User user = userService.updatedPassword(newPasswordRequest.getNewPassword(), jwt);
-      return ResponseEntity.ok(user);
-   }
+    @PutMapping("/all/update/password")
+    public ResponseEntity<UserResponse> updatePassword(
+            @RequestBody @Valid NewPasswordRequest newPasswordRequest,
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt
+    ) {
+        User user = userService.updatePassword(newPasswordRequest.getNewPassword(), jwt);
+        return ResponseEntity.ok(userAssembler.toUserResponse(user));
+    }
 
-   @DeleteMapping("/all/deleteUser")
-   public ResponseEntity<?> deleteUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt) {
-      userService.deleteUser(jwt);
-      return ResponseEntity.ok(null);
-   }
+    @PutMapping("/all/update/username")
+    public ResponseEntity<UserResponse> updateUserName(
+            @RequestBody @Valid NewUserNameRequest newUserNameRequest,
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt
+    ) {
+        User user = userService.updateUserName(newUserNameRequest.getNewUsername(), jwt);
+        return ResponseEntity.ok(userAssembler.toUserResponse(user));
+    }
 
-   @GetMapping("/admin/allUsers")
-   public ResponseEntity<List<User>> allUser() {
-      List<User> users = userService.getAllUsers();
-      return ResponseEntity.ok(users);
-   }
+    @DeleteMapping("/all/delete/user")
+    public ResponseEntity<?> deleteUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt) {
+        userService.deleteUser(jwt);
+        return ResponseEntity.ok(null);
+    }
 
-   @GetMapping("/admin/getUserByUsername")
-   public ResponseEntity<User> getUserByUsername(@RequestBody UsernameRequest usernameRequest) {
-      User user = userService.findUserByName(usernameRequest.getUsernameToFind());
-      return ResponseEntity.ok(user);
-   }
+    @GetMapping("/admin/get/allUsers")
+    public ResponseEntity<List<User>> allUser() {
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/admin/get/user/by/username")
+    public ResponseEntity<User> getUserByUsername(@RequestBody UsernameRequest usernameRequest) {
+        User user = userService.findUserByName(usernameRequest.getUsernameToFind());
+        return ResponseEntity.ok(user);
+    }
 
     /*@PostMapping("/updateRole")
     public ResponseEntity<?> UpdateRole(@RequestBody RoleRequest roleRequest){
@@ -75,9 +88,9 @@ public class UsersController {
             return ResponseEntity.ok(-1);
         }*/
 
-   @ExceptionHandler({RuntimeException.class, UsernameNotFoundException.class})
-   public ResponseEntity<String> handleException(RuntimeException exception) {
-      return ResponseEntity.badRequest().body(gson.toJson(exception.getMessage()));
-   }
+    @ExceptionHandler({RuntimeException.class, UsernameNotFoundException.class})
+    public ResponseEntity<String> handleException(RuntimeException exception) {
+        return ResponseEntity.badRequest().body(gson.toJson(exception.getMessage()));
+    }
 
 }

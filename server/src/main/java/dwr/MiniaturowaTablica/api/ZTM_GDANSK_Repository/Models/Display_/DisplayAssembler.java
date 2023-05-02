@@ -1,5 +1,6 @@
 package dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Display_;
 
+import dwr.MiniaturowaTablica.api.models.ztm.DisplayDTO;
 import org.springframework.stereotype.Service;
 
 @Service

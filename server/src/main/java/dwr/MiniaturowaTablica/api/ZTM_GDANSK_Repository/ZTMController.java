@@ -9,8 +9,8 @@ import dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Departure_.Depart
 import dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Departure_.DeparturesRepository;
 import dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Display_.Display;
 import dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Display_.DisplayAssembler;
-import dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Display_.DisplayDTO;
-import dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Display_.DisplaysRepository;
+import dwr.MiniaturowaTablica.api.models.ztm.DisplayDTO;
+import dwr.MiniaturowaTablica.api.repository.DisplaysRepository;
 import dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Stop_.StopDTO;
 import dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Stop_.StopsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
