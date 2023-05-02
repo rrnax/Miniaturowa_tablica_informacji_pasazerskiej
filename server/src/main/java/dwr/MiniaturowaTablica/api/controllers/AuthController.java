@@ -1,5 +1,4 @@
 package dwr.MiniaturowaTablica.api.controllers;
-
 import com.google.gson.Gson;
 import dwr.MiniaturowaTablica.api.payload.request.LoginRequest;
 import dwr.MiniaturowaTablica.api.payload.request.SignupRequest;

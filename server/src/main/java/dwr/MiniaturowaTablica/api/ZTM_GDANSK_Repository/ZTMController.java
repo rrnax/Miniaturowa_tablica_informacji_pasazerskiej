@@ -22,7 +22,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequestMapping("/api/ztm")
+@RequestMapping("/api/ztm/gdansk")
 @RestController
 public class ZTMController {
 

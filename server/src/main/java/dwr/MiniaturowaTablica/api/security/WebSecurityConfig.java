@@ -52,7 +52,7 @@ public class WebSecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeHttpRequests()
             .requestMatchers("/api/auth/**", "/api/test/**").permitAll()
-            .requestMatchers("/api/departures/**", "/api/user/all/**", "/api/ztm/**").hasAuthority(String.valueOf(ERole.ROLE_USER))
+            .requestMatchers("/api/departures/**", "/api/user/all/**", "/api/ztm/**,/api/displays/**").hasAuthority(String.valueOf(ERole.ROLE_USER))
             .requestMatchers("/api/user/admin/**").hasAuthority(String.valueOf(ERole.ROLE_ADMIN))
             .anyRequest().authenticated()
             .and().logout().invalidateHttpSession(true).
