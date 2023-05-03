@@ -1,6 +1,6 @@
 package dwr.MiniaturowaTablica.api;
 
-import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.ZTMWarsawRepository;
+import dwr.MiniaturowaTablica.api.ZTM.ztmRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -11,6 +11,6 @@ public class ApiApplication {
 
    public static void main(String[] args) throws IOException {
       SpringApplication.run(ApiApplication.class, args);
-//      ZTMWarsawRepository.getAllDisplays();
+      ztmRepository.loadStaticDataToDB();
    }
 }

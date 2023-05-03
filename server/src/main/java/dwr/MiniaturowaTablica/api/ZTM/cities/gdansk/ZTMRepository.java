@@ -3,6 +3,7 @@ package dwr.MiniaturowaTablica.api.ZTM.cities.gdansk;
 import com.google.gson.*;
 
 
+import com.google.gson.reflect.TypeToken;
 import dwr.MiniaturowaTablica.api.ZTM.cities.gdansk.Models.Departure_.*;
 import dwr.MiniaturowaTablica.api.ZTM.cities.gdansk.Models.Display_.Display;
 import dwr.MiniaturowaTablica.api.ZTM.cities.gdansk.Models.Display_.DisplayAssembler;
@@ -87,7 +88,7 @@ public class ZTMRepository {
     }
 
 
-    public String getAllDisplays() {
+    public static String getAllDisplays() {
         HttpClient httpClient = httpClientConf();
         // PDF 2.5 przypisanie  słupków  przystankowych  do  tablic  należących  do  ZTM wGdańsku
         String url = "https://ckan.multimediagdansk.pl/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/ee910ad8-8ffa-4e24-8ef9-d5a335b07ccb/download/displays.json";
@@ -434,6 +435,7 @@ public class ZTMRepository {
         }
 
     }
+
 
 
 }

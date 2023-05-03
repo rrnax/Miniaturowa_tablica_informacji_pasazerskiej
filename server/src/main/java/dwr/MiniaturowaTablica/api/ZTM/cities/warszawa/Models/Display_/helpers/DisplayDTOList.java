@@ -5,11 +5,11 @@ import dwr.MiniaturowaTablica.api.ZTM.Displays.DisplayDTO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DisplayDTOArrayList {
+public class DisplayDTOList {
 
     public ArrayList<DisplayDTO> displayDTOS = new ArrayList<>();;
 
-    public DisplayDTOArrayList(List<DisplayDTO> displayDTOS) {
+    public DisplayDTOList(List<DisplayDTO> displayDTOS) {
         displayDTOS.forEach(e->{
             Integer index = this.returnContainIndex(e);
             if(index!=-1){

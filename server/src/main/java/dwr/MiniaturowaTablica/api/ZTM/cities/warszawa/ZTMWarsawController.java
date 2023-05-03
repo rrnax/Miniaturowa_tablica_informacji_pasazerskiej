@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-
-import static dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.ZTMWarsawRepository.convertToJson;
+import static dwr.MiniaturowaTablica.api.ZTM.ztmRepository.convertToJson;
 
 @RequestMapping("/api/ztm/warszawa")
 @RestController
@@ -22,8 +21,6 @@ public class ZTMWarsawController {
 
     @GetMapping("/displays")
     private ResponseEntity<String> getAlldisplays() throws IOException { // get info about displays (przystanki)
-
-        displaysRepository.saveAll(ZTMWarsawRepository.getAllDisplays());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(convertToJson(ZTMWarsawRepository.getAllDisplays()));
@@ -35,23 +32,6 @@ public class ZTMWarsawController {
                 .status(HttpStatus.OK)
                 .body(convertToJson(displaysRepository.findAllByName(name)));
     }
-
-//    @GetMapping("/lines/{name}") // get all displays ( with different drivingDirection) with requested name
-//    private ResponseEntity<String> getAlldisplaysByName(@PathVariable("name") String name) {
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(convertToJson(displaysRepository.findAllByName(name)));
-//    }
-
-
-
-
-
-
-
-
-
-
 
     @GetMapping("/test")
     private ResponseEntity<String> Test() throws IOException {
