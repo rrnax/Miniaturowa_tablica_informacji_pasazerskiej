@@ -18,7 +18,7 @@ public class DisplayController {
    private final DisplayService displayService;
    private final Gson gson;
    private final String[] CitiesWithTrainStation      = new String[] {"torun","gdańsk","warszawa","kraków","brzydgoszcz"};
-   private final String[] CitiesWithPublicTransport   = new String[] {"torun","ztm"};
+   private final String[] CitiesWithPublicTransport   = new String[] {"warszawa","gdańsk","brzydgoszcz"};
    @GetMapping("/all")
    public List<Display> fetchAllDisplays() {
       return displayService.getAllDisplays();
