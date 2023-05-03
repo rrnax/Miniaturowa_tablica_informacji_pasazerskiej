@@ -1,8 +1,10 @@
 package dwr.MiniaturowaTablica.api.payload.request;
+
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import javax.validation.constraints.NotBlank;
+
 @Getter
 @Setter
 @AllArgsConstructor
