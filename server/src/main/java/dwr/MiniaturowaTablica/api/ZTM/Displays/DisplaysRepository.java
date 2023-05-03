@@ -1,6 +1,7 @@
 package dwr.MiniaturowaTablica.api.ZTM.Displays;
 
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -20,8 +21,6 @@ public interface DisplaysRepository {
     Optional<DisplayDTO> findByDisplayCode(int displayCode);
     List<DisplayDTO> findAllByNamePrefix (String prefix);
     List<DisplayDTO> findAllByName (String name);
-
-
 }
 
 @Repository
@@ -32,9 +31,10 @@ interface SpringDisplaysRepository extends MongoRepository<DisplayDTO, ObjectId>
 
 @Repository
 class DisplaysRepositoryImpl implements DisplaysRepository {
+
     private final SpringDisplaysRepository springDisplaysRepository;
     private final MongoOperations mongoOperations;
-
+    @Autowired
     DisplaysRepositoryImpl(SpringDisplaysRepository springDisplaysRepository, MongoOperations mongoOperations) {
         this.springDisplaysRepository = springDisplaysRepository;
         this.mongoOperations = mongoOperations;

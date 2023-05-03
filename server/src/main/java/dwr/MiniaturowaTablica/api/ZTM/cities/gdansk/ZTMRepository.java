@@ -61,8 +61,6 @@ public class ZTMRepository {
                     }
                 }
         };
-
-
         // Install the all-trusting trust manager
         SSLContext sc = null;
         try {
@@ -76,15 +74,12 @@ public class ZTMRepository {
                     .sslContext(sc) // SSL context 'sc' initialised as earlier
                     .build();
 
-
             return httpClient;
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         } catch (KeyManagementException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
 
@@ -92,7 +87,6 @@ public class ZTMRepository {
         HttpClient httpClient = httpClientConf();
         // PDF 2.5 przypisanie  słupków  przystankowych  do  tablic  należących  do  ZTM wGdańsku
         String url = "https://ckan.multimediagdansk.pl/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/ee910ad8-8ffa-4e24-8ef9-d5a335b07ccb/download/displays.json";
-
         // Create request.
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -125,7 +119,6 @@ public class ZTMRepository {
             DisplayAssembler displayAssembler = new DisplayAssembler();
             for (Display display : displays)
             {
-
                 dtos.add(displayAssembler.toDisplayDTO(display));
             }
 
@@ -306,8 +299,6 @@ public class ZTMRepository {
                     return "Brak Odjazdow";
                 }
             }
-
-
             // Create a JSON object with the display information, the list of stop IDs, and the list of departures
             JsonObject displayInfo = new JsonObject();
             displayInfo.addProperty("displaycode", display.get().getDisplayCode());
@@ -338,7 +329,6 @@ public class ZTMRepository {
                 }
             }
             displayInfo.add("departures", departuresArray);
-
 
             // Convert the list of DepartureDTO objects to a JSON string
             String json = gson.toJson(displayInfo);

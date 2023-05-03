@@ -44,8 +44,6 @@ public class ZTMController {
    @GetMapping("/displays")
    private ResponseEntity<String> getAlldisplays() { // get info about displays (przystanki)
 
-      displaysRepository.saveAll(gson.fromJson(ZTMRepository.getAllDisplays(), new TypeToken<List<DisplayDTO>>() {
-      }.getType()));
       return ResponseEntity
             .status(HttpStatus.OK)
             .body(ZTMRepository.getAllDisplays());
@@ -63,7 +61,6 @@ public class ZTMController {
       return ResponseEntity
             .status(HttpStatus.OK)
             .body(ZTMRepository.getTimeDeparturesFromStop(stopid));
-
    }
 
    @GetMapping("/info/{displayCode}") // get info about departures from display (from couple of stops)
@@ -134,7 +131,7 @@ public class ZTMController {
    }
 
    @DeleteMapping("/displays/deleteall") // delete displays from mongo database
-   private ResponseEntity<String> deleteDisplays() {
+   public ResponseEntity<String> deleteDisplays() {
       displaysRepository.deleteALL();
       return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
@@ -173,8 +170,6 @@ public class ZTMController {
          listToSend.add(dto);
 
       }
-
-
       departuresRepository.deleteALL();
       departuresRepository.saveAll(listToSend);
       return ResponseEntity

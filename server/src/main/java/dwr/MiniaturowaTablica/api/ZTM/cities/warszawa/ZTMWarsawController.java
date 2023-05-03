@@ -18,7 +18,6 @@ public class ZTMWarsawController {
     @Autowired
     DisplaysRepository displaysRepository;
 
-
     @GetMapping("/displays")
     private ResponseEntity<String> getAlldisplays() throws IOException { // get info about displays (przystanki)
         return ResponseEntity
