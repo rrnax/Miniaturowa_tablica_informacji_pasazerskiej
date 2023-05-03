@@ -1,6 +1,6 @@
 package dwr.MiniaturowaTablica.api;
 
-import dwr.MiniaturowaTablica.api.ZTM_WARSAW.ZTMWarsawRepository;
+import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.ZTMWarsawRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
