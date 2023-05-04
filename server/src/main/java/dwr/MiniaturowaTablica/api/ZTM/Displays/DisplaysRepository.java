@@ -25,7 +25,7 @@ public interface DisplaysRepository {
 
 @Repository
 interface SpringDisplaysRepository extends MongoRepository<DisplayDTO, ObjectId> {
-    Optional<DisplayDTO> findByDisplayCode(int displayCode);
+    Optional<DisplayDTO> findByDisplayCode(String displayCode);
     List<DisplayDTO> findAllByName (String displayName);
 }
 
@@ -76,7 +76,7 @@ class DisplaysRepositoryImpl implements DisplaysRepository {
 
     @Override
     public Optional<DisplayDTO> findByDisplayCode(int displayCode) {
-        return springDisplaysRepository.findByDisplayCode(displayCode);
+        return springDisplaysRepository.findByDisplayCode(String.valueOf(displayCode));
     }
 
 

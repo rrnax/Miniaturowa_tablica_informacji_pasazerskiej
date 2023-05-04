@@ -13,7 +13,7 @@ import static java.lang.Integer.parseInt;
 public class DisplayDTO   {
 
 
-    private int displayCode;
+    private String displayCode;
     private String city;
     private String originalName;
     private String name;
@@ -31,7 +31,7 @@ public class DisplayDTO   {
 
     public DisplayDTO(WarsawDisplay warsawDisplay){
         setCity("Warszawa");
-        setDisplayCode(0);
+        setDisplayCode(warsawDisplay.getZespol());
         setName(warsawDisplay.getNazwa_zespolu());
         setOriginalName(warsawDisplay.getNazwa_zespolu());
         setType("?");

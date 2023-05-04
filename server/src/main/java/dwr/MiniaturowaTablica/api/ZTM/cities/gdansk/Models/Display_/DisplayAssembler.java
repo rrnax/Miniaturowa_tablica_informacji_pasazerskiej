@@ -12,7 +12,7 @@ public class DisplayAssembler {
 
         if (display != null) {
             displayDTO.setCity("Gdańsk");
-            displayDTO.setDisplayCode( display.getDisplayCode());
+            displayDTO.setDisplayCode( String.valueOf(display.getDisplayCode()));
             displayDTO.setOriginalName( display.getName());
             displayDTO.setIdStop1(display.getIdStop1());
             displayDTO.setIdStop2(display.getIdStop2());
