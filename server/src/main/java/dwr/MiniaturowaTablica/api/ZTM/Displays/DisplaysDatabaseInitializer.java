@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import dwr.MiniaturowaTablica.api.ZTM.Displays.DisplaysRepository;
 import dwr.MiniaturowaTablica.api.ZTM.cities.gdansk.ZTMRepository;
+import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.JSONClients.TimeTable;
 import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.ZTMWarsawRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class DisplaysDatabaseInitializer implements CommandLineRunner {
     Gson gson = builder.excludeFieldsWithModifiers(Modifier.TRANSIENT).create();
     @Autowired
     public ZTMRepository gdanskRepository;
+    @Autowired
+    public TimeTable timeTable;
 
     @SneakyThrows
     public void run(String... args){
@@ -34,8 +37,12 @@ public class DisplaysDatabaseInitializer implements CommandLineRunner {
     }
     public void loadStaticDataToDB() throws IOException {
         displaysRepository.deleteALL();
+        //wczytanie Warszawy
         displaysRepository.saveAll(ZTMWarsawRepository.getAllDisplays());
+        //Wczytanie Gdańska
         displaysRepository.saveAll(gson.fromJson(gdanskRepository.getAllDisplays(), new TypeToken<List<DisplayDTO>>() {
         }.getType()));
+
+        //timeTable.getLineTimetable("1001","01","125");
     }
 }

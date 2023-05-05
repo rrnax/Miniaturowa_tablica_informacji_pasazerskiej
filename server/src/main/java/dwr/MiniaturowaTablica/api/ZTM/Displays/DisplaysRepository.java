@@ -1,5 +1,10 @@
 package dwr.MiniaturowaTablica.api.ZTM.Displays;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Displays.WarsawDisplay;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -9,6 +14,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +32,7 @@ public interface DisplaysRepository {
 @Repository
 interface SpringDisplaysRepository extends MongoRepository<DisplayDTO, ObjectId> {
     Optional<DisplayDTO> findByDisplayCode(String displayCode);
-    List<DisplayDTO> findAllByName (String displayName);
+
 }
 
 @Repository
@@ -78,6 +84,8 @@ class DisplaysRepositoryImpl implements DisplaysRepository {
     public Optional<DisplayDTO> findByDisplayCode(int displayCode) {
         return springDisplaysRepository.findByDisplayCode(String.valueOf(displayCode));
     }
+
+
 
 
 }

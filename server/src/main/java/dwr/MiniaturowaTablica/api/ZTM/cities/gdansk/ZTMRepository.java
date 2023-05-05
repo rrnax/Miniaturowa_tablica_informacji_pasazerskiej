@@ -4,6 +4,9 @@ import com.google.gson.*;
 
 
 import com.google.gson.reflect.TypeToken;
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
 import dwr.MiniaturowaTablica.api.ZTM.cities.gdansk.Models.Departure_.*;
 import dwr.MiniaturowaTablica.api.ZTM.cities.gdansk.Models.Display_.Display;
 import dwr.MiniaturowaTablica.api.ZTM.cities.gdansk.Models.Display_.DisplayAssembler;
@@ -11,7 +14,10 @@ import dwr.MiniaturowaTablica.api.ZTM.cities.gdansk.Models.Display_.GeneralInfoD
 import dwr.MiniaturowaTablica.api.ZTM.cities.gdansk.Models.Stop_.*;
 import dwr.MiniaturowaTablica.api.ZTM.Displays.DisplayDTO;
 import dwr.MiniaturowaTablica.api.ZTM.Displays.DisplaysRepository;
+import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Displays.WarsawDisplay;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -41,6 +47,8 @@ public class ZTMRepository {
     DeparturesRepository departuresRepository;
     @Autowired
     StopAssembler stopAssembler;
+    @Autowired
+    MongoOperations mongoOperations;
 
     private final int MAX_OUTPUT_VALUES = 10;
     public static HttpClient httpClientConf() {
@@ -424,6 +432,25 @@ public class ZTMRepository {
             return "Display not found.";
         }
 
+    }
+
+    public List<Integer> getIdStopsForGdanskDisplayCode(String displayCode) {
+        List<Integer> idStops = new ArrayList<>();
+
+        MongoCollection<Document> collection = mongoOperations.getCollection("displays");
+
+        BasicDBObject query = new BasicDBObject();
+        query.put("displayCode", displayCode);
+        FindIterable<Document> cursor = collection.find(query);
+
+        for (Document document : cursor) {
+            idStops.add(document.getInteger("idStop1"));
+            if(document.getInteger("idStop2")>0) idStops.add(document.getInteger("idStop2"));
+            if(document.getInteger("idStop3")>0) idStops.add(document.getInteger("idStop3"));
+            if(document.getInteger("idStop4")>0) idStops.add(document.getInteger("idStop4"));
+        }
+
+        return idStops;
     }
 
 

@@ -5,8 +5,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import dwr.MiniaturowaTablica.api.ZTM.Displays.DisplaysRepository;
 import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.JSONClients.Helpers.ZtmObject;
 import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.JSONClients.Helpers.ZtmValue;
+import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.ZTMWarsawRepository;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -15,11 +20,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class Lines {
+
     private static final String API_URL = "https://api.um.warszawa.pl/api/action/dbtimetable_get";
     //@Value("${dwr.apikey.warsaw}")
     private static String API_KEY = "34f08efc-3c02-486e-8fc6-b599d0ec45c3";
+    private static BeanFactory SpringContext;
+    @Autowired
+    public DisplaysRepository displaysRepository;
+    @Autowired
+    public ZTMWarsawRepository ztmWarsawRepository;
 
     public static void loadLine(String busStopId, String busStopNr) {
 
@@ -58,5 +69,9 @@ public class Lines {
             e.printStackTrace();
         }
 
+    }
+
+    public List<String> getAllLines(String busStopId){
+        return ztmWarsawRepository.getIdStopsForDisplayCode(busStopId);
     }
 }

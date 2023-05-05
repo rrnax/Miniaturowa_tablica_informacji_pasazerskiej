@@ -90,5 +90,10 @@ public class WarsawDisplay {
         return destination.replaceAll("-","");
     }
 
+    public static String prepareIdStop(String idStop){
+        if(idStop.length()<2) idStop = "0"+idStop;
+        return idStop;
+    }
+
 }
 
