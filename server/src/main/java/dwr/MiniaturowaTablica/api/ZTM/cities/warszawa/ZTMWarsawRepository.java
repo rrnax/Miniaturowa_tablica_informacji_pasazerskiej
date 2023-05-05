@@ -1,9 +1,9 @@
 package dwr.MiniaturowaTablica.api.ZTM.cities.warszawa;
 
 import com.google.gson.GsonBuilder;
-import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Display_.helpers.DisplayDTOList;
-import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Display_.helpers.WarsawDisplay;
-import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Display_.helpers.staticDataLoader;
+import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Displays.DisplayDTOList;
+import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Displays.WarsawDisplay;
+import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.JSONClients.staticDataLoader;
 import dwr.MiniaturowaTablica.api.ZTM.Displays.DisplayDTO;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package dwr.MiniaturowaTablica.api.ZTM.Displays;
 
-import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Display_.helpers.WarsawDisplay;
+import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Displays.WarsawDisplay;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;

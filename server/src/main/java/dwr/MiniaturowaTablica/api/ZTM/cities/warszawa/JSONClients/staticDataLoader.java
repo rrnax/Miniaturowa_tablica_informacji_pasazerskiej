@@ -1,7 +1,10 @@
-package dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Display_.helpers;
+package dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.JSONClients;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.JSONClients.Helpers.ZtmObject;
+import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.JSONClients.Helpers.ZtmValue;
+import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Displays.WarsawDisplay;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -11,7 +14,7 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
+// FUNCTION READS FROM STATIC JSON FILE IN /resources/static and returns array with Objects
 public class staticDataLoader {
     public static ArrayList<WarsawDisplay>  loadDataFromJsonFile(String fileName) throws IOException {
         File f = new File(fileName);

@@ -1,4 +1,4 @@
-package dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Display_.helpers;
+package dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Displays;
 
 
 // WarsawDisplays is data for every stop in departure

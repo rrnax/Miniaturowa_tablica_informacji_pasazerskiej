@@ -1,4 +1,4 @@
-package dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Display_.helpers;
+package dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.JSONClients.Helpers;
 
 public class ZtmValue {
     private String value;
