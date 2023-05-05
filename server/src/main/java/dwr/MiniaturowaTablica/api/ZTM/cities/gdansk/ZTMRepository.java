@@ -143,6 +143,83 @@ public class ZTMRepository {
 
     }
 
+    public static String getAllDisplays_ListWithUniqeNameByInputName(String name) {
+        GsonBuilder builder = new GsonBuilder();
+        builder.setPrettyPrinting();
+        Gson gson = builder.excludeFieldsWithModifiers(Modifier.TRANSIENT).create();
+
+        List<DisplayDTO> filteredDisplays = new ArrayList<>();
+
+        try {
+            // get all displays
+            List<DisplayDTO> allDisplays = Arrays.asList(gson.fromJson(getAllDisplays(), DisplayDTO[].class));
+
+            // filter by name
+            for (DisplayDTO display : allDisplays) {
+                if (display.getName().equals(name)) {
+                    filteredDisplays.add(display);
+                }
+            }
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Error while getting displays: " + e.getMessage());
+        }
+
+        if (filteredDisplays.isEmpty()) {
+            return "Brak danych o przystankach o nazwie: " + name;
+        }
+
+        return gson.toJson(filteredDisplays);
+    }
+
+
+    public static List<String> getUniqueDisplayNames() {
+        HttpClient httpClient = httpClientConf();
+        String url = "https://ckan.multimediagdansk.pl/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/ee910ad8-8ffa-4e24-8ef9-d5a335b07ccb/download/displays.json";
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Accept", "application/json")
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            String responseJson = response.body();
+
+            GsonBuilder builder = new GsonBuilder();
+            builder.setPrettyPrinting();
+
+            Gson gson = builder.excludeFieldsWithModifiers(Modifier.TRANSIENT).create();
+
+            GeneralInfoDisplays generalInfoDisplays = gson.fromJson(responseJson, GeneralInfoDisplays.class);
+
+            if (generalInfoDisplays == null || generalInfoDisplays.getDisplays().isEmpty()) {
+                return new ArrayList<>();
+            }
+
+            List<String> displayNames = new ArrayList<>();
+            Set<String> uniqueDisplayNames = new HashSet<>();
+            DisplayAssembler displayAssembler = new DisplayAssembler();
+            for (Display display : generalInfoDisplays.getDisplays()) {
+                DisplayDTO dto = displayAssembler.toDisplayDTO(display);
+                displayNames.add(dto.getName());
+            }
+
+            for (String displayName : displayNames) {
+                if (!uniqueDisplayNames.contains(displayName)) {
+                    uniqueDisplayNames.add(displayName);
+                }
+            }
+
+            return new ArrayList<>(uniqueDisplayNames);
+
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
     public String getAllStops ()
     {
