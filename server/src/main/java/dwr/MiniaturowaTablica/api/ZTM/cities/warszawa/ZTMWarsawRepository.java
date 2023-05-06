@@ -9,6 +9,7 @@ import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Displays.DisplayDTO
 import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Displays.WarsawDisplay;
 import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.JSONClients.staticDataLoader;
 import dwr.MiniaturowaTablica.api.ZTM.Displays.DisplayDTO;
+import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.TimeTable.TimeComparator;
 import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.TimeTable.WarsawTimeTable;
 import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.WarsawLines;
 import org.bson.Document;
@@ -95,7 +96,7 @@ public class ZTMWarsawRepository {
 
         //get all busStopIds
         Set<WarsawLines> warsawLinesSet = getAllLines(displayCode);
-        Set<WarsawTimeTable> warsawTimeTableSet = new HashSet<>();
+        Set<WarsawTimeTable> warsawTimeTableSet = new TreeSet<>(new TimeComparator());
         for(WarsawLines e : warsawLinesSet){
             warsawTimeTableSet.addAll(timeTable.getLineTimetable(displayCode,e.getIdStop(),e.getLinia()));
         }
