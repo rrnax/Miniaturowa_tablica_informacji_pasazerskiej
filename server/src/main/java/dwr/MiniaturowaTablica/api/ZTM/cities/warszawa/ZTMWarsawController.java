@@ -17,6 +17,8 @@ import static dwr.MiniaturowaTablica.api.ZTM.ztmRepository.convertToJson;
 public class ZTMWarsawController {
     @Autowired
     DisplaysRepository displaysRepository;
+    @Autowired
+    ZTMWarsawRepository ztmWarsawRepository;
 
     @GetMapping("/displays")
     private ResponseEntity<String> getAlldisplays() throws IOException { // get info about displays (przystanki)
@@ -30,6 +32,17 @@ public class ZTMWarsawController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(convertToJson(displaysRepository.findAllByName(name)));
+    }
+
+    @GetMapping("/info/{displayCode}") // get all displays ( with different drivingDirection) with requested name
+    private ResponseEntity<String> getTimeTable(@PathVariable("displayCode") String displayCode) {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(convertToJson(ztmWarsawRepository.getTimeTableForDisplay(displayCode)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/test")
