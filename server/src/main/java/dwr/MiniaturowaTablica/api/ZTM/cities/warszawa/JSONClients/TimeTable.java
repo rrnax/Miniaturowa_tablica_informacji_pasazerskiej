@@ -13,6 +13,8 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -27,7 +29,7 @@ public class TimeTable {
         private final String apiKey = "34f08efc-3c02-486e-8fc6-b599d0ec45c3";
 
         public static Integer iloscZapytan =0;
-        private ExecutorService executor;
+        //private ExecutorService executor;
 
         public Set<WarsawTimeTable> getLineTimetable(String busStopId, String busStopNr, String line) throws IOException, JsonSyntaxException {
 
@@ -77,6 +79,7 @@ public class TimeTable {
                     default:break;
                 }
                 if(!kierunek.equals("") && !czas.equals("")){
+
                     warsawTimeTableSet.add(new WarsawTimeTable(czas,kierunek,line));
                     kierunek ="";
                     czas="";

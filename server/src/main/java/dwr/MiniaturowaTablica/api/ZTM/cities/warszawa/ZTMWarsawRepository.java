@@ -18,6 +18,7 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.*;
 
 import static dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.JSONClients.Lines.loadLine;
@@ -100,6 +101,9 @@ public class ZTMWarsawRepository {
         for(WarsawLines e : warsawLinesSet){
             warsawTimeTableSet.addAll(timeTable.getLineTimetable(displayCode,e.getIdStop(),e.getLinia()));
         }
+        LocalTime now = LocalTime.now();
+        warsawTimeTableSet.removeIf(e -> LocalTime.parse(e.getEstimatedTime()).isBefore(now));
+
         System.out.println(TimeTable.iloscZapytan);
 
         return warsawTimeTableSet;
