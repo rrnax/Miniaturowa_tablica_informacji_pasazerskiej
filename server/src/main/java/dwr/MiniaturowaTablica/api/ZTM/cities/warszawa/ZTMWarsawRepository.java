@@ -20,6 +20,8 @@ import org.springframework.stereotype.Repository;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.JSONClients.Lines.loadLine;
 
@@ -30,6 +32,7 @@ public class ZTMWarsawRepository {
     private MongoOperations mongoOperations;
     @Autowired
     private TimeTable timeTable;
+    private ExecutorService executor;
 
     public static List<DisplayDTO> getAllDisplays() throws IOException {
         List<WarsawDisplay> displayList;
@@ -61,9 +64,9 @@ public class ZTMWarsawRepository {
 
         for (Document document : cursor) {
             idStops.add(WarsawDisplay.prepareIdStop(document.get("idStop1").toString()));
-            //if(document.getInteger("idStop2")>0) idStops.add(WarsawDisplay.prepareIdStop(document.get("idStop2").toString()));
-           // if(document.getInteger("idStop3")>0) idStops.add(WarsawDisplay.prepareIdStop(document.get("idStop3").toString()));
-           // if(document.getInteger("idStop4")>0) idStops.add(WarsawDisplay.prepareIdStop(document.get("idStop4").toString()));
+            if(document.getInteger("idStop2")>0) idStops.add(WarsawDisplay.prepareIdStop(document.get("idStop2").toString()));
+            //if(document.getInteger("idStop3")>0) idStops.add(WarsawDisplay.prepareIdStop(document.get("idStop3").toString()));
+            //if(document.getInteger("idStop4")>0) idStops.add(WarsawDisplay.prepareIdStop(document.get("idStop4").toString()));
         }
 
         return idStops;
@@ -83,13 +86,31 @@ public class ZTMWarsawRepository {
 
     //all lines with busStopsId
     public Collection<WarsawTimeTable> getTimeTableForDisplay(String displayCode) throws IOException {
+        executor = Executors.newFixedThreadPool(1000);
 
         //get all busStopIds
         Set<WarsawLines> warsawLinesSet = getAllLines(displayCode);
         Set<WarsawTimeTable> warsawTimeTableSet = new TreeSet<>(new TimeComparator());
+        List<Runnable> tasks = new ArrayList<>();
         for(WarsawLines e : warsawLinesSet){
-            warsawTimeTableSet.addAll(timeTable.getLineTimetable(displayCode,e.getIdStop(),e.getLinia()));
+            Runnable task = () -> {
+                try {
+                    warsawTimeTableSet.addAll(timeTable.getLineTimetable(displayCode,e.getIdStop(),e.getLinia()));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            };
+            tasks.add(task);
         }
+        for (Runnable task : tasks) {
+            executor.execute(task);
+        }
+
+        executor.shutdown();
+        while (!executor.isTerminated()) {
+            // oczekiwanie na zakończenie wszystkich zadań
+        }
+
         LocalTime now = LocalTime.now();
         warsawTimeTableSet.removeIf(e -> LocalTime.parse(e.getEstimatedTime()).isBefore(now));
 

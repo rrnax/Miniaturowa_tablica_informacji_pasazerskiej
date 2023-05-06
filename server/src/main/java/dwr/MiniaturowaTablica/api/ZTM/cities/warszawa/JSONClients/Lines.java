@@ -66,7 +66,7 @@ public class Lines {
             }
             List<WarsawLines> result = new ArrayList<>();
             ztmValueList.forEach(e->{
-                if(!result.contains(e.getValue()) && result.size()<2)
+                if(!result.contains(e.getValue()) && result.size()<1)
                 result.add(new WarsawLines(busStopNr,e.getValue()));
             });
             return result;
