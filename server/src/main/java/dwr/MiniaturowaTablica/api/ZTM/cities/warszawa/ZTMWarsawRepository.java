@@ -76,17 +76,6 @@ public class ZTMWarsawRepository {
         for (String s : idStops) {
             linesForBusStopId.addAll(loadLine(busStopId, s));
         }
-        // At this point We have all lines with idStops (requirement for last api request)
-        // SO now call to get TimeTables for each line with id stop
-        linesForBusStopId.forEach(e->{
-            try {
-                timeTable.getLineTimetable(busStopId,e.getIdStop(), e.getLinia());
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-
-
 
         return linesForBusStopId;
     }

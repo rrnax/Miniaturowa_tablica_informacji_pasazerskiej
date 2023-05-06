@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Component
 public class TimeTable {
@@ -29,7 +30,7 @@ public class TimeTable {
         private final String apiKey = "34f08efc-3c02-486e-8fc6-b599d0ec45c3";
 
         public static Integer iloscZapytan =0;
-        //private ExecutorService executor;
+
 
         public Set<WarsawTimeTable> getLineTimetable(String busStopId, String busStopNr, String line) throws IOException, JsonSyntaxException {
 
