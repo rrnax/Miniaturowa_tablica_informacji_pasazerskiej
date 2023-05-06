@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 
 @Component
 public class TimeTable {
@@ -25,8 +27,10 @@ public class TimeTable {
         private final String apiKey = "34f08efc-3c02-486e-8fc6-b599d0ec45c3";
 
         public static Integer iloscZapytan =0;
+        private ExecutorService executor;
 
         public Set<WarsawTimeTable> getLineTimetable(String busStopId, String busStopNr, String line) throws IOException, JsonSyntaxException {
+
             String urlString = String.format("%s&busstopId=%s&busstopNr=%s&line=%s&apikey=%s", API_ENDPOINT, busStopId, busStopNr, line, apiKey);
             URL url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();

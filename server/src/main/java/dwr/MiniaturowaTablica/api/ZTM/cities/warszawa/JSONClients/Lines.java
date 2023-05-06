@@ -35,7 +35,6 @@ public class Lines {
     @Autowired
     private DisplaysRepository displaysRepository;
     @Autowired
-    @Lazy
     private ZTMWarsawRepository ztmWarsawRepository;
 
     public static List<WarsawLines> loadLine(String busStopId, String busStopNr) {
