@@ -7,14 +7,15 @@ export const useApiStore = defineStore("api", {
     state: () => ({
         transport: "",
         city: "",
-        stopsList: null,
+        stopsList: [],
+        parsedStopsList: [],
         apiUrl: "",
     }),
 
     getters: {
         getTransport: (state) => state.transport,
         getCity: (state) => state.city,
-        getStopsList: (state => JSON.parse(JSON.stringify(state.stopsList))),
+        getStopsList: (state => JSON.parse(JSON.stringify(state.parsedStopsList))),
     },
 
     actions: {
@@ -38,6 +39,7 @@ export const useApiStore = defineStore("api", {
             await axios.get(this.apiUrl+'/displays')
             .then(response => {
                 this.stopsList = response.data;
+                this.parseList(response.data);
                 // console.log(JSON.parse(JSON.stringify(this.stopsList)));
                 // eslint-disable-next-line no-unused-vars
             }).catch(error => {
@@ -45,6 +47,22 @@ export const useApiStore = defineStore("api", {
             });
         },
 
+        async parseList(list){
+            await list.map(stop => {
+                let exist = false;
+                let tempObj = {"name":stop.name,"displayCodes":[stop.displayCode],"subscribed":false};
+                for(const item of this.parsedStopsList){
+                    if(stop.name === item.name){
+                        item.displayCodes.push(stop.displayCode);
+                        exist = true;
+                        break;
+                    }
+                }
+                if(!exist){
+                    this.parsedStopsList.push(tempObj);
+                }
+            })
+        }
         
     }
 })

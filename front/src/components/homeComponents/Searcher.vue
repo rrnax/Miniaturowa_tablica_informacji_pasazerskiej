@@ -30,6 +30,19 @@ export default{
         return { apiStore };
     },
 
+    mounted(){
+        if (this.apiStore.getCity !== "") {
+            let $select = document.querySelector("#city-combobox");
+            $select.value = this.apiStore.getCity;
+        }
+
+        if (this.apiStore.getTransport !== "") {
+            let $select = document.querySelector("#transport-combobox");
+            $select.value = this.apiStore.getTransport;
+        }
+
+    },
+
     data(){
         return {
             transport: "",
@@ -95,6 +108,11 @@ export default{
         newListSignal(){
             this.$emit('changeStopsList');
         },
+
+        resetApiState(){
+            let cityValue = document.querySelector("#city-combobox").value;
+            let transportValue = document.querySelector("#transport-combobox").value;
+        }
     
     },
 }

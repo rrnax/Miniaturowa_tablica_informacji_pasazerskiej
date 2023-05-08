@@ -6,9 +6,10 @@
                 <th class="left-column">Przystanek</th>
                 <th class="right-column">Status</th>
             </tr>
-            <tr v-for="stop in publishStopList" v-bind:key="stop">
-                <td class="left-column">{{ stop }}</td>
-                <td class="right-column off">Obserwuj</td>
+            <tr v-for="stop in publishStopList" v-bind:key="stop.name">
+                <td class="left-column">{{ stop.name }}</td>
+                <td v-if="!stop.subscribed" @click="addTosubscribed(stop)" class="right-column off">Obserwuj</td>
+                <td v-if="stop.subscribed" class="right-column on">Obserwujesz</td>
             </tr>
         </table>
         <table v-if="isPresentInput">
@@ -17,8 +18,11 @@
                 <th class="right-column">Status</th>
             </tr>
             <tr v-for="stop in currentList" v-bind:key="stop">
-                <td class="left-column">{{ stop }}</td>
+                <td class="left-column">{{ stop.name }}</td>
                 <td class="right-column off">Obserwuj</td>
+            </tr>
+            <tr v-if="!isStopExist">
+                <td style="color: red; margin: auto;">Nie znaleźiono takiego przystanku!</td>
             </tr>
         </table>
     </div>
@@ -33,12 +37,11 @@ export default{
     data() {
         return {
             isPresentInput: false,
+            isStopExist: true,
             searchStop: "",
             currentList: []
         }
     },
-
-    props: ['stopsList'],
 
     setup(){
         const apiStore = useApiStore();
@@ -46,27 +49,50 @@ export default{
     },
 
     watch: {
+        // eslint-disable-next-line no-unused-vars
         searchStop(newText, oldText){
             if(newText === ""){
                 this.isPresentInput = false;
             } else {
                 this.isPresentInput = true;
-                console.log(oldText);
+                this.currentList = [];
+                let tempList = this.publishStopList;
+                tempList.map(item => {
+                    if(item.name.includes(this.searchStop) || item.name.toLowerCase().includes(this.searchStop)){
+                        this.currentList.push(item);
+                    }
+                })
+                if(this.currentList.length === 0){
+                    this.isStopExist = false;
+                } else {
+                    this.isStopExist = true;
+                }
             }
         }
     },
 
     computed: {
         publishStopList(){
-            let tempList = JSON.parse(JSON.stringify(this.stopsList));
-            let resultList = [];
-            tempList.map(item => {
-                if(!resultList.includes(item.name)){
-                    resultList.push(item.name);
-                }
-            })
-            resultList.sort();
+            let resultList = JSON.parse(JSON.stringify(this.apiStore.getStopsList));
+            resultList.sort(this.sortStops);
+            console.log(resultList);
             return resultList;
+        },
+    },
+
+    methods: {
+        sortStops( a, b ) {
+            if ( a.name < b.name ){
+                return -1;
+            }
+            if ( a.name > b.name ){
+                return 1;
+            }
+            return 0;
+        },
+
+        addTosubscribed(item){
+            console.log(item);
         }
     }
 
@@ -117,6 +143,8 @@ td {
 
 .right-column {
     width: 30%;
+    cursor: pointer; 
+
 }
 
 

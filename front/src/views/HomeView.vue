@@ -8,7 +8,7 @@
     <h1 v-if="isComboBoxFill">Lista Przystanków</h1>
     <hr v-if="isComboBoxFill">
     <div v-if="isComboBoxFill" class="content-block">
-      <StopsLister :stops-list="stopsList"/>
+      <StopsLister/>
     </div>
   </div>
 
@@ -27,10 +27,15 @@ export default {
     StopsLister
   },
 
+  created(){
+    if (this.apiStore.getCity !== "" && this.apiStore.getTransport !== "") {
+      this.isComboBoxFill = true;
+    }
+  },
+
   data(){
     return{
       isComboBoxFill: false,
-      stopsList: [],
     }
   },
 
@@ -42,7 +47,6 @@ export default {
   methods: {
 
     changeStopsList(){
-      this.stopsList = this.apiStore.getStopsList.map((x) => x);
       this.isComboBoxFill = true;
     }
   },
@@ -55,7 +59,7 @@ export default {
   color: var(--appblue);
   width: 60%;
   display: grid;
-  margin: auto;
+  margin: 20px auto 100px auto;
 }
 
 h1 {

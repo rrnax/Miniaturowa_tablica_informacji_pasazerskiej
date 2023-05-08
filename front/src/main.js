@@ -24,6 +24,11 @@ if (localStorage.getItem("user")) {
     // console.log(pinia.state.value.user);
 }
 
+if (localStorage.getItem("api")) {
+    pinia.state.value.api = JSON.parse(localStorage.getItem("api"));
+    // console.log(pinia.state.value.user);
+}
+
 
 watch(
     pinia.state,
