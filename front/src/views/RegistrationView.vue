@@ -1,6 +1,6 @@
 <template>
   <div class="panel">
-    <h1>Rejestracaj</h1>
+    <h1>Rejestracja</h1>
     <hr class="division">
     <RegistrationForm />
   </div>

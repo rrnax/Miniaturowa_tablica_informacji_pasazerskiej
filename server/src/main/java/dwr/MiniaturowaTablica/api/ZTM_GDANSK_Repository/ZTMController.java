@@ -13,6 +13,7 @@ import dwr.MiniaturowaTablica.api.models.ztm.DisplayDTO;
 import dwr.MiniaturowaTablica.api.repository.DisplaysRepository;
 import dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Stop_.StopDTO;
 import dwr.MiniaturowaTablica.api.ZTM_GDANSK_Repository.Models.Stop_.StopsRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
-
-@RequestMapping("/api/ztm/gdansk")
 @RestController
+@RequestMapping("/api/ztm/gdansk")
 public class ZTMController {
 
    @Autowired

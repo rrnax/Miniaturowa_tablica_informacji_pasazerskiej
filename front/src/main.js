@@ -30,6 +30,7 @@ watch(
     (state) => {
         localStorage.setItem("auth", JSON.stringify(state.auth));
         localStorage.setItem("user", JSON.stringify(state.user));
+        localStorage.setItem("api", JSON.stringify(state.api));
     },{ deep: true }
 );
 

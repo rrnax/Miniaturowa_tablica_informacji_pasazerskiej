@@ -17,7 +17,7 @@ import java.util.List;
 public class DisplayController {
    private final DisplayService displayService;
    private final Gson gson;
-   private final String[] CitiesWithTrainStation      = new String[] {"torun","gdańsk","warszawa","kraków","brzydgoszcz"};
+   private final String[] CitiesWithTrainStation      = new String[] {"Gdańsk","Warszawa"};
    private final String[] CitiesWithPublicTransport   = new String[] {"torun","ztm"};
    @GetMapping("/all")
    public List<Display> fetchAllDisplays() {

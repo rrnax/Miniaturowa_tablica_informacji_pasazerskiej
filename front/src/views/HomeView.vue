@@ -1,45 +1,83 @@
 <template>
-  <div class="stops">
-    <h1>Wybierz przystanek: </h1>
-    <select name="lister_stops" id="stops-list">
-      <option v-for="(p) in stops" :key="p.name">{{p.name}}</option>
-    </select>
-<!--    <button @click="userStore.downloadAllUsers()">Wyswietl</button>-->
-<!--    <p v-for="user in userStore.getAllUsers" :key="user.id">{{user}}</p>-->
+  <div class="home-block">
+    <h1>Wyszukaj przystanki</h1>
+    <hr>
+    <div class="content-block">
+      <Searcher @changeStopsList="changeStopsList()"/>
+    </div>
+    <h1 v-if="isComboBoxFill">Lista Przystanków</h1>
+    <hr v-if="isComboBoxFill">
+    <div v-if="isComboBoxFill" class="content-block">
+      <StopsLister :stops-list="stopsList"/>
+    </div>
   </div>
+
 </template>
 
 <script>
-import {useAuthStore} from "@/store/auth.store";
+import Searcher from '@/components/homeComponents/Searcher.vue';
+import StopsLister from '@/components/homeComponents/StopsLister.vue';
+import { useApiStore } from '@/store/apiManagment.store';
 
 export default {
   name: 'HomeView',
 
-  setup(){
-    const userStore = useAuthStore();
-    return { userStore };
+  components: {
+    Searcher,
+    StopsLister
   },
 
-  data() {
-    return {
-      stops: [],
+  data(){
+    return{
+      isComboBoxFill: false,
+      stopsList: [],
     }
   },
 
-  created(){
-    let stop = {
-      'name': 'Dworzec pkp',
-    };
-    this.stops.push(stop);
-  }
+  setup(){
+    const apiStore = useApiStore();
+    return { apiStore };
+  },
+
+  methods: {
+
+    changeStopsList(){
+      this.stopsList = this.apiStore.getStopsList.map((x) => x);
+      this.isComboBoxFill = true;
+    }
+  },
 }
 </script>
 
 <style>
-.stops{
+.home-block {
+  font-family: 'Teko', sans-serif;
+  color: var(--appblue);
+  width: 60%;
+  display: grid;
   margin: auto;
-  display: flex;
-  justify-content: center;
+}
+
+h1 {
+  margin: 30px 0 0 0;
+}
+
+hr {
+  width: 100%;
+  border: 2px solid var(--appblue);
+}
+
+.content-block {
+  width: 100%;
+  background-color: var(--navMenuColor);
+}
+
+
+@media only screen and ( max-width: 600px) {
+  .home-block {
+    width: 95%;
+  
+  }
 }
 
 </style>
