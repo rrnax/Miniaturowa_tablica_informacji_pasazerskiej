@@ -64,7 +64,9 @@ export const useApiStore = defineStore("api", {
             await axios.get(this.apiUrl+'/displays')
             .then(response => {
                 this.stopsList = response.data;
+                // console.log(Date.now());
                 this.parseList(response.data);
+                // console.log(Date.now());
                 // console.log(JSON.parse(JSON.stringify(this.stopsList)));
                 // eslint-disable-next-line no-unused-vars
             }).catch(error => {
