@@ -49,6 +49,7 @@ export default{
         return { apiStore };
     },
 
+
     watch: {
         // eslint-disable-next-line no-unused-vars
         searchStop(newText, oldText){
@@ -78,6 +79,8 @@ export default{
             resultList.sort(this.sortStops);
             return resultList;
         },
+
+        
     },
 
     methods: {
