@@ -45,37 +45,37 @@ public class ZTMController {
    private ResponseEntity<String> getAlldisplays() { // get info about displays (przystanki)
 
       return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(ZTMRepository.getAllDisplays());
+              .status(HttpStatus.OK)
+              .body(ZTMRepository.getAllDisplays());
    }
 
    @GetMapping("/displays/stops") // get info about stops (slupki z przystankow)
    private ResponseEntity<String> getAllStops() {
       return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(ZTMRepository.getAllStops());
+              .status(HttpStatus.OK)
+              .body(ZTMRepository.getAllStops());
    }
 
    @GetMapping("/time/{stopid}")   // get info about depratures from requested stop
    private ResponseEntity<String> getAllPlatformsByPosts(@PathVariable("stopid") int stopid) {
       return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(ZTMRepository.getTimeDeparturesFromStop(stopid));
+              .status(HttpStatus.OK)
+              .body(ZTMRepository.getTimeDeparturesFromStop(stopid));
    }
 
    @GetMapping("/info/{displayCode}") // get info about departures from display (from couple of stops)
    private ResponseEntity<String> getInfoAboutLinesFromDisplay(@PathVariable("displayCode") int displayCode) {
       return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(ZTMRepository.getInfoAboutLinesFromDisplay(displayCode));
+              .status(HttpStatus.OK)
+              .body(ZTMRepository.getInfoAboutLinesFromDisplay(displayCode));
    }
 
    @GetMapping("/info/{displayCode}/{lineId}")
    // get info about departures from display (from couple of stops), only for requested line
    private ResponseEntity<String> getInfoAboutLinesFromDisplay(@PathVariable("displayCode") int displayCode, @PathVariable("lineId") int lineId) {
       return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(ZTMRepository.getInfoAboutLinesFromDisplay(displayCode, lineId));
+              .status(HttpStatus.OK)
+              .body(ZTMRepository.getInfoAboutLinesFromDisplay(displayCode, lineId));
    }
 
    // pamietac w postach o headerze Content-Type application/json , dane w body jako json!
@@ -83,8 +83,8 @@ public class ZTMController {
    private ResponseEntity<String> addStop(@RequestBody StopDTO stopDTO) {
       stopsRepository.save(stopDTO);
       return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body("added successfully");
+              .status(HttpStatus.CREATED)
+              .body("added successfully");
    }
 
    @PostMapping("/stops/addlist")
@@ -93,16 +93,16 @@ public class ZTMController {
       stopsRepository.deleteALL();
       stopsRepository.saveAll(stopDTOs);
       return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body("added successfully");
+              .status(HttpStatus.CREATED)
+              .body("added successfully");
    }
 
    @DeleteMapping("/stops/deleteall")  // delete all stopdto from mongo database
    private ResponseEntity<String> deleteStops() {
       stopsRepository.deleteALL();
       return ResponseEntity
-            .status(HttpStatus.NO_CONTENT)
-            .body("deleted successfully");
+              .status(HttpStatus.NO_CONTENT)
+              .body("deleted successfully");
    }
 
    @PostMapping("/displays/addone") // add one display to mongo database
@@ -110,8 +110,8 @@ public class ZTMController {
       DisplayDTO displayDTO = displayAssembler.toDisplayDTO(display);
       displaysRepository.save(displayDTO);
       return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body("added successfully");
+              .status(HttpStatus.CREATED)
+              .body("added successfully");
    }
 
    @PostMapping("/displays/addlist")  // add list of display to mongo database
@@ -126,24 +126,24 @@ public class ZTMController {
 
       displaysRepository.saveAll(displaysToSend);
       return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body("added successfully");
+              .status(HttpStatus.CREATED)
+              .body("added successfully");
    }
 
    @DeleteMapping("/displays/deleteall") // delete displays from mongo database
    public ResponseEntity<String> deleteDisplays() {
       displaysRepository.deleteALL();
       return ResponseEntity
-            .status(HttpStatus.NO_CONTENT)
-            .body("deleted successfully");
+              .status(HttpStatus.NO_CONTENT)
+              .body("deleted successfully");
    }
 
    @PostMapping("/departures/addone") // add one departureDTO to mongo database - ONLY TO DEBUG
    private ResponseEntity<String> addDeparture(@RequestBody DepartureDTO departureDTO) {
       departuresRepository.save(departureDTO);
       return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body("added successfully");
+              .status(HttpStatus.CREATED)
+              .body("added successfully");
    }
 
    @PostMapping("/departures/addlist") // add list departureDTO to mongo database - ONLY TO DEBUG
@@ -151,8 +151,8 @@ public class ZTMController {
       departuresRepository.deleteALL();
       departuresRepository.saveAll(departuresDTO);
       return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body("added successfully");
+              .status(HttpStatus.CREATED)
+              .body("added successfully");
    }
 
    @PostMapping("/departures/addlist/{stopid}") // add list departureDTO from ZTM API to mongo database - ONLY TO DEBUG
@@ -173,15 +173,16 @@ public class ZTMController {
       departuresRepository.deleteALL();
       departuresRepository.saveAll(listToSend);
       return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body("added successfully");
+              .status(HttpStatus.CREATED)
+              .body("added successfully");
    }
 
    @DeleteMapping("/departures/deleteall") // delete all departures from mongo database
    private ResponseEntity<String> deleteDepartures() {
       departuresRepository.deleteALL();
       return ResponseEntity
-            .status(HttpStatus.NO_CONTENT)
-            .body("deleted successfully");
+              .status(HttpStatus.NO_CONTENT)
+              .body("deleted successfully");
    }
+}
 

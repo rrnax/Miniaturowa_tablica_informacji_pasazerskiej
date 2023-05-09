@@ -38,6 +38,7 @@ export default{
         return {
             isPresentInput: false,
             isStopExist: true,
+            isLoaded: false,
             searchStop: "",
             currentList: []
         }

@@ -30,7 +30,27 @@ export const useApiStore = defineStore("api", {
         },
 
         //Download allow cities
+        async downloadCitiesRail(){
+            let list = [];
+            await axios.get('api/displays/all/trains')
+            .then(response => {
+                list = response.data;
+            }).catch(error => {
+                console.log(error);
+            })
+            return list;
+        },
 
+        async downloadCitiesTransport(){
+            let list = [];
+            await axios.get('api/displays/all/publicTransport')
+            .then(response => {
+                list = response.data;
+            }).catch(error => {
+                console.log(error);
+            })
+            return list;
+        },
 
         //Creat correct api
         useCorrectApi(transporKind, city){
