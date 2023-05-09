@@ -29,12 +29,17 @@ export const useApiStore = defineStore("api", {
             this.city = city;
         },
 
+        //Download allow cities
+
+
         //Creat correct api
         useCorrectApi(transporKind, city){
             let strinUrl = "api/"+transporKind+"/"+city;
             this.apiUrl = strinUrl;
         },
 
+
+        //Stops in initial JSON to parse
         async downloadStops(){
             await axios.get(this.apiUrl+'/displays')
             .then(response => {
@@ -47,10 +52,11 @@ export const useApiStore = defineStore("api", {
             });
         },
 
+        //Stops parse to intrested array
         async parseList(list){
             await list.map(stop => {
                 let exist = false;
-                let tempObj = {"name":stop.name,"displayCodes":[stop.displayCode],"subscribed":false};
+                let tempObj = {"name":stop.name,"displayCodes":[stop.displayCode],"subscribed":false,"status":false};
                 for(const item of this.parsedStopsList){
                     if(stop.name === item.name){
                         item.displayCodes.push(stop.displayCode);

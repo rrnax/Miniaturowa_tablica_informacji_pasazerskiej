@@ -75,7 +75,6 @@ export default{
         publishStopList(){
             let resultList = JSON.parse(JSON.stringify(this.apiStore.getStopsList));
             resultList.sort(this.sortStops);
-            console.log(resultList);
             return resultList;
         },
     },

@@ -41,6 +41,8 @@ export default{
             $select.value = this.apiStore.getTransport;
         }
 
+        
+
     },
 
     data(){
@@ -56,6 +58,7 @@ export default{
         // eslint-disable-next-line no-unused-vars
         transport(newTransport, oldTransport) {         //change state about kind of transport in store
             this.noneAllowedTransport = false;
+            this.resetApiState(2);
             this.apiStore.setTransport(newTransport);
             this.urlCreator();
         },
@@ -63,6 +66,7 @@ export default{
         // eslint-disable-next-line no-unused-vars
         city(newCity, oldCity){                 //change state of city in store
             this.noneAllowedCity = false;
+            this.resetApiState(1);
             this.apiStore.setCity(newCity);
             this.urlCreator();
         }
@@ -109,9 +113,15 @@ export default{
             this.$emit('changeStopsList');
         },
 
-        resetApiState(){
+        resetApiState(option){          //Option means that which city or transport were changed
             let cityValue = document.querySelector("#city-combobox").value;
             let transportValue = document.querySelector("#transport-combobox").value;
+            this.apiStore.$reset();
+            if(option === 1){           //City was changed
+                this.apiStore.setTransport(transportValue);
+            } else {            //Transport was changed
+                this.apiStore.setCity(cityValue);
+            }
         }
     
     },
