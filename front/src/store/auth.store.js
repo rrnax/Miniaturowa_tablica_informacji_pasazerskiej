@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import {useUserStore} from "@/store/user.stroe";
+import { useApiStore } from "./apiManagment.store";
 
 
 export const useAuthStore = defineStore('auth', {
@@ -66,11 +67,13 @@ export const useAuthStore = defineStore('auth', {
         //Logout
         async userSignOut() {
             const userStore = useUserStore();
+            const apiStore = useApiStore();
             await axios.post('api/auth/logout')
                 .then(response => {
                     delete axios.defaults.headers.common['Authorization'];
                     this.lastHttpCode = response.status;
                     userStore.$reset();
+                    apiStore.$reset();
                     // console.log(response);
                 })
                 .catch(error => {

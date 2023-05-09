@@ -24,12 +24,18 @@ if (localStorage.getItem("user")) {
     // console.log(pinia.state.value.user);
 }
 
+if (localStorage.getItem("api")) {
+    pinia.state.value.api = JSON.parse(localStorage.getItem("api"));
+    // console.log(pinia.state.value.user);
+}
+
 
 watch(
     pinia.state,
     (state) => {
         localStorage.setItem("auth", JSON.stringify(state.auth));
         localStorage.setItem("user", JSON.stringify(state.user));
+        localStorage.setItem("api", JSON.stringify(state.api));
     },{ deep: true }
 );
 
