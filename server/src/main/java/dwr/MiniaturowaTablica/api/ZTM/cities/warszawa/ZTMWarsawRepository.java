@@ -39,7 +39,9 @@ public class ZTMWarsawRepository {
         List<DisplayDTO> displayDTOS = new ArrayList<>();
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting();
-        displayList = staticDataLoader.loadDataFromJsonFile(".\\src\\main\\resources\\static\\ztmWarszawa.json");
+//        displayList = staticDataLoader.loadDataFromJsonFile(".\\src\\main\\resources\\static\\ztmWarszawa.json");
+        displayList = staticDataLoader.loadDataFromJsonFile("./src/main/resources/static/ztmWarszawa.json");
+
         if (!displayList.isEmpty()) {
             displayList.forEach(e -> {
                 DisplayDTO displayDTO = new DisplayDTO(e);
