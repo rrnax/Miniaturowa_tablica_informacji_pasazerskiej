@@ -1,17 +1,13 @@
 package dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.TimeTable;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-
 public class WarsawTimeTable {
    private String estimatedTime;
-   private String kierunek;
+   private String headsign;
    private String tripId;
 
-   public WarsawTimeTable(String estimatedTime, String kierunek, String tripId) {
+   public WarsawTimeTable(String estimatedTime, String headsign, String tripId) {
       setEstimatedTime(estimatedTime);
-      setKierunek(kierunek);
+      setHeadsign(headsign);
       setTripId(tripId);
    }
 
@@ -34,12 +30,12 @@ public class WarsawTimeTable {
       this.estimatedTime = estimatedTime;
    }
 
-   public String getKierunek() {
-      return kierunek;
+   public String getHeadsign() {
+      return headsign;
    }
 
-   public void setKierunek(String kierunek) {
-      this.kierunek = kierunek;
+   public void setHeadsign(String headsign) {
+      this.headsign = headsign;
    }
 
    public String getTripId() {
@@ -53,7 +49,7 @@ public class WarsawTimeTable {
    @Override
    public String toString() {
       return  "czas='" + getEstimatedTime() + '\'' +
-              ", kierunek='" + getKierunek() + '\'' +
+              ", kierunek='" + getHeadsign() + '\'' +
               ", linia='" + getTripId() + '\'' ;
    }
 }
