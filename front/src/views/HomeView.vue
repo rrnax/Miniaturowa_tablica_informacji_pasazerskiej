@@ -59,6 +59,7 @@ export default {
   color: var(--appblue);
   width: 60%;
   display: grid;
+  font-size: 22px;
   margin: 20px auto 100px auto;
 }
 

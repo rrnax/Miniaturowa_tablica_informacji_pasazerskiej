@@ -238,12 +238,7 @@ hr {
   border-radius: 10px;
 }
 
-table {
-}
 
-th, td {
-  padding: 20px;
-}
 
 .delete-btn {
   display: flex;

@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <router-link class="nav-title" to="/">
+    <router-link class="nav-title" to="/display">
       <img id="logo" src="../assets/m_tip_logo.png">
       <div>
         <p class="title">Miniaturowa Tablica</p>
@@ -10,6 +10,8 @@
     <div class="options">
       <router-link class="option-btn" v-if="!this.userStore.authStatus" to="/login">Zloguj się</router-link>
       <router-link class="option-btn" v-if="!this.userStore.authStatus" to="/registration">Zarejestruj Się</router-link>
+      <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/device">Urządzenie</router-link>
+      <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/">Przystanki</router-link>
       <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/account">Konto</router-link>
       <a class="menu-btn" v-if="this.userStore.authStatus" @click="logOut">Wyloguj się</a>
     </div>
@@ -30,6 +32,8 @@
     <div class="menu-items">
       <router-link class="menu-item" v-if="!this.userStore.authStatus" to="/login">Zloguj się</router-link>
       <router-link class="menu-item" v-if="!this.userStore.authStatus" to="/registration">Zarejestruj Się</router-link>
+      <router-link class="menu-item" v-if="this.userStore.authStatus" to="/device">Urządzenie</router-link>
+      <router-link class="menu-item" v-if="this.userStore.authStatus" to="/">Przystnaki</router-link>
       <router-link class="menu-item" v-if="this.userStore.authStatus" to="/account">Konto</router-link>
       <a class="menu-item" v-if="this.userStore.authStatus" @click="logOut">Wyloguj się</a>
     </div>

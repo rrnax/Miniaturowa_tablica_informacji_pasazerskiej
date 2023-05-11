@@ -1,27 +1,27 @@
 <template>
     <div class="stops-list">
         <input v-model="searchStop" placeholder="Szukaj"/>
-        <table v-if="!isPresentInput">
-            <tr>
+        <table class="stops-table" v-if="!isPresentInput">
+            <tr class="stop-row">
                 <th class="left-column">Przystanek</th>
                 <th class="right-column">Status</th>
             </tr>
-            <tr v-for="stop in publishStopList" v-bind:key="stop.name">
+            <tr class="stop-row" v-for="stop in publishStopList" v-bind:key="stop.name">
                 <td class="left-column">{{ stop.name }}</td>
                 <td v-if="!stop.subscribed" @click="addTosubscribed(stop)" class="right-column off">Obserwuj</td>
                 <td v-if="stop.subscribed" class="right-column on">Obserwujesz</td>
             </tr>
         </table>
-        <table v-if="isPresentInput">
-            <tr>
+        <table class="stops-table" v-if="isPresentInput">
+            <tr class="stop-row">
                 <th class="left-column">Przystanek</th>
                 <th class="right-column">Status</th>
             </tr>
-            <tr v-for="stop in currentList" v-bind:key="stop">
+            <tr class="stop-row" v-for="stop in currentList" v-bind:key="stop">
                 <td class="left-column">{{ stop.name }}</td>
                 <td class="right-column off">Obserwuj</td>
             </tr>
-            <tr v-if="!isStopExist">
+            <tr class="stop-row" v-if="!isStopExist">
                 <td style="color: red; margin: auto;">Nie znaleźiono takiego przystanku!</td>
             </tr>
         </table>
@@ -116,12 +116,12 @@ input{
     margin: 30px auto;
 }
 
-table {
+stops-table {
     display: grid;
     width: 100%;
 }
 
-tr {
+.stop-row {
     width: 100%;
     display: flex;
     text-align: center;
