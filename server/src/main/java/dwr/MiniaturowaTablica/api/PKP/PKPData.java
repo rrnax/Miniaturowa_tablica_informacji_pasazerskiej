@@ -28,9 +28,9 @@ public class PKPData implements CommandLineRunner {
         loadStopTimes();
         loadTrips();
         loadStopTimesWithTripInfo();
-        stopTimesWithTripInfos.forEach(e->{
-            e.print();
-        });
+//        stopTimesWithTripInfos.forEach(e->{
+//            e.print();
+//        });
         System.out.println("koniec PKP");
 
     }
@@ -51,7 +51,7 @@ public class PKPData implements CommandLineRunner {
     public void loadTransfers(){
         try {
             // TRANSFERS
-            File file = new File(".\\src\\main\\resources\\static\\PKPdata\\transfers.txt");
+            File file = new File("./src/main/resources/static/PKPdata/transfers.txt");
             Scanner scanner = new Scanner(file);
             // pomijamy pierwszą linię z nagłówkiem
             scanner.nextLine();
@@ -75,7 +75,7 @@ public class PKPData implements CommandLineRunner {
         try {
             // STOPS
             //stop_id,stop_name,stop_lat,stop_lon,stop_IBNR
-            File file = new File(".\\src\\main\\resources\\static\\PKPdata\\stops.txt");
+            File file = new File("./src/main/resources/static/PKPdata/stops.txt");
             Scanner scanner = new Scanner(file);
             // pomijamy pierwszą linię z nagłówkiem
             scanner.nextLine();
@@ -95,7 +95,7 @@ public class PKPData implements CommandLineRunner {
         try {
             // STOP TIMES
             //trip_id,stop_sequence,stop_id,arrival_time,departure_time,platform,official_dist_traveled
-            File file = new File(".\\src\\main\\resources\\static\\PKPdata\\stop_times.txt");
+            File file = new File("./src/main/resources/static/PKPdata/stop_times.txt");
             Scanner scanner = new Scanner(file);
             // pomijamy pierwszą linię z nagłówkiem
             scanner.nextLine();
@@ -113,7 +113,7 @@ public class PKPData implements CommandLineRunner {
     public void loadTrips(){
         try {
             // TRIPS
-            File file = new File(".\\src\\main\\resources\\static\\PKPdata\\trips.txt");
+            File file = new File("./src/main/resources/static/PKPdata/trips.txt");
             Scanner scanner = new Scanner(file);
             // pomijamy pierwszą linię z nagłówkiem
             scanner.nextLine();
