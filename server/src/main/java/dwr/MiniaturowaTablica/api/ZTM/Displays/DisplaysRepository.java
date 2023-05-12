@@ -14,9 +14,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public interface DisplaysRepository {
     void saveAll(List<DisplayDTO> list);
@@ -84,6 +82,7 @@ class DisplaysRepositoryImpl implements DisplaysRepository {
     public Optional<DisplayDTO> findByDisplayCode(int displayCode) {
         return springDisplaysRepository.findByDisplayCode(String.valueOf(displayCode));
     }
+
 
 
 
