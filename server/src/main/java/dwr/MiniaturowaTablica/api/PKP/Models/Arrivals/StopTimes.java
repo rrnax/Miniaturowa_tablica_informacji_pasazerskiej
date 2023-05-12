@@ -1,4 +1,4 @@
-package dwr.MiniaturowaTablica.api.PKP.Models;
+package dwr.MiniaturowaTablica.api.PKP.Models.Arrivals;
 //trip_id,stop_sequence,stop_id,arrival_time,departure_time,platform,official_dist_traveled
 public class StopTimes {
     public String trip_id;

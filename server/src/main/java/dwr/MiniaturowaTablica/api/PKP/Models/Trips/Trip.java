@@ -1,4 +1,4 @@
-package dwr.MiniaturowaTablica.api.PKP.Models;
+package dwr.MiniaturowaTablica.api.PKP.Models.Trips;
 //route_id,service_id,trip_id,trip_headsign,trip_short_name
 public class Trip {
     String route_id;

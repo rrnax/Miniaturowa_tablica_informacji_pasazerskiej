@@ -15,8 +15,11 @@ import java.util.*;
 
 @Repository
 public class ztmRepository {
+
+
     @Autowired
     private MongoOperations mongoOperations;
+
     public static final List<String> citiesList = Arrays.asList("warszawa","gdansk");
 
     public static String convertToJson(Object o){

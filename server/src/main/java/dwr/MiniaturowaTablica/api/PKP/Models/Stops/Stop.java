@@ -1,5 +1,12 @@
-package dwr.MiniaturowaTablica.api.PKP.Models;
+package dwr.MiniaturowaTablica.api.PKP.Models.Stops;
 //stop_id,stop_name,stop_lat,stop_lon,stop_IBNR
+
+
+import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Data
+@Document(collection = "PKP_STOPS")
 public class Stop {
     public String stop_id;
     public String stop_name;
@@ -7,12 +14,6 @@ public class Stop {
     public String stop_lon;
     public String stop_IBNR;
 
-    public Stop(String stop_id, String stop_name, String stop_lat, String stop_lon) {
-        this.stop_id = stop_id;
-        this.stop_name = stop_name;
-        this.stop_lat = stop_lat;
-        this.stop_lon = stop_lon;
-    }
 
     public Stop(String stop_id, String stop_name, String stop_lat, String stop_lon, String stop_IBNR) {
         this.stop_id = stop_id;

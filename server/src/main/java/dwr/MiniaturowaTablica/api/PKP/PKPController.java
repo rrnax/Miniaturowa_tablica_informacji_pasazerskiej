@@ -19,6 +19,7 @@ public class PKPController {
     @Autowired
     private PKPRepository pkpRepository;
 
+
     @GetMapping("/stops/{stopID}") // get all displays ( with different drivingDirection) with requested name
     private ResponseEntity<String> getTimeTable(@PathVariable("stopID") String stopID) {
         return ResponseEntity
