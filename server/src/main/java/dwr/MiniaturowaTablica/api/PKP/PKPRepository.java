@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 @Component
@@ -50,7 +51,10 @@ public class PKPRepository {
     public List<SimpleStopArrivals> allInfoForStop(String stopId){
         List<SimpleStopArrivals> result = new ArrayList<>();
         Query query = new Query();
-        query.addCriteria(Criteria.where("stop_id").regex("^"+stopId+"$"));
+        Criteria stopIdCriteria = Criteria.where("stop_id").regex("^"+stopId+"$");
+        query.addCriteria(stopIdCriteria);
+        Criteria dateCriteria = Criteria.where("service_id").gte(LocalDate.now().toString());
+        query.addCriteria(dateCriteria);
         return mongoOperations.find(query,SimpleStopArrivals.class);
     }
 
