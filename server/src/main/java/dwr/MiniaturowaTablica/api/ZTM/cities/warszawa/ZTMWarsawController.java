@@ -39,7 +39,7 @@ public class ZTMWarsawController {
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(convertToJson(ztmWarsawRepository.getTimeTableForDisplay(displayCode)));
+                    .body("{\"departures\": " + convertToJson(ztmWarsawRepository.getTimeTableForDisplay(displayCode)).toString()+ "]}");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
