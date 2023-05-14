@@ -2,11 +2,11 @@
   <form>
     <div class="data-input">
       <label for="username">Nazwa użytkownika</label>
-      <input v-model="username" type="text" id="username" placeholder="Podaj nazwe użytkownika"/>
+      <input @keyup.enter="submit" v-model="username" type="text" id="username" placeholder="Podaj nazwe użytkownika"/>
     </div>
     <div class="data-input">
       <label for="password">Hasło</label>
-      <input v-model="password" type="password" id="password" placeholder="Podaj hasło"/>
+      <input @keyup.enter="submit" v-model="password" type="password" id="password" placeholder="Podaj hasło"/>
     </div>
   </form>
   <button @click="submit" class="option-btn sumbit">Zaloguj</button>

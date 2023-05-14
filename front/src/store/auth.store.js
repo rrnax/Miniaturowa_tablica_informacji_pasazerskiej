@@ -102,8 +102,9 @@ export const useAuthStore = defineStore('auth', {
 
         //Session
         sessionIntervalStart() {
+            const userStore = useUserStore();
             this.session = setInterval(() => {
-                console.log("int");
+                this.userSignIn(userStore.getEmail, userStore.getPassword);
             }, 1800000);
         },
 

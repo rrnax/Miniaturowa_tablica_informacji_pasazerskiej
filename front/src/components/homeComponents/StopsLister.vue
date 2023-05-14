@@ -116,16 +116,18 @@ input{
     margin: 30px auto;
 }
 
-stops-table {
+.stops-table {
     display: grid;
     width: 100%;
+    height: 800px;
+    overflow: scroll;
 }
 
 .stop-row {
     width: 100%;
     display: flex;
     text-align: center;
-    border-bottom: 1px solid var(--appblue);
+    border-top: 1px solid var(--appblue);
 }
 
 td {

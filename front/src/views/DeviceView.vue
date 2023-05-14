@@ -2,13 +2,13 @@
     <div class="device-view">
         <div class="info-show">
             <h1 class="section-title">Obserwowane przystanki</h1>
-            <button class="option-btn" @click="showDisplay">Podgląd Urządzenia</button>
+            <button class="show-btn" @click="showDisplay">Podgląd Urządzenia</button>
         </div>
         <hr/>
         <SubscribedStopsList/>
         <div class="info-show">
             <h1 class="section-title">Motywy i style urządzenia</h1>
-            <button class="option-btn" @click="showDisplay">Podgląd Urządzenia</button>
+            <button class="show-btn" @click="showDisplay">Podgląd Urządzenia</button>
         </div>
         <hr/>
         <DeviceStyles/>
@@ -50,27 +50,29 @@
     margin: 60px 0 0 0;
     display: flex;
     justify-content: space-between;
-    align-items: end;
+    align-items: flex-end;
+
 }
 
 .section-title {
     display: inline-block;
 }
 
-.option-btn {
+.show-btn {
   width: 200px;
   height: 40px;
   padding: 0;
   margin: 0;
   display: inline-block;
   background: var(--appblue);
+  font-family: 'Teko', sans-serif;
   font-size: 22px;
   color: var(--whiteText);
   border: 1px solid var(--appblue);
   border-radius: 20px;
 }
 
-.option-btn:hover {
+.show-btn:hover {
   background: var(--whiteText);
   color: var(--appblue);
 }

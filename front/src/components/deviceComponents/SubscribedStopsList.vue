@@ -39,6 +39,7 @@ export default{
         }
     },
 
+    //Download subscribed stops befor Component is mounted
     created(){
         this.apiStore.downloadStops();
         let tempList = this.apiStore.getStopsList;
@@ -48,6 +49,7 @@ export default{
     },
 
     computed: {
+        //List with subscribed stops
         getSubscribedStops(){
             return JSON.parse(JSON.stringify(this.apiStore.getStopsList));
         }

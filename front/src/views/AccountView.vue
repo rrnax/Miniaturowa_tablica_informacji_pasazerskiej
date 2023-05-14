@@ -52,7 +52,7 @@
       <hr>
     </div>
     <div class="user-devices">
-      <table>
+      <table class="device-table">
         <tr>
           <th>Urządzenie</th>
           <th>Status</th>
@@ -192,6 +192,7 @@ hr {
   display: flex;
   justify-content: center;
   font-size: 22px;
+  border-radius: 20px;
 }
 
 .column {
@@ -199,12 +200,14 @@ hr {
   width: 100%;
   margin: 0;
   padding: 10px;
+  border-radius: 20px;
 }
 
 .row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 40px;
 }
 
 .edit-field{
@@ -216,9 +219,15 @@ hr {
 
 .editable-inputs {
     height: 22px;
+    width: 200px;
+    margin: 0;
+    padding: 10px;
 }
 
-
+.device-table {
+  width: 100%;
+  margin: 40px auto;
+}
 .changable {
   color: var(--changableElements);
 }

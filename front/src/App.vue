@@ -1,7 +1,7 @@
 <template>
   <div class="app">
-    <Navigation />
-    <router-view/>
+    <Navigation :actual-panel="actualPanel" @changePanel="getPanel($event)"/>
+    <router-view @changePanel="getPanel($event)"/>
     <footer>
       <p>@Programowanie Zespołowe UMK 2023</p>
       <p>@Zespół nr 2</p>
@@ -14,14 +14,28 @@ import Navigation from "@/components/Navigation.vue";
 export default {
   name: 'App',
 
+  data(){
+    return {
+      actualPanel: "login",
+    }
+  },
+
   components: {
     Navigation,
+  },
+
+  methods: {
+    getPanel(panel){
+      this.actualPanel = panel;
+      console.log(panel);
+    }
   }
 }
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Teko:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@700&display=swap');
 
 :root {
   --appblue: #3b64c5;
