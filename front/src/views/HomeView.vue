@@ -27,12 +27,6 @@ export default {
     StopsLister
   },
 
-  created(){
-    if (this.apiStore.getCity !== "" && this.apiStore.getTransport !== "") {
-      this.isComboBoxFill = true;
-    }
-  },
-
   data(){
     return{
       isComboBoxFill: false,
@@ -59,6 +53,7 @@ export default {
   color: var(--appblue);
   width: 60%;
   display: grid;
+  font-size: 22px;
   margin: 20px auto 100px auto;
 }
 
@@ -74,6 +69,7 @@ hr {
 .content-block {
   width: 100%;
   background-color: var(--navMenuColor);
+  border-radius: 20px;
 }
 
 

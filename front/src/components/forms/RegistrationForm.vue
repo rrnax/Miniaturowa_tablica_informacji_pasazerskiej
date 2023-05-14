@@ -2,19 +2,19 @@
   <form>
     <div class="data-register">
       <label for="username">Nazwa użtkownika</label>
-      <input v-model="username" type="text" id="username" placeholder="Podaj login">
+      <input @keyup.enter="submit" v-model="username" type="text" id="username" placeholder="Podaj login">
     </div>
     <div class="data-register">
       <label for="email">E-mail</label>
-      <input v-model="email" type="email" id="email" placeholder="Podaj email"/>
+      <input @keyup.enter="submit" v-model="email" type="email" id="email" placeholder="Podaj email"/>
     </div>
     <div class="data-register">
       <label for="password">Hasło</label>
-      <input type="password" id="password" placeholder="Podaj hasło">
+      <input @keyup.enter="submit" type="password" id="password" placeholder="Podaj hasło">
     </div>
     <div class="data-register">
       <label for="confirm">Potwierdź hasło</label>
-      <input type="password" id="confirm" placeholder="Powtórz hasło">
+      <input @keyup.enter="submit" type="password" id="confirm" placeholder="Powtórz hasło">
     </div>
   </form>
   <p id="validation_warning"></p>

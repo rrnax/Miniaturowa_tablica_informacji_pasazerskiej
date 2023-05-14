@@ -1,25 +1,27 @@
 import axios from "axios";
 import { defineStore } from "pinia";
-// import axios from "axios";
 
 export const useApiStore = defineStore("api", {
 
     state: () => ({
+        apiUrl: "",
         transport: "",
         city: "",
         stopsList: [],
         parsedStopsList: [],
-        apiUrl: "",
+        styleDevice: "",
+        activeStop: [],
     }),
 
     getters: {
         getTransport: (state) => state.transport,
         getCity: (state) => state.city,
-        getStopsList: (state => JSON.parse(JSON.stringify(state.parsedStopsList))),
+        getDeviceStyle: (state) => state.styleDevice,
+        getStopsList: (state) => state.parsedStopsList,
+        getActiveStop: (state) => state.activeStop,
     },
 
     actions: {
-
         //Seters
         setTransport(kind){
             this.transport = kind;
@@ -28,8 +30,18 @@ export const useApiStore = defineStore("api", {
         setCity(city){
             this.city = city;
         },
+        
+        setStyle(theme){
+            this.styleDevice = theme;
+        },
 
-        //Download allow cities
+        //Creat correct api
+        useCorrectApi(transporKind, city){
+            let stringUrl = "api/"+transporKind+"/"+city;
+            this.apiUrl = stringUrl;
+        },
+
+        //Download allow cities for rail and transport separatly
         async downloadCitiesRail(){
             let list = [];
             await axios.get('api/displays/all/trains')
@@ -51,34 +63,39 @@ export const useApiStore = defineStore("api", {
             })
             return list;
         },
-
-        //Creat correct api
-        useCorrectApi(transporKind, city){
-            let strinUrl = "api/"+transporKind+"/"+city;
-            this.apiUrl = strinUrl;
+        
+        //Download Configuration device
+        downloadConfiguration(){
+            this.styleDevice = String("retro");
         },
-
 
         //Stops in initial JSON to parse
         async downloadStops(){
             await axios.get(this.apiUrl+'/displays')
             .then(response => {
                 this.stopsList = response.data;
-                // console.log(Date.now());
                 this.parseList(response.data);
-                // console.log(Date.now());
-                // console.log(JSON.parse(JSON.stringify(this.stopsList)));
                 // eslint-disable-next-line no-unused-vars
             }).catch(error => {
                 // console.log(error);
             });
         },
 
+        //Download deparetures from stop
+        async downloadDepartures(displayCode){
+            await axios.get(this.apiUrl+'/info/'+displayCode)
+            .then(response => {
+                this.activeStop = response.data;
+            }).catch(error => {
+                console.log(error);
+            })
+        },
+
         //Stops parse to intrested array
         async parseList(list){
             await list.map(stop => {
                 let exist = false;
-                let tempObj = {"name":stop.name,"displayCodes":[stop.displayCode],"subscribed":false,"status":false};
+                let tempObj = {"name":stop.name,"displayCodes":[stop.displayCode],"status":false};
                 for(const item of this.parsedStopsList){
                     if(stop.name === item.name){
                         item.displayCodes.push(stop.displayCode);
@@ -90,7 +107,6 @@ export const useApiStore = defineStore("api", {
                     this.parsedStopsList.push(tempObj);
                 }
             })
-        }
-        
+        },
     }
 })

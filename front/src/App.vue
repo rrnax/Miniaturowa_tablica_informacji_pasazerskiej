@@ -1,6 +1,12 @@
 <template>
-  <Navigation />
-  <router-view/>
+  <div class="app">
+    <Navigation :actual-panel="actualPanel" @changePanel="getPanel($event)"/>
+    <router-view @changePanel="getPanel($event)"/>
+    <footer>
+      <p>@Programowanie Zespołowe UMK 2023</p>
+      <p>@Zespół nr 2</p>
+    </footer>
+  </div>
 </template>
 
 <script>
@@ -8,20 +14,42 @@ import Navigation from "@/components/Navigation.vue";
 export default {
   name: 'App',
 
+  data(){
+    return {
+      actualPanel: "login",
+    }
+  },
+
   components: {
     Navigation,
+  },
+
+  methods: {
+    getPanel(panel){
+      this.actualPanel = panel;
+      console.log(panel);
+    }
   }
 }
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Teko:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@700&display=swap');
 
 :root {
   --appblue: #3b64c5;
   --whiteText: #ffffff;
   --navMenuColor: #d9e7fc;
   --changableElements: #1c232e;
+  --footerColor: #e8e8e8;
+  --halfView: gray;
+}
+
+.app {
+  height: 100%;
+  width: 100%;
+  margin: 0;
 }
 
 .panel {
@@ -64,9 +92,47 @@ export default {
 
 input {
   padding: 10px;
+  margin: 0;
   font-size: 17px;
   border-radius: 10px;
   border: 2px solid var(--appblue);
+}
+
+footer {
+  width: 100%;
+  height: 70px;
+  position: relative;
+  margin-top: 320px;
+  background-color: var(--footerColor);
+  display: grid;
+  justify-content: center;
+  font-family: 'Teko', sans-serif;
+  color: var(--halfView);
+  font-size: 14px;
+  align-items: end;
+  row-gap: 0;
+}
+
+p {
+  margin: 0;
+  text-align: center;
+}
+
+.warning-message {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  font-size: 22px;
+  color: red;
+}
+
+.negative {
+  color: red;
+}
+
+.positive {
+  color: green;
 }
 
 .loader {

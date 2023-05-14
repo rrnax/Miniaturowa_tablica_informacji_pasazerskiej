@@ -10,7 +10,7 @@
     </div>
     <div id="question">
       <p>Nie masz konta?</p>
-      <router-link to="/registration"> Zarejestruj się!</router-link>
+      <router-link @click="singalPanel('regis')" to="/registration"> Zarejestruj się!</router-link>
     </div>
   </div>
 </template>
@@ -22,6 +22,12 @@ export default {
   name: "LoginView",
   components: {
     LoginForm
+  },
+
+  methods: {
+    singalPanel(panel){
+      this.$emit('changePanel', panel);
+    }
   }
 }
 </script>
