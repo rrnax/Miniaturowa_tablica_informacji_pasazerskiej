@@ -26,7 +26,7 @@ public class PKPDataLoader implements CommandLineRunner {
         else System.out.println("LOADING PKP FROM DATABASE...");
 
         if(reloadDB){
-            //1.CLEAR DB COLLECTION
+            //1.CLEAR DB COLLECTIONS
             //2.LOAD DATA FROM TXT
             //3.SAVE DATA TO DB
             System.out.println("LOADING STOPS...");

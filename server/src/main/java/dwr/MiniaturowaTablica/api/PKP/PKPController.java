@@ -20,13 +20,14 @@ public class PKPController {
     private PKPRepository pkpRepository;
 
 
-    @GetMapping("/stops/{stopID}") // get all displays ( with different drivingDirection) with requested name
+    @GetMapping("/stops/{stopID}") // get all PKP stops arrivals
     private ResponseEntity<String> getTimeTable(@PathVariable("stopID") String stopID) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(convertToJson(pkpRepository.allInfoForStop(stopID)));
     }
-    @GetMapping("/stops") // get all displays ( with different drivingDirection) with requested name
+
+    @GetMapping("/stops") // get all PKP stops
     private ResponseEntity<String> getAllStops() {
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -19,8 +19,9 @@ public class SimpleStopArrivals {
     public String platform;
     public String trip_headsign;
     public String trip_short_name;
+    public String official_dist_traveled;
 
-    public SimpleStopArrivals(String stop_id,String arrival_time, String departure_time, String platform, String route_id, String service_id, String trip_headsign, String trip_short_name) {
+    public SimpleStopArrivals(String stop_id,String arrival_time, String departure_time, String platform, String route_id, String service_id, String trip_headsign, String trip_short_name, String official_dist_traveled) {
         this.stop_id = stop_id;
         this.arrival_time = arrival_time;
         this.departure_time = departure_time;
@@ -29,17 +30,8 @@ public class SimpleStopArrivals {
         this.service_id = service_id;
         this.trip_headsign = trip_headsign;
         this.trip_short_name = trip_short_name;
+        this.official_dist_traveled = official_dist_traveled;
     }
 
 
-    @Component
-    public static class StopService {
-
-        @Autowired
-        private StopPKPRepository stopPKPRepository;
-
-        public void saveAllStops(List<Stop> stops) {
-            stopPKPRepository.saveAll(stops);
-        }
-    }
 }

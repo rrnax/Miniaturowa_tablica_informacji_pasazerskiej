@@ -39,7 +39,6 @@ public class ZTMWarsawRepository {
         List<DisplayDTO> displayDTOS = new ArrayList<>();
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting();
-//      displayList = staticDataLoader.loadDataFromJsonFile(".\\src\\main\\resources\\static\\ztmWarszawa.json");
         displayList = staticDataLoader.loadDataFromJsonFile("./src/main/resources/static/ztmWarszawa.json");
 
         if (!displayList.isEmpty()) {
@@ -67,8 +66,6 @@ public class ZTMWarsawRepository {
         for (Document document : cursor) {
             idStops.add(WarsawDisplay.prepareIdStop(document.get("idStop1").toString()));
             if(document.getInteger("idStop2")>0) idStops.add(WarsawDisplay.prepareIdStop(document.get("idStop2").toString()));
-            //if(document.getInteger("idStop3")>0) idStops.add(WarsawDisplay.prepareIdStop(document.get("idStop3").toString()));
-            //if(document.getInteger("idStop4")>0) idStops.add(WarsawDisplay.prepareIdStop(document.get("idStop4").toString()));
         }
 
         return idStops;

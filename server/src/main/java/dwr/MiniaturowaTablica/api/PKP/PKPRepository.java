@@ -31,9 +31,6 @@ public class PKPRepository {
 
 
     @Autowired
-    private SimpleStopArrivals.StopService stopService;
-
-    @Autowired
     private StopPKPService stopPKPService;
 
     @Autowired
@@ -174,11 +171,8 @@ public class PKPRepository {
 
     public void loadSimpleStopArrivals() {
         simpleStopArrivalsService.deleteSSA();
-        stops.forEach(e->{
-            List<SimpleStopArrivals> result = allInfoForStop(e.getStop_id());
-            result.forEach(ee->{
-                simpleStopArrivals.add(ee);
-            });
+        stopTimesWithTripInfos.forEach(e->{
+            simpleStopArrivals.add(new SimpleStopArrivals(e.getStopTimes().stop_id,e.getStopTimes().arrival_time,e.getStopTimes().departure_time,e.getStopTimes().platform,e.getTrip().getRoute_id(), e.getTrip().getService_id(), e.getTrip().getTrip_headsign(), e.getTrip().getTrip_short_name(), e.getStopTimes().official_dist_traveled));
         });
         simpleStopArrivalsService.saveAllSSA(simpleStopArrivals);
     }
