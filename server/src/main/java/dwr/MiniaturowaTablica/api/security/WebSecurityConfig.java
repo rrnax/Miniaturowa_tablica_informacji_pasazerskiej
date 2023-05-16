@@ -22,44 +22,44 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
-   private final UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-   private final AuthEntryPointJwt unauthorizedHandler;
+    private final AuthEntryPointJwt unauthorizedHandler;
 
-   private final AuthTokenFilter authTokenFilter;
+    private final AuthTokenFilter authTokenFilter;
 
-   private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-   @Bean
-   public DaoAuthenticationProvider authenticationProvider() {
-      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
-      authProvider.setUserDetailsService(userDetailsService);
-      authProvider.setPasswordEncoder(passwordEncoder);
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder);
 
-      return authProvider;
-   }
+        return authProvider;
+    }
 
-   @Bean
-   public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-      return authConfig.getAuthenticationManager();
-   }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
+    }
 
-   @Bean
-   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-      http.cors().and().csrf().disable()
-            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeHttpRequests()
-            .requestMatchers("/api/auth/**", "/api/test/**","/api/ztm/**","/api/displays/**","/api/pkp/**","/api/ztm/displays/**").permitAll()
-            .requestMatchers("/api/departures/**", "/api/user/all/**").hasAuthority(String.valueOf(ERole.ROLE_USER))
-            .requestMatchers("/api/user/admin/**").hasAuthority(String.valueOf(ERole.ROLE_ADMIN))
-            .and().logout().invalidateHttpSession(true).
-            clearAuthentication(true).
-            logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .logoutSuccessUrl("/login?logout").permitAll();
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeHttpRequests()
+                .requestMatchers("/api/auth/**", "/api/test/**", "/api/ztm/**", "/api/displays/**", "/api/pkp/**", "/api/ztm/displays/**").permitAll()
+                .requestMatchers("/api/departures/**", "/api/user/all/**", "/api/favorite/stop/**").hasAuthority(String.valueOf(ERole.ROLE_USER))
+                .requestMatchers("/api/user/admin/**").hasAuthority(String.valueOf(ERole.ROLE_ADMIN))
+                .and().logout().invalidateHttpSession(true).
+                clearAuthentication(true).
+                logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout").permitAll();
 
-      //http.csrf().disable().authorizeHttpRequests().requestMatchers("/**").permitAll();
+        //http.csrf().disable().authorizeHttpRequests().requestMatchers("/**").permitAll();
 //                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 //                .authorizeHttpRequests(auth-> auth .requestMatchers("/api/auth/**").permitAll()
@@ -74,11 +74,11 @@ public class WebSecurityConfig {
 //                .requestMatchers("/token/**").permitAll()
 //                .anyRequest().authenticated()
 //        )
-      http.authenticationProvider(authenticationProvider());
+        http.authenticationProvider(authenticationProvider());
 
-      http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
 
-      return http.build();
-   }
+        return http.build();
+    }
 }

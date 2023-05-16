@@ -1,11 +1,11 @@
 <template>
   <div class="home-block">
-    <h1>Wyszukaj przystanki</h1>
+    <h1>Wyszukaj Stacje</h1>
     <hr>
     <div class="content-block">
       <Searcher @changeStopsList="changeStopsList()"/>
     </div>
-    <h1 v-if="isComboBoxFill">Lista Przystanków</h1>
+    <h1 v-if="isComboBoxFill">Stacje</h1>
     <hr v-if="isComboBoxFill">
     <div v-if="isComboBoxFill" class="content-block">
       <StopsLister/>
@@ -25,12 +25,6 @@ export default {
   components: {
     Searcher,
     StopsLister
-  },
-
-  created(){
-    if (this.apiStore.getCity !== "" && this.apiStore.getTransport !== "") {
-      this.isComboBoxFill = true;
-    }
   },
 
   data(){
@@ -59,6 +53,7 @@ export default {
   color: var(--appblue);
   width: 60%;
   display: grid;
+  font-size: 22px;
   margin: 20px auto 100px auto;
 }
 
@@ -74,6 +69,7 @@ hr {
 .content-block {
   width: 100%;
   background-color: var(--navMenuColor);
+  border-radius: 20px;
 }
 
 

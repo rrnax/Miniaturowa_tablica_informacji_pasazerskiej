@@ -1,25 +1,30 @@
 import axios from "axios";
 import { defineStore } from "pinia";
-// import axios from "axios";
 
 export const useApiStore = defineStore("api", {
 
     state: () => ({
+        apiUrl: "",
         transport: "",
         city: "",
         stopsList: [],
-        parsedStopsList: [],
-        apiUrl: "",
+        styleDevice: "",
+        departureList: [],
+        tempDeparture: null,
+        activeStop: null,
     }),
 
     getters: {
         getTransport: (state) => state.transport,
         getCity: (state) => state.city,
-        getStopsList: (state => JSON.parse(JSON.stringify(state.parsedStopsList))),
+        getDeviceStyle: (state) => state.styleDevice,
+        getStopsList: (state) => state.stopsList,
+        getActiveStop: (state) => state.activeStop,
+        getDepartures: (state) => state.departureList,
+        getTempDeparture: (state) => state.tempDeparture,
     },
 
     actions: {
-
         //Seters
         setTransport(kind){
             this.transport = kind;
@@ -28,8 +33,36 @@ export const useApiStore = defineStore("api", {
         setCity(city){
             this.city = city;
         },
+        
+        setStyle(theme){
+            this.styleDevice = theme;
+        },
 
-        //Download allow cities
+        setActiveStop(stop){
+            this.activeStop = stop;
+            this.activeStop.status = true;
+        },
+
+        setDepartureList(list){
+            this.departureList = list;
+        },
+
+        //Creat correct api
+        useCorrectApi(transporKind, city){
+            let stringUrl = "api/"+transporKind+"/displays/"+city;
+            this.apiUrl = stringUrl;
+        },
+
+        usePkpApi(){
+            this.apiUrl = "api/pkp/stops";
+        },
+
+        useDepartureApiZtm(city){
+            let stringUrl = "api/ztm/"+city+"/info/";
+            this.apiUrl = stringUrl;
+        },
+
+        //Download allow cities for rail and transport separatly
         async downloadCitiesRail(){
             let list = [];
             await axios.get('api/displays/all/trains')
@@ -51,46 +84,63 @@ export const useApiStore = defineStore("api", {
             })
             return list;
         },
-
-        //Creat correct api
-        useCorrectApi(transporKind, city){
-            let strinUrl = "api/"+transporKind+"/"+city;
-            this.apiUrl = strinUrl;
+        
+        //Download Configuration device
+        downloadConfiguration(){
+            this.styleDevice = String("retro");
         },
-
 
         //Stops in initial JSON to parse
         async downloadStops(){
-            await axios.get(this.apiUrl+'/displays')
+            await axios.get(this.apiUrl)
             .then(response => {
                 this.stopsList = response.data;
-                // console.log(Date.now());
-                this.parseList(response.data);
-                // console.log(Date.now());
-                // console.log(JSON.parse(JSON.stringify(this.stopsList)));
                 // eslint-disable-next-line no-unused-vars
             }).catch(error => {
                 // console.log(error);
             });
         },
 
-        //Stops parse to intrested array
-        async parseList(list){
-            await list.map(stop => {
-                let exist = false;
-                let tempObj = {"name":stop.name,"displayCodes":[stop.displayCode],"subscribed":false,"status":false};
-                for(const item of this.parsedStopsList){
-                    if(stop.name === item.name){
-                        item.displayCodes.push(stop.displayCode);
-                        exist = true;
-                        break;
-                    }
-                }
-                if(!exist){
-                    this.parsedStopsList.push(tempObj);
-                }
+        async downloadDeparturesByDisplayCode(code){
+            await axios.get(this.apiUrl+code)
+            .then(response => {
+                this.tempDeparture = response.data;
+            // eslint-disable-next-line no-unused-vars
+            }).catch(error => {
+                console.log(error);
             })
         }
-        
+
+        //Download deparetures from stop
+        // async downloadDepartures(codeList, kind){
+        //     let tempList = [];
+        //     let resultList = [];
+        //     let url = "";
+        //     if(kind === "Gdańsk [ZTM]"){
+        //         url = "/api/ztm/gdansk/info/";
+        //     } else if(kind === "Warszawa [ZTM]") {
+        //         url = "/api/ztm/warszawa/info/";
+        //     }
+        //     await codeList.forEach(async element => {
+        //         tempList = await this.departureRequest(url+element);
+        //         tempList.forEach(departure => {
+        //             // departure.estimatedTime = new Date(departure.estimatedTime).toLocaleTimeString();
+        //             resultList.push(departure);
+        //         })
+        //     });
+        //     this.departureList = resultList;
+        // },
+
+        // async departureRequest(url){
+        //     let resultList = [];
+        //     await axios.get(url)
+        //     .then(response => {
+        //         resultList = response.data.departures;
+        //     }).catch(error => {
+        //         console.log(error);
+        //     })
+        //     return resultList;
+        // },
+
     }
 })

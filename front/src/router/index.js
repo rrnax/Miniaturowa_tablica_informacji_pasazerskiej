@@ -5,13 +5,15 @@ import RegistrationView from "@/views/RegistrationView.vue";
 import {useAuthStore} from "@/store/auth.store";
 import AccountView from "@/views/AccountView";
 import AccountConfirmationView from "@/views/AccountConfirmationView";
+import DeviceView from "@/views/DeviceView";
+import DisplayView from "@/views/DisplayView";
 
 const routes = [
   {
     path: '/',
     name: 'home',
     component: HomeView,
-    meta: { requiredAuth: false },
+    meta: { requiredAuth: true },
   },
   {
     path: '/login',
@@ -35,7 +37,19 @@ const routes = [
     path: '/account',
     name: 'account',
     component: AccountView,
-    meta: { requiredAuth: false },
+    meta: { requiredAuth: true },
+  },
+  {
+    path: '/device',
+    name: 'device',
+    component: DeviceView,
+    meta: { requiredAuth: true },
+  },
+  {
+    path: '/display',
+    name: 'display',
+    component: DisplayView,
+    meta: { requiredAuth: true },
   }
 ]
 
