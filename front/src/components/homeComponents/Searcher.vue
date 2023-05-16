@@ -12,8 +12,8 @@
             <label for="city-combobox">Miasto</label>
             <select v-model="city" name="cities" id="city-combobox">
                 <option hidden disabled value="">-- Wybierz miasto --</option>
-                <option value="gdansk">Gdańsk</option>
-                <option value="warsaw">Warszawa</option>
+                <option value="Gdańsk">Gdańsk</option>
+                <option value="Warszawa">Warszawa</option>
             </select>
         </div>
         <div v-if="isLoaded" class="loader"></div>
@@ -51,7 +51,11 @@ export default{
             if(this.trasnportChecked){
                 this.city = "";
             }
-            this.trasnportChecked = true;
+            if(newTransport === "ztm"){
+                this.trasnportChecked = true;
+            } else {
+                this.trasnportChecked = false;
+            }
             this.apiStore.$reset();
             this.apiStore.setTransport(newTransport);
             this.urlCreator(newTransport);
@@ -73,13 +77,13 @@ export default{
         async urlCreator(option){        //selection for corect api download option means that was a rail or public transport
             this.isLoaded = true;
             switch(this.apiStore.getCity){
-                case 'warsaw':
-                    this.apiStore.useCorrectApi(option,"warszawa");
+                case 'Warszawa':
+                    this.apiStore.useCorrectApi(option,"Warszawa");
                     await this.apiStore.downloadStops();
                     this.newListSignal();
                     break;
-                case 'gdansk':
-                    this.apiStore.useCorrectApi(option, "gdansk");
+                case 'Gdańsk':
+                    this.apiStore.useCorrectApi(option, "Gdańsk");
                     await this.apiStore.downloadStops();
                     this.newListSignal();
                     break;
@@ -87,7 +91,11 @@ export default{
                     console.log(option, "bydgoszcz");
                     break;
                 default:
-                    console.log("defult");
+                    if(option === "rail"){
+                        this.apiStore.usePkpApi();
+                        await this.apiStore.downloadStops();
+                        this.newListSignal();
+                    }
                     break;
             }
             this.isLoaded = false;

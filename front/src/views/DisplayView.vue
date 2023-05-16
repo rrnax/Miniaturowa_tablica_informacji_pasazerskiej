@@ -2,7 +2,7 @@
     <div class="display-view">
       <div class="general-info">
         <div class="theme" id="station-name">
-          <h1 class="display-info" id="station">{{ activeStop.name }}</h1>
+          <h1 class="display-info" id="station">{{ publishRoutes }}</h1>
         </div>
         <div class="theme" id="date">
             <h1 class="display-info">{{ publishDate }}</h1>
@@ -14,7 +14,7 @@
           <th>Godzina</th>
         </tr>
       <table class="departure-table">
-        <tr v-for="route in publishRoutes" class="theme t-row" v-bind:key="route.estimatedTime">
+        <tr v-for="route in publishDisplays()" class="theme t-row" v-bind:key="route.estimatedTime">
           <td class="line">{{ route.routeId }}</td>
           <td class="destination">{{ route.headsign }}</td>
           <td class="time">{{ route.estimatedTime }}</td>
@@ -25,30 +25,32 @@
   
   <script>
   import { useApiStore } from '@/store/apiManagment.store';
+import { useUserStore } from '@/store/user.stroe';
 
   export default {
     name: "DisplayView",
 
     setup(){
       const apiStore = useApiStore();
-      return { apiStore };
+      const userStore = useUserStore();
+      return { apiStore, userStore };
     },
 
     data(){
       return {
         style: "",
-        activeStop: {},
+        departureList: [],
         date: "",
       }
     },
 
     created(){
       setInterval(this.actualDate, 1000);
-      this.updateData();
       setInterval(this.updateData, 60000);
     },
 
     mounted(){
+      this.updateData();
       let destList = document.querySelectorAll(".destination");
       let station = document.querySelector("#station");
       destList.forEach((element) => {
@@ -104,16 +106,75 @@
         this.date = miliDate.toLocaleTimeString();
       },
 
-      async updateData(){
-        this.apiStore.downloadConfiguration();
-        this.style = this.apiStore.getDeviceStyle;
-        await this.apiStore.downloadDepartures(21);
-        this.activeStop = this.apiStore.getActiveStop;
-        this.activeStop.departures.map(route => {
-          let temp = new Date(route.estimatedTime); 
-          route.estimatedTime = temp.getHours() + ":" + (temp.getMinutes()<10?'0':'') + temp.getMinutes();
-        });
+      updateData(){
+        this.updateActiveStop();
+        this.urlCreator();
+        this.createDepartureList();
       },
+
+      createDepartureList(){
+        let tempStop = {};
+        let resultList = [];
+        tempStop = JSON.parse(JSON.stringify(this.apiStore.getActiveStop));
+        tempStop.stopIds.forEach(async (code) => {
+          await this.apiStore.downloadDeparturesByDisplayCode(code);
+          let tempDepartures = {};
+          tempDepartures = JSON.parse(JSON.stringify(this.apiStore.getTempDeparture));
+          if(tempDepartures !== "Brak Odjazdow"){
+            tempDepartures = tempDepartures.departures;
+            tempDepartures.map((departure) => {
+             resultList.push(departure);
+            })
+          }
+        })
+        this.apiStore.setDepartureList(resultList);
+      },
+
+      async urlCreator(){
+        let tempStop = {};
+        tempStop = JSON.parse(JSON.stringify(this.apiStore.getActiveStop));
+        if(tempStop.cityName === "Kolej"){
+          console.log("rail");
+        } else if (tempStop.cityName === "Gdańsk [ZTM]"){
+            this.apiStore.useDepartureApiZtm("gdansk");
+        } else if (tempStop.cityName === "Warszawa [ZTM]"){
+            this.apiStore.useDepartureApiZtm("warszawa");
+        }
+      },
+      
+      async updateActiveStop(){
+        let resultList = [];
+        await this.userStore.downloadFavoriteStops();
+        resultList = JSON.parse(JSON.stringify(this.userStore.getFavorites));
+        resultList.forEach(stop => {
+          if(stop.status === true){
+            this.apiStore.setActiveStop(stop);
+          }
+        })
+      },
+
+      publishDisplays(){
+        let resultList = [];
+        resultList = JSON.parse(JSON.stringify(this.apiStore.getDepartures));
+        resultList.sort(this.compareTimes);
+        resultList.map((departure) => {
+          let temp = new Date(departure.estimatedTime); 
+          departure.estimatedTime = temp.getHours() + ":" + (temp.getMinutes()<10?'0':'') + temp.getMinutes();
+        })
+        return resultList;
+      },
+
+      compareTimes(a,b){
+        let date1 = new Date(a.estimatedTime);
+        let date2 = new Date(b.estimatedTime);
+        if ( date1 < date2 ){
+          return -1;
+        }
+        if ( date1 > date2 ){
+          return 1;
+        }
+        return 0;
+      }
 
     },
   
@@ -123,7 +184,9 @@
       },
 
       publishRoutes(){
-        return this.activeStop.departures;
+        let stop = {};
+        stop = JSON.parse(JSON.stringify(this.apiStore.getActiveStop));
+        return stop.stopName;
       }
     }
     

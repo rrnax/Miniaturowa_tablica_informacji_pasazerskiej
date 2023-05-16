@@ -1,6 +1,8 @@
 <template>
-  <div class="answer-box">
-    <p>Potwierdzono weryfikacje użytkownika, możesz się zalogować</p>
+  <div class="account-confirmation">
+    <div class="answer-box">
+      <p>Potwierdzono weryfikacje użytkownika, możesz się zalogować</p>
+    </div>
   </div>
 </template>
 
@@ -17,11 +19,15 @@ export default {
 
   mounted() {
     this.authStore.confirmAccount(this.$route.query.token);
+    this.$emit('changePanel', 'regis');
   }
 }
 </script>
 
 <style scoped>
+.account-confirmation{
+  height: 290px;
+}
 
 .answer-box {
   width: 90%;

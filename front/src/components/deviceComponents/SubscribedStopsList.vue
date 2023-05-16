@@ -1,15 +1,15 @@
 <template>
     <tr class="subscribed-rows header">
         <th class="col-name">Nazwa Przystanku</th>
-        <th class="col-city">Miasto</th>
+        <th class="col-city">Miasto/Rodzaj</th>
         <th class="col-stat">Status</th>
         <th class="col-actions">Akcje</th>
     </tr>
     <table class="subscribed-table">
         <tr v-if="!isSubscribedStops" class="warning-message">Nie można pobrać przystanków, spróbuj później!</tr>
-        <tr v-for="stop in getSubscribedStops" v-bind:key="stop.name" class="subscribed-rows">
-            <td class="col-name">{{ stop.name }}</td>
-            <td class="col-city">Miasto</td>
+        <tr v-for="stop in getSubscribedStops" v-bind:key="stop.stopName" class="subscribed-rows">
+            <td class="col-name">{{ stop.stopName }}</td>
+            <td class="col-city">{{ stop.cityName }}</td>
             <td v-if="stop.status" class="col-stat positive">Wyświetlane</td>
             <td v-if="!stop.status" class="col-stat negative">Niewyświetlane</td>
             <td class="col-actions">
@@ -24,13 +24,15 @@
 
 <script>
 import { useApiStore } from '@/store/apiManagment.store';
+import { useUserStore } from '@/store/user.stroe';
 
 export default{
     name: "SubscribedStopsList",
 
     setup(){
         const apiStore = useApiStore();
-        return { apiStore };
+        const userStore = useUserStore();
+        return { apiStore, userStore };
     },
 
     data(){
@@ -40,9 +42,9 @@ export default{
     },
 
     //Download subscribed stops befor Component is mounted
-    created(){
-        this.apiStore.downloadStops();
-        let tempList = this.apiStore.getStopsList;
+    async created(){
+        await this.userStore.downloadFavoriteStops();
+        let tempList = this.userStore.getFavorites;
         if(tempList.length > 0){
             this.isSubscribedStops = true;
         }
@@ -51,22 +53,43 @@ export default{
     computed: {
         //List with subscribed stops
         getSubscribedStops(){
-            return JSON.parse(JSON.stringify(this.apiStore.getStopsList));
+            let tempList =  JSON.parse(JSON.stringify(this.userStore.getFavorites));
+            return tempList.sort(this.sortStopsByName);
         }
     },
 
     methods: {
         async deleteSubscribtion(stop){
-            await console.log(stop);
+            await this.userStore.deleteFavoriteStop(stop.id);
+            this.userStore.downloadFavoriteStops();
         },
 
         async activateStop(stop){
-            await console.log(stop);
+            let tempList = this.userStore.getFavorites;
+            tempList.forEach(item => {
+                if(item.status === true){
+                 this.userStore.changeStatus(false, item.id);
+                }
+            })
+            await this.userStore.changeStatus(true, stop.id);
+            this.userStore.downloadFavoriteStops();
+            this.apiStore.setActiveStop(stop);
         },
 
         async desactiveStop(stop){
-            await console.log(stop);
-        }
+            await this.userStore.changeStatus(false, stop.id);
+            this.userStore.downloadFavoriteStops();
+        },
+
+        sortStopsByName( a, b ) {
+            if ( a.stopName < b.stopName ){
+                return -1;
+            }
+            if ( a.stopName > b.stopName ){
+                return 1;
+            }
+            return 0;
+        },
     }
 
 }
@@ -78,7 +101,7 @@ export default{
     width: 100%;
     height: 400px;
     margin: auto;
-    display: grid;
+    display: block;
     overflow: scroll;
     background-color: var(--navMenuColor);
     border-radius: 0 0 20px 20px;

@@ -1,11 +1,11 @@
 <template>
   <div class="home-block">
-    <h1>Wyszukaj przystanki</h1>
+    <h1>Wyszukaj Stacje</h1>
     <hr>
     <div class="content-block">
       <Searcher @changeStopsList="changeStopsList()"/>
     </div>
-    <h1 v-if="isComboBoxFill">Lista Przystanków</h1>
+    <h1 v-if="isComboBoxFill">Stacje</h1>
     <hr v-if="isComboBoxFill">
     <div v-if="isComboBoxFill" class="content-block">
       <StopsLister/>
