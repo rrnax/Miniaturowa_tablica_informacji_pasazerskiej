@@ -164,7 +164,7 @@ public class ZTMController {
       List<Departure> list2_objects = gson.fromJson(list, new TypeToken<List<Departure>>() {
       }.getType());
       List<DepartureDTO> listToSend = new ArrayList<>();
-      System.out.println(list2_objects.size());
+      //System.out.println(list2_objects.size());
       for (Departure departure : list2_objects) {
          DepartureDTO dto = departureAssembler.toDepartureDTO(departure, stopid);
          listToSend.add(dto);

@@ -316,7 +316,7 @@ public class ZTMRepository {
             {
                 List<Departure> departures = generalInfoDepartures.getDepartures();
                 List<DepartureDTO> listToSend = new ArrayList<>();
-                System.out.println(departures.size());
+                //System.out.println(departures.size());
                 int i=0;
                 for (Departure departure : departures) {
 
@@ -373,7 +373,7 @@ public class ZTMRepository {
 
             for (int i = 0; i < stopsList.size(); i++) {
                 tmp = getTimeDeparturesFromStop(stopsList.get(i));
-                System.out.println(tmp.toString());
+                //System.out.println(tmp.toString());
                 if (tmp.startsWith("[")) {
                     DepartureDTO[] dtosTmp = gson.fromJson(tmp, DepartureDTO[].class);
                     for (int j = 0; j < dtosTmp.length; j++) {
@@ -454,7 +454,7 @@ public class ZTMRepository {
 
             for (int i = 0; i < stopsList.size(); i++) {
                 tmp = getTimeDeparturesFromStop(stopsList.get(i));
-                System.out.println(tmp.toString());
+                //System.out.println(tmp.toString());
                 if (tmp.startsWith("[")) {
                     DepartureDTO[] dtosTmp = gson.fromJson(tmp, DepartureDTO[].class);
                     for (int j = 0; j < dtosTmp.length; j++) {

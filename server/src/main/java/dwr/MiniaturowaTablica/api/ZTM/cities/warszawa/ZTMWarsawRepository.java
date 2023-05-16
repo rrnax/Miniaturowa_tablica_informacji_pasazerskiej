@@ -116,7 +116,7 @@ public class ZTMWarsawRepository {
         LocalTime now = LocalTime.now();
         warsawTimeTableSet.removeIf(e -> LocalTime.parse(e.getEstimatedTime()).isBefore(now));
 
-        System.out.println(TimeTable.iloscZapytan);
+        //System.out.println(TimeTable.iloscZapytan);
 
         return warsawTimeTableSet;
 
