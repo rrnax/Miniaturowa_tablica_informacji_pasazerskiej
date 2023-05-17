@@ -12,7 +12,7 @@ public class SSA {
     public String route_id;
     public String service_id;
     public String arrival_time;
-    public String departure_time;
+    public String estimatedTime; //departure time
     public String tripId;
     public String headsign;
     public String trip_short_name;
@@ -21,7 +21,7 @@ public class SSA {
     public SSA(String stop_id, String arrival_time, String departure_time, String tripId, String route_id, String service_id, String headsign, String trip_short_name, String official_dist_traveled) {
         this.stop_id = stop_id;
         this.arrival_time = arrival_time;
-        this.departure_time = departure_time;
+        this.estimatedTime = departure_time;
         this.tripId = tripId;
         this.route_id = route_id;
         this.service_id = service_id;
