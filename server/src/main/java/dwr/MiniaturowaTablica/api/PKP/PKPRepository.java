@@ -187,4 +187,8 @@ public class PKPRepository {
         });
         SSAService.saveAllSSA(simpleStopArrivals);
     }
+
+    public void getAllTrainDistanceTravelled(){
+
+    }
 }

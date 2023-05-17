@@ -85,30 +85,14 @@ public class ZTMWarsawRepository {
 
     //all lines with busStopsId
     public Collection<WarsawTimeTable> getTimeTableForDisplay(String displayCode) throws IOException {
-        executor = Executors.newFixedThreadPool(1000);
 
         //get all busStopIds
         Set<WarsawLines> warsawLinesSet = getAllLines(displayCode);
         Set<WarsawTimeTable> warsawTimeTableSet = new TreeSet<>(new TimeComparator());
-        List<Runnable> tasks = new ArrayList<>();
-        for(WarsawLines e : warsawLinesSet){
-            Runnable task = () -> {
-                try {
-                    warsawTimeTableSet.addAll(timeTable.getLineTimetable(displayCode,e.getIdStop(),e.getLinia()));
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            };
-            tasks.add(task);
-        }
-        for (Runnable task : tasks) {
-            executor.execute(task);
-        }
 
-        executor.shutdown();
-        while (!executor.isTerminated()) {
-            // oczekiwanie na zakończenie wszystkich zadań
-        }
+        for(WarsawLines e : warsawLinesSet){
+            warsawTimeTableSet.addAll(timeTable.getLineTimetable(displayCode,e.getIdStop(),e.getLinia()));
+            }
 
         LocalTime now = LocalTime.now();
         warsawTimeTableSet.removeIf(e -> LocalTime.parse(e.getEstimatedTime()).isBefore(now));
@@ -116,7 +100,6 @@ public class ZTMWarsawRepository {
         //System.out.println(TimeTable.iloscZapytan);
 
         return warsawTimeTableSet;
-
     }
 
 
