@@ -91,8 +91,8 @@ export const useApiStore = defineStore("api", {
         },
         
         //Download Configuration device
-        downloadConfiguration(){
-            this.styleDevice = String("retro");
+        downloadConfiguration(str){
+            this.styleDevice = str;
         },
 
         //Stops in initial JSON to parse

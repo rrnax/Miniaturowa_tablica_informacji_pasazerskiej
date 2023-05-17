@@ -53,7 +53,7 @@ export const useAuthStore = defineStore('auth', {
                 userStore.setUserState(response.data, password);         //returning data from LOGIN backend to userData without parsing
                 this.userJwt = response.headers.authorization;
                 axios.defaults.headers.common['Authorization'] = response.headers.authorization;
-                console.log(response);
+                // console.log(response);
             }).catch(error => {
                 if(!(error.code === "ERR_NETWORK")){
                     this.lastHttpCode = error.response.status;

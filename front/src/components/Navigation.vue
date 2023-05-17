@@ -57,6 +57,8 @@ export default {
     actualPanel: String,
   },
 
+  emits:["changePanel"],
+
   setup(){      //declaring store we used to correct nav bar for loged or not
     const userStore = useAuthStore();
     return { userStore };

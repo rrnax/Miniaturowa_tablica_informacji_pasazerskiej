@@ -77,13 +77,13 @@ export default{
                 }
             })
             await this.userStore.changeStatus(true, stop.id);
-            this.userStore.downloadFavoriteStops();
+            await this.userStore.downloadFavoriteStops();
             this.apiStore.setActiveStop(stop);
         },
 
         async desactiveStop(stop){
             await this.userStore.changeStatus(false, stop.id);
-            this.userStore.downloadFavoriteStops();
+            await this.userStore.downloadFavoriteStops();
         },
 
         sortStopsByName( a, b ) {

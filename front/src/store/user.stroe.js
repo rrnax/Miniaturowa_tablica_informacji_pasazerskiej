@@ -107,13 +107,14 @@ export const useUserStore = defineStore("user", {
             }).catch(error => {
                 console.log(error);
             })
+            await this.downloadFavoriteStops();
         },
 
         //Adding new stop from rail to favorit list
         async addFavoriteStopInRail(stop){
             await axios.post("api/favorite/stop/add",{
                 "cityName": "Kolej",
-                "stopName": stop.stop_name,
+                "stopName": stop.name,
                 "stopIds": [ stop.stop_id ],
                 "status": false,
             // eslint-disable-next-line no-unused-vars
@@ -122,6 +123,7 @@ export const useUserStore = defineStore("user", {
             }).catch(error => {
                 console.log(error);
             })
+            await this.downloadFavoriteStops();
         },
 
         //Operations on favorit list

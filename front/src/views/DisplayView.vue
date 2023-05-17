@@ -17,12 +17,12 @@
       <table class="departure-table">
         <tr v-for="route in publishDisplays()" class="theme t-row" v-bind:key="route.id">
           <td v-if="this.apiStore.getActiveStop.cityName === 'Gdańsk [ZTM]'" class="line">{{ route.routeId }}</td>
-          <td v-if="this.apiStore.getActiveStop.cityName === 'Warszawa [ZTM]'" class="line">{{ route.tripId }}</td>
-          <td v-if="this.apiStore.getActiveStop.cityName === 'Kolej'" class="line">{{ route.platform }}</td>
-          <td v-if="this.apiStore.getActiveStop.cityName === 'Kolej'" class="destination">{{ route.trip_headsign }}</td>
-          <td v-if="this.apiStore.getActiveStop.cityName !== 'Kolej'" class="destination">{{ route.headsign }}</td>
-          <td v-if="this.apiStore.getActiveStop.cityName === 'Kolej'" class="time">{{ route.departure_time }}</td>
-          <td v-if="this.apiStore.getActiveStop.cityName !== 'Kolej'" class="time">{{ route.estimatedTime }}</td>
+          <td v-else class="line">{{ route.tripId }}</td>
+          <td class="destination">
+            <marquee v-if="route.headsign.length > 9">{{ route.headsign }}</marquee>
+            <p v-else>{{ route.headsign }}</p>
+          </td>
+          <td class="time">{{ route.estimatedTime }}</td>
         </tr>
       </table>
     </div>
@@ -56,26 +56,16 @@ import { useUserStore } from '@/store/user.stroe';
 
     mounted(){
       this.updateData();
-      let destList = document.querySelectorAll(".destination");
       let station = document.querySelector("#station");
-      destList.forEach((element) => {
-        if(element.offsetWidth < element.scrollWidth){
-          var marquee = document.createElement('marquee');
-          let content = element.innerText;
-          marquee.innerText = content;
-          element.innerHTML = "";
-          element.appendChild(marquee);
-        }
-      })
       if(station.offsetWidth < station.scrollWidth){
-          var marquee = document.createElement('marquee');
+          let marquee = document.createElement('marquee');
           let content = station.innerText;
           marquee.innerText = content;
           station.innerHTML = "";
           station.appendChild(marquee);
       }
 
-      switch(this.style){
+      switch(this.apiStore.getDeviceStyle){
         case 'retro':
           document.documentElement.style.setProperty('--backcolor', '#070606');
           document.documentElement.style.setProperty('--fontcolor', '#ff6701');
@@ -121,10 +111,6 @@ import { useUserStore } from '@/store/user.stroe';
         let tempStop = {};
         let resultList = [];
         tempStop = JSON.parse(JSON.stringify(this.apiStore.getActiveStop));
-        if(this.apiStore.getActiveStop.cityName === 'Kolej'){
-          await this.apiStore.downloadDeparturesByDisplayCode(tempStop.stopIds[0]);
-          resultList = JSON.parse(JSON.stringify(this.apiStore.getTempDeparture));
-        }else {
           tempStop.stopIds.forEach(async (code) => {
             await this.apiStore.downloadDeparturesByDisplayCode(code);
             let tempDepartures = {};
@@ -135,8 +121,7 @@ import { useUserStore } from '@/store/user.stroe';
                 resultList.push(departure);
               })
             }
-         })
-      }
+         })   
         this.apiStore.setDepartureList(resultList);
       },
 
@@ -172,13 +157,9 @@ import { useUserStore } from '@/store/user.stroe';
             let temp = new Date(departure.estimatedTime); 
             departure.estimatedTime = temp.getHours() + ":" + (temp.getMinutes()<10?'0':'') + temp.getMinutes();
           })
-        } else if(this.apiStore.getActiveStop.cityName === "Warszawa [ZTM]"){
+        } else {
           resultList.map((departure) => {
             departure.estimatedTime = departure.estimatedTime.substring(0,5);
-          })
-        } else if(this.apiStore.getActiveStop.cityName === 'Kolej'){
-          resultList.map((departure) => {
-            departure.departure_time = departure.departure_time.substring(0,5);
           })
         }
         return resultList;
@@ -194,7 +175,9 @@ import { useUserStore } from '@/store/user.stroe';
           return 1;
         }
         return 0;
-      }
+      },
+
+      
 
     },
   
@@ -319,5 +302,7 @@ import { useUserStore } from '@/store/user.stroe';
   font-size: 40px;
   text-transform: uppercase;
 }
+
+
 
 </style>

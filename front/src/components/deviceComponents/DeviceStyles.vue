@@ -39,7 +39,8 @@ export default{
 
     //When component is rendering we download device style
     mounted(){
-        this.apiStore.downloadConfiguration();
+        // this.apiStore.downloadConfiguration("retro");
+        this.apiStore.setStyle("retro");
         let checkBoxList = document.querySelectorAll(".check");
         checkBoxList.forEach(element => {
             if(element.value === this.apiStore.getDeviceStyle){
