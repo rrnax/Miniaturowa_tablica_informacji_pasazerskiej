@@ -8,10 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
 import static dwr.MiniaturowaTablica.api.ZTM.ztmRepository.convertToJson;
 @RequestMapping("/api/pkp")
 @RestController
@@ -32,6 +28,13 @@ public class PKPController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(convertToJson(pkpRepository.getAllStops()));
+    }
+
+    @GetMapping("/trains/bydistance") // get all PKP trains
+    private ResponseEntity<String> get() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(convertToJson("nic nie zwracam na endpoint pkpController"));
     }
 
 }
