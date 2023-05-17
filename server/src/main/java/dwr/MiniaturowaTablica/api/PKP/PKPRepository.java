@@ -125,6 +125,14 @@ public class PKPRepository {
                 }
                 stops.add(stop);
             }
+            Collections.sort(stops, new Comparator<Stop>() {
+                @Override
+                public int compare(Stop o1, Stop o2) {
+                    return o1.getName().compareTo(o2.getName()); // porównaj wartości pola name
+                }
+            });
+
+
             stopPKPService.saveAllStops(stops);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
