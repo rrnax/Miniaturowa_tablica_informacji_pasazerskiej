@@ -1,11 +1,11 @@
 <template>
   <div class="home-block">
-    <h1>Wyszukaj przystanki</h1>
+    <h1>Wyszukaj Stacje</h1>
     <hr>
     <div class="content-block">
       <Searcher @changeStopsList="changeStopsList()"/>
     </div>
-    <h1 v-if="isComboBoxFill">Lista Przystanków</h1>
+    <h1 v-if="isComboBoxFill">Stacje</h1>
     <hr v-if="isComboBoxFill">
     <div v-if="isComboBoxFill" class="content-block">
       <StopsLister/>
@@ -18,6 +18,7 @@
 import Searcher from '@/components/homeComponents/Searcher.vue';
 import StopsLister from '@/components/homeComponents/StopsLister.vue';
 import { useApiStore } from '@/store/apiManagment.store';
+import { useUserStore } from '@/store/user.stroe';
 
 export default {
   name: 'HomeView',
@@ -25,12 +26,6 @@ export default {
   components: {
     Searcher,
     StopsLister
-  },
-
-  created(){
-    if (this.apiStore.getCity !== "" && this.apiStore.getTransport !== "") {
-      this.isComboBoxFill = true;
-    }
   },
 
   data(){
@@ -41,7 +36,18 @@ export default {
 
   setup(){
     const apiStore = useApiStore();
-    return { apiStore };
+    const userStore = useUserStore();
+    return { apiStore, userStore };
+  },
+
+  async created(){
+    await this.userStore.downloadFavoriteStops();
+    let tempList = this.userStore.getFavorites;
+    tempList.map(stop => {
+            if(stop.status === true){
+                this.apiStore.setActiveStop(stop);
+            }
+        })
   },
 
   methods: {
@@ -59,6 +65,7 @@ export default {
   color: var(--appblue);
   width: 60%;
   display: grid;
+  font-size: 22px;
   margin: 20px auto 100px auto;
 }
 
@@ -74,6 +81,7 @@ hr {
 .content-block {
   width: 100%;
   background-color: var(--navMenuColor);
+  border-radius: 20px;
 }
 
 

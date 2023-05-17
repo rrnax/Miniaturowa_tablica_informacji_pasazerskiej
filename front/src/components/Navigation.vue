@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <router-link class="nav-title" to="/">
+    <router-link class="nav-title" to="/display">
       <img id="logo" src="../assets/m_tip_logo.png">
       <div>
         <p class="title">Miniaturowa Tablica</p>
@@ -8,8 +8,10 @@
       </div>
     </router-link>
     <div class="options">
-      <router-link class="option-btn" v-if="!this.userStore.authStatus" to="/login">Zloguj się</router-link>
-      <router-link class="option-btn" v-if="!this.userStore.authStatus" to="/registration">Zarejestruj Się</router-link>
+      <router-link class="option-btn" @click="singalPanel('login')" v-if="!this.userStore.authStatus && actualPanel === 'regis'" to="/login">Zloguj się</router-link>
+      <router-link class="option-btn" @click="singalPanel('regis')" v-if="!this.userStore.authStatus && actualPanel === 'login'" to="/registration">Zarejestruj Się</router-link>
+      <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/device">Urządzenie</router-link>
+      <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/">Przystanki</router-link>
       <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/account">Konto</router-link>
       <a class="menu-btn" v-if="this.userStore.authStatus" @click="logOut">Wyloguj się</a>
     </div>
@@ -28,8 +30,10 @@
   <div class="menu-toggle"
     :style="{ display: active ? 'flex' : 'none' }">
     <div class="menu-items">
-      <router-link class="menu-item" v-if="!this.userStore.authStatus" to="/login">Zloguj się</router-link>
-      <router-link class="menu-item" v-if="!this.userStore.authStatus" to="/registration">Zarejestruj Się</router-link>
+      <router-link class="menu-item" @click="singalPanel('login')" v-if="!this.userStore.authStatus && actualPanel === 'regis'" to="/login">Zloguj się</router-link>
+      <router-link class="menu-item" @click="singalPanel('regis')" v-if="!this.userStore.authStatus && actualPanel === 'login'" to="/registration">Zarejestruj Się</router-link>
+      <router-link class="menu-item" v-if="this.userStore.authStatus" to="/device">Urządzenie</router-link>
+      <router-link class="menu-item" v-if="this.userStore.authStatus" to="/">Przystnaki</router-link>
       <router-link class="menu-item" v-if="this.userStore.authStatus" to="/account">Konto</router-link>
       <a class="menu-item" v-if="this.userStore.authStatus" @click="logOut">Wyloguj się</a>
     </div>
@@ -47,6 +51,10 @@ export default {
     return {
       active: false,
     }
+  },
+
+  props: {
+    actualPanel: String,
   },
 
   setup(){      //declaring store we used to correct nav bar for loged or not
@@ -72,6 +80,10 @@ export default {
         this.active = !this.active;
         let makeX = document.querySelector(".icon");
         makeX.classList.toggle("change");
+    },
+
+    singalPanel(panel){
+      this.$emit('changePanel', panel);
     }
   },
 }

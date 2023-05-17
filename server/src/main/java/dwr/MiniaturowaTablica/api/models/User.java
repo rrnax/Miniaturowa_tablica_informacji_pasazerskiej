@@ -37,6 +37,9 @@ public class User implements UserDetails {
 
     @DocumentReference
     private Set<Role> roles = new HashSet<>();
+    
+    private Set<FavoriteStation> favoriteStations = new HashSet<>();
+
 
     private boolean isActive = false;
 
