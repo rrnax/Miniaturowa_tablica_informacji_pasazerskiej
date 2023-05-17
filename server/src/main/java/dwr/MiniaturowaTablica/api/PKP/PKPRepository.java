@@ -9,6 +9,7 @@ import dwr.MiniaturowaTablica.api.PKP.Trips.Trip;
 import dwr.MiniaturowaTablica.api.PKP.Stops.Stop;
 import dwr.MiniaturowaTablica.api.PKP.Stops.StopPKPService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 @Component
@@ -51,6 +53,12 @@ public class PKPRepository {
         query.addCriteria(stopIdCriteria);
         Criteria dateCriteria = Criteria.where("service_id").gte(LocalDate.now().toString());
         query.addCriteria(dateCriteria);
+        Criteria timeCriteria = Criteria.where("estimatedTime").gte(LocalTime.now().toString());
+        query.addCriteria(timeCriteria);
+        query.with(Sort.by(
+                Sort.Order.asc("service_id"), // sortuj po dacie w kolejności rosnącej
+                Sort.Order.asc("estimatedTime") // sortuj po czasie w kolejności rosnącej
+        ));
         return mongoOperations.find(query, SSA.class);
     }
 
