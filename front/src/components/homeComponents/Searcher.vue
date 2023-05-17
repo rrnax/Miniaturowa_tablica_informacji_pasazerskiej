@@ -114,6 +114,7 @@ export default{
 <style>
 .searcher {
     width: 100%;
+    height: 120px;
     margin: 0;
     padding: 20px 0 40px 0;
     font-size: 22px;

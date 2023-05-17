@@ -7,6 +7,8 @@ import AccountView from "@/views/AccountView";
 import AccountConfirmationView from "@/views/AccountConfirmationView";
 import DeviceView from "@/views/DeviceView";
 import DisplayView from "@/views/DisplayView";
+import RanksView from "@/views/RanksView";
+import StopDeparturesView from "@/views/StopDeparturesView";
 
 const routes = [
   {
@@ -49,6 +51,18 @@ const routes = [
     path: '/display',
     name: 'display',
     component: DisplayView,
+    meta: { requiredAuth: true },
+  },
+  {
+    path: '/ranks',
+    name: 'ranks',
+    component: RanksView,
+    meta: { requiredAuth: true },
+  },
+  {
+    path: '/departures',
+    name: 'departures',
+    component: StopDeparturesView,
     meta: { requiredAuth: true },
   }
 ]
