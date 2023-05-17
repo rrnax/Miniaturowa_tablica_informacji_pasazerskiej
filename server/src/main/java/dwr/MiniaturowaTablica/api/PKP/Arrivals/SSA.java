@@ -18,10 +18,10 @@ public class SSA {
     public String trip_short_name;
     public String official_dist_traveled;
 
-    public SSA(String stop_id, String arrival_time, String departure_time, String tripId, String route_id, String service_id, String headsign, String trip_short_name, String official_dist_traveled) {
+    public SSA(String stop_id, String arrival_time, String estimatedTime, String tripId, String route_id, String service_id, String headsign, String trip_short_name, String official_dist_traveled) {
         this.stop_id = stop_id;
         this.arrival_time = arrival_time;
-        this.estimatedTime = departure_time;
+        this.estimatedTime = estimatedTime;
         this.tripId = tripId;
         this.route_id = route_id;
         this.service_id = service_id;
