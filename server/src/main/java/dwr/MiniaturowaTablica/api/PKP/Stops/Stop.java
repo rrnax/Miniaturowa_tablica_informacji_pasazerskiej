@@ -1,4 +1,4 @@
-package dwr.MiniaturowaTablica.api.PKP.Models.Stops;
+package dwr.MiniaturowaTablica.api.PKP.Stops;
 //stop_id,stop_name,stop_lat,stop_lon,stop_IBNR
 
 
@@ -9,15 +9,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "PKP_STOPS")
 public class Stop {
     public String stop_id;
-    public String stop_name;
+    public String name;
     public String stop_lat;
     public String stop_lon;
     public String stop_IBNR;
 
 
-    public Stop(String stop_id, String stop_name, String stop_lat, String stop_lon, String stop_IBNR) {
+    public Stop(String stop_id, String name, String stop_lat, String stop_lon, String stop_IBNR) {
         this.stop_id = stop_id;
-        this.stop_name = stop_name;
+        this.name = name;
         this.stop_lat = stop_lat;
         this.stop_lon = stop_lon;
         this.stop_IBNR = stop_IBNR;
@@ -31,12 +31,12 @@ public class Stop {
         this.stop_id = stop_id;
     }
 
-    public String getStop_name() {
-        return stop_name;
+    public String getName() {
+        return name;
     }
 
-    public void setStop_name(String stop_name) {
-        this.stop_name = stop_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getStop_lat() {
@@ -67,7 +67,7 @@ public class Stop {
     public String toString() {
         return "Stops{" +
                 "stop_id='" + stop_id + '\'' +
-                ", stop_name='" + stop_name + '\'' +
+                ", stop_name='" + name + '\'' +
                 ", stop_lat='" + stop_lat + '\'' +
                 ", stop_lon='" + stop_lon + '\'' +
                 ", stop_IBNR='" + stop_IBNR + '\'' +

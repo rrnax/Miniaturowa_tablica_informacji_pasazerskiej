@@ -24,7 +24,7 @@ public class PKPController {
     private ResponseEntity<String> getTimeTable(@PathVariable("stopID") String stopID) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(convertToJson(pkpRepository.allInfoForStop(stopID)));
+                .body("{\"departures\": " + convertToJson(pkpRepository.allInfoForStop(stopID)).toString()+"}");
     }
 
     @GetMapping("/stops") // get all PKP stops

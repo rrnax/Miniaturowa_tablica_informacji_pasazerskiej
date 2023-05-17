@@ -1,4 +1,4 @@
-package dwr.MiniaturowaTablica.api.PKP.Models.Trips;
+package dwr.MiniaturowaTablica.api.PKP.Trips;
 
 
 public class Transfer {

@@ -1,14 +1,13 @@
 package dwr.MiniaturowaTablica.api.PKP;
 
-import dwr.MiniaturowaTablica.api.PKP.Models.Arrivals.SimpleStopArrivals;
-import dwr.MiniaturowaTablica.api.PKP.Models.Arrivals.SimpleStopArrivalsService;
-import dwr.MiniaturowaTablica.api.PKP.Models.Arrivals.StopTimes;
-import dwr.MiniaturowaTablica.api.PKP.Models.Arrivals.StopTimesWithTripInfo;
-import dwr.MiniaturowaTablica.api.PKP.Models.Stops.*;
-import dwr.MiniaturowaTablica.api.PKP.Models.Trips.Transfer;
-import dwr.MiniaturowaTablica.api.PKP.Models.Trips.Trip;
-import dwr.MiniaturowaTablica.api.ZTM.Displays.Display;
-import dwr.MiniaturowaTablica.api.ZTM.Displays.DisplayDTO;
+import dwr.MiniaturowaTablica.api.PKP.Arrivals.SSA;
+import dwr.MiniaturowaTablica.api.PKP.Arrivals.SSAService;
+import dwr.MiniaturowaTablica.api.PKP.Arrivals.StopTimes;
+import dwr.MiniaturowaTablica.api.PKP.Arrivals.StopTimesWithTripInfo;
+import dwr.MiniaturowaTablica.api.PKP.Trips.Transfer;
+import dwr.MiniaturowaTablica.api.PKP.Trips.Trip;
+import dwr.MiniaturowaTablica.api.PKP.Stops.Stop;
+import dwr.MiniaturowaTablica.api.PKP.Stops.StopPKPService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -27,14 +26,14 @@ public class PKPRepository {
     public List<StopTimes> stopTimes = new ArrayList<>();
     public List<Trip> trips = new ArrayList<>();
     public List<StopTimesWithTripInfo> stopTimesWithTripInfos = new ArrayList<>();
-    public List<SimpleStopArrivals> simpleStopArrivals = new ArrayList<>();
+    public List<SSA> simpleStopArrivals = new ArrayList<>();
 
 
     @Autowired
     private StopPKPService stopPKPService;
 
     @Autowired
-    private SimpleStopArrivalsService simpleStopArrivalsService;
+    private SSAService SSAService;
 
     @Autowired
     private MongoOperations mongoOperations;
@@ -45,25 +44,23 @@ public class PKPRepository {
         return  filteredStopTimes;
     }
 
-    public List<SimpleStopArrivals> allInfoForStop(String stopId){
-        List<SimpleStopArrivals> result = new ArrayList<>();
+    public List<SSA> allInfoForStop(String stopId){
+        List<SSA> result = new ArrayList<>();
         Query query = new Query();
         Criteria stopIdCriteria = Criteria.where("stop_id").regex("^"+stopId+"$");
         query.addCriteria(stopIdCriteria);
         Criteria dateCriteria = Criteria.where("service_id").gte(LocalDate.now().toString());
         query.addCriteria(dateCriteria);
-        return mongoOperations.find(query,SimpleStopArrivals.class);
+        return mongoOperations.find(query, SSA.class);
     }
 
     public List<Stop> getAllStops(){
         return stops;
     }
 
-
     public void loadStopsFromDB() {
         stops = stopPKPService.getAllStops();
     }
-
 
     public void loadStopTimesWithTripInfo() {
         for (StopTimes stopTime : stopTimes ) {
@@ -126,7 +123,6 @@ public class PKPRepository {
         }
     }
 
-
     public void loadStopTimes(){
         try {
             // STOP TIMES
@@ -164,16 +160,15 @@ public class PKPRepository {
         }
     }
 
-
     public void loadSimpleStopArrivalsFromDB() {
-        simpleStopArrivals = simpleStopArrivalsService.getAllSSA();
+        simpleStopArrivals = SSAService.getAllSSA();
     }
 
     public void loadSimpleStopArrivals() {
-        simpleStopArrivalsService.deleteSSA();
+        SSAService.deleteSSA();
         stopTimesWithTripInfos.forEach(e->{
-            simpleStopArrivals.add(new SimpleStopArrivals(e.getStopTimes().stop_id,e.getStopTimes().arrival_time,e.getStopTimes().departure_time,e.getStopTimes().platform,e.getTrip().getRoute_id(), e.getTrip().getService_id(), e.getTrip().getTrip_headsign(), e.getTrip().getTrip_short_name(), e.getStopTimes().official_dist_traveled));
+            simpleStopArrivals.add(new SSA(e.getStopTimes().stop_id,e.getStopTimes().arrival_time,e.getStopTimes().departure_time,e.getStopTimes().platform,e.getTrip().getRoute_id(), e.getTrip().getService_id(), e.getTrip().getTrip_headsign(), e.getTrip().getTrip_short_name(), e.getStopTimes().official_dist_traveled));
         });
-        simpleStopArrivalsService.saveAllSSA(simpleStopArrivals);
+        SSAService.saveAllSSA(simpleStopArrivals);
     }
 }

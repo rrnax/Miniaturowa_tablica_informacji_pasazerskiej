@@ -1,4 +1,4 @@
-package dwr.MiniaturowaTablica.api.PKP.Models.Stops;
+package dwr.MiniaturowaTablica.api.PKP.Stops;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

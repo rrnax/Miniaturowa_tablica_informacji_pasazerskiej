@@ -1,7 +1,6 @@
-package dwr.MiniaturowaTablica.api.PKP.Models.Arrivals;
+package dwr.MiniaturowaTablica.api.PKP.Arrivals;
 
-import dwr.MiniaturowaTablica.api.PKP.Models.Arrivals.StopTimes;
-import dwr.MiniaturowaTablica.api.PKP.Models.Trips.Trip;
+import dwr.MiniaturowaTablica.api.PKP.Trips.Trip;
 
 public class StopTimesWithTripInfo {
     public StopTimesWithTripInfo(StopTimes stopTimes, Trip trip) {
