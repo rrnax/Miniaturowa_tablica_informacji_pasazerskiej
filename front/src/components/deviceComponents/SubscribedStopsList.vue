@@ -48,6 +48,11 @@ export default{
         if(tempList.length > 0){
             this.isSubscribedStops = true;
         }
+        tempList.map(stop => {
+            if(stop.status === true){
+                this.apiStore.setActiveStop(stop);
+            }
+        })
     },
 
     computed: {

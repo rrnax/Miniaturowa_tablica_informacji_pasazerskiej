@@ -62,6 +62,11 @@ export const useApiStore = defineStore("api", {
             this.apiUrl = stringUrl;
         },
 
+        useDepartureApiPkp(){
+            let stringUrl = "api/pkp/stops/";
+            this.apiUrl = stringUrl;
+        },
+
         //Download allow cities for rail and transport separatly
         async downloadCitiesRail(){
             let list = [];
@@ -110,37 +115,6 @@ export const useApiStore = defineStore("api", {
                 console.log(error);
             })
         }
-
-        //Download deparetures from stop
-        // async downloadDepartures(codeList, kind){
-        //     let tempList = [];
-        //     let resultList = [];
-        //     let url = "";
-        //     if(kind === "Gdańsk [ZTM]"){
-        //         url = "/api/ztm/gdansk/info/";
-        //     } else if(kind === "Warszawa [ZTM]") {
-        //         url = "/api/ztm/warszawa/info/";
-        //     }
-        //     await codeList.forEach(async element => {
-        //         tempList = await this.departureRequest(url+element);
-        //         tempList.forEach(departure => {
-        //             // departure.estimatedTime = new Date(departure.estimatedTime).toLocaleTimeString();
-        //             resultList.push(departure);
-        //         })
-        //     });
-        //     this.departureList = resultList;
-        // },
-
-        // async departureRequest(url){
-        //     let resultList = [];
-        //     await axios.get(url)
-        //     .then(response => {
-        //         resultList = response.data.departures;
-        //     }).catch(error => {
-        //         console.log(error);
-        //     })
-        //     return resultList;
-        // },
 
     }
 })

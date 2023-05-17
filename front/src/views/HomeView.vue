@@ -18,6 +18,7 @@
 import Searcher from '@/components/homeComponents/Searcher.vue';
 import StopsLister from '@/components/homeComponents/StopsLister.vue';
 import { useApiStore } from '@/store/apiManagment.store';
+import { useUserStore } from '@/store/user.stroe';
 
 export default {
   name: 'HomeView',
@@ -35,7 +36,18 @@ export default {
 
   setup(){
     const apiStore = useApiStore();
-    return { apiStore };
+    const userStore = useUserStore();
+    return { apiStore, userStore };
+  },
+
+  async created(){
+    await this.userStore.downloadFavoriteStops();
+    let tempList = this.userStore.getFavorites;
+    tempList.map(stop => {
+            if(stop.status === true){
+                this.apiStore.setActiveStop(stop);
+            }
+        })
   },
 
   methods: {

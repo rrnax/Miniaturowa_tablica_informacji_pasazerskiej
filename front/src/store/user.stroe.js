@@ -129,7 +129,6 @@ export const useUserStore = defineStore("user", {
             await axios.get("api/favorite/stop/getAll/by/user")
             .then( response => {
                 this.favoriteStops = response.data;
-                // console.log(response);
             }).catch(error => {
                 console.log(error);
             })

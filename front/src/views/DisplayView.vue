@@ -9,15 +9,20 @@
         </div>
       </div>
       <tr class="table-header">
-          <th>Linia</th>
+          <th v-if="this.apiStore.getActiveStop.cityName === 'Kolej'">Peron</th>
+          <th v-else>Linia</th>
           <th>Kierunek</th>
           <th>Godzina</th>
         </tr>
       <table class="departure-table">
-        <tr v-for="route in publishDisplays()" class="theme t-row" v-bind:key="route.estimatedTime">
-          <td class="line">{{ route.routeId }}</td>
-          <td class="destination">{{ route.headsign }}</td>
-          <td class="time">{{ route.estimatedTime }}</td>
+        <tr v-for="route in publishDisplays()" class="theme t-row" v-bind:key="route.id">
+          <td v-if="this.apiStore.getActiveStop.cityName === 'Gdańsk [ZTM]'" class="line">{{ route.routeId }}</td>
+          <td v-if="this.apiStore.getActiveStop.cityName === 'Warszawa [ZTM]'" class="line">{{ route.tripId }}</td>
+          <td v-if="this.apiStore.getActiveStop.cityName === 'Kolej'" class="line">{{ route.platform }}</td>
+          <td v-if="this.apiStore.getActiveStop.cityName === 'Kolej'" class="destination">{{ route.trip_headsign }}</td>
+          <td v-if="this.apiStore.getActiveStop.cityName !== 'Kolej'" class="destination">{{ route.headsign }}</td>
+          <td v-if="this.apiStore.getActiveStop.cityName === 'Kolej'" class="time">{{ route.departure_time }}</td>
+          <td v-if="this.apiStore.getActiveStop.cityName !== 'Kolej'" class="time">{{ route.estimatedTime }}</td>
         </tr>
       </table>
     </div>
@@ -112,21 +117,26 @@ import { useUserStore } from '@/store/user.stroe';
         this.createDepartureList();
       },
 
-      createDepartureList(){
+      async createDepartureList(){
         let tempStop = {};
         let resultList = [];
         tempStop = JSON.parse(JSON.stringify(this.apiStore.getActiveStop));
-        tempStop.stopIds.forEach(async (code) => {
-          await this.apiStore.downloadDeparturesByDisplayCode(code);
-          let tempDepartures = {};
-          tempDepartures = JSON.parse(JSON.stringify(this.apiStore.getTempDeparture));
-          if(tempDepartures !== "Brak Odjazdow"){
-            tempDepartures = tempDepartures.departures;
-            tempDepartures.map((departure) => {
-             resultList.push(departure);
-            })
-          }
-        })
+        if(this.apiStore.getActiveStop.cityName === 'Kolej'){
+          await this.apiStore.downloadDeparturesByDisplayCode(tempStop.stopIds[0]);
+          resultList = JSON.parse(JSON.stringify(this.apiStore.getTempDeparture));
+        }else {
+          tempStop.stopIds.forEach(async (code) => {
+            await this.apiStore.downloadDeparturesByDisplayCode(code);
+            let tempDepartures = {};
+            tempDepartures = JSON.parse(JSON.stringify(this.apiStore.getTempDeparture));
+            if(tempDepartures !== "Brak Odjazdow"){
+              tempDepartures = tempDepartures.departures;
+              tempDepartures.map((departure) => {
+                resultList.push(departure);
+              })
+            }
+         })
+      }
         this.apiStore.setDepartureList(resultList);
       },
 
@@ -134,7 +144,7 @@ import { useUserStore } from '@/store/user.stroe';
         let tempStop = {};
         tempStop = JSON.parse(JSON.stringify(this.apiStore.getActiveStop));
         if(tempStop.cityName === "Kolej"){
-          console.log("rail");
+            this.apiStore.useDepartureApiPkp();
         } else if (tempStop.cityName === "Gdańsk [ZTM]"){
             this.apiStore.useDepartureApiZtm("gdansk");
         } else if (tempStop.cityName === "Warszawa [ZTM]"){
@@ -156,11 +166,21 @@ import { useUserStore } from '@/store/user.stroe';
       publishDisplays(){
         let resultList = [];
         resultList = JSON.parse(JSON.stringify(this.apiStore.getDepartures));
-        resultList.sort(this.compareTimes);
-        resultList.map((departure) => {
-          let temp = new Date(departure.estimatedTime); 
-          departure.estimatedTime = temp.getHours() + ":" + (temp.getMinutes()<10?'0':'') + temp.getMinutes();
-        })
+        if(this.apiStore.getActiveStop.cityName === "Gdańsk [ZTM]"){
+          resultList.sort(this.compareTimes);
+          resultList.map((departure) => {
+            let temp = new Date(departure.estimatedTime); 
+            departure.estimatedTime = temp.getHours() + ":" + (temp.getMinutes()<10?'0':'') + temp.getMinutes();
+          })
+        } else if(this.apiStore.getActiveStop.cityName === "Warszawa [ZTM]"){
+          resultList.map((departure) => {
+            departure.estimatedTime = departure.estimatedTime.substring(0,5);
+          })
+        } else if(this.apiStore.getActiveStop.cityName === 'Kolej'){
+          resultList.map((departure) => {
+            departure.departure_time = departure.departure_time.substring(0,5);
+          })
+        }
         return resultList;
       },
 
