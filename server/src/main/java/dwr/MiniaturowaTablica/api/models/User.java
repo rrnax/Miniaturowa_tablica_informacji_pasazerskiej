@@ -19,65 +19,67 @@ import java.util.Set;
 @Data
 @Document(collection = "users")
 public class User implements UserDetails {
-    @Id
-    private String id;
+   @Id
+   private String id;
 
-    @NotBlank(message = "User name is empty!")
-    @Size(max = 20)
-    private String username;
+   @NotBlank(message = "User name is empty!")
+   @Size(max = 20)
+   private String username;
 
-    @NotBlank
-    @Size(min = 5, max = 50, message = "Password length invalid!")
-    private String password;
+   @NotBlank
+   @Size(min = 5, max = 50, message = "Password length invalid!")
+   private String password;
 
-    @NotBlank
-    @Size(max = 50)
-    @Email(message = "Email should be valid!")
-    private String email;
+   @NotBlank
+   @Size(max = 50)
+   @Email(message = "Email should be valid!")
+   private String email;
 
-    @DocumentReference
-    private Set<Role> roles = new HashSet<>();
-    
-    private Set<FavoriteStation> favoriteStations = new HashSet<>();
+   @DocumentReference
+   private Set<Role> roles = new HashSet<>();
+
+   private Set<FavoriteStation> favoriteStations = new HashSet<>();
 
 
-    private boolean isActive = false;
+   private boolean isActive = false;
 
-    public User(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
+   private String appStyle = "basic";
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        final Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        roles.forEach(it -> authorities.add(new SimpleGrantedAuthority(it.getName().name())));
-        return authorities;
-    }
+   public User(String username, String email, String password) {
+      this.username = username;
+      this.email = email;
+      this.password = password;
+   }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+   @Override
+   public Collection<? extends GrantedAuthority> getAuthorities() {
+      final Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+      roles.forEach(it -> authorities.add(new SimpleGrantedAuthority(it.getName().name())));
+      return authorities;
+   }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return isActive;
-    }
+   @Override
+   public boolean isAccountNonExpired() {
+      return true;
+   }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+   @Override
+   public boolean isAccountNonLocked() {
+      return isActive;
+   }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+   @Override
+   public boolean isCredentialsNonExpired() {
+      return true;
+   }
 
-    public ERole getName() {
-        ArrayList<Role> role = new ArrayList<>(roles);
-        return role.get(0).getName();
-    }
+   @Override
+   public boolean isEnabled() {
+      return true;
+   }
+
+   public ERole getName() {
+      ArrayList<Role> role = new ArrayList<>(roles);
+      return role.get(0).getName();
+   }
 }

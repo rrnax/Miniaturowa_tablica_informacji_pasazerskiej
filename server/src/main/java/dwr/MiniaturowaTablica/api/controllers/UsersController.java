@@ -3,10 +3,8 @@ package dwr.MiniaturowaTablica.api.controllers;
 import com.google.gson.Gson;
 import dwr.MiniaturowaTablica.api.assemblers.UserAssembler;
 import dwr.MiniaturowaTablica.api.models.User;
-import dwr.MiniaturowaTablica.api.payload.request.NewEmailRequest;
-import dwr.MiniaturowaTablica.api.payload.request.NewPasswordRequest;
-import dwr.MiniaturowaTablica.api.payload.request.NewUserNameRequest;
-import dwr.MiniaturowaTablica.api.payload.request.UsernameRequest;
+import dwr.MiniaturowaTablica.api.payload.request.*;
+import dwr.MiniaturowaTablica.api.payload.response.AppStyleResponse;
 import dwr.MiniaturowaTablica.api.payload.response.UserResponse;
 import dwr.MiniaturowaTablica.api.services.UserService;
 import jakarta.validation.Valid;
@@ -24,54 +22,69 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UsersController {
 
-    private final UserService userService;
-    private final Gson gson;
-    private final UserAssembler userAssembler;
+   private final UserService userService;
+   private final Gson gson;
+   private final UserAssembler userAssembler;
 
-    @PutMapping("/all/update/email")
-    public ResponseEntity<UserResponse> updatedEmail(
-            @RequestBody @Valid NewEmailRequest newEmailRequest,
-            @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt
-    ) {
-        User user = userService.updateUserEmail(newEmailRequest.getNewEmail(), jwt);
-        return ResponseEntity.ok(userAssembler.toUserResponse(user));
-    }
+   @PutMapping("/all/update/email")
+   public ResponseEntity<UserResponse> updatedEmail(
+         @RequestBody @Valid NewEmailRequest newEmailRequest,
+         @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt
+   ) {
+      User user = userService.updateUserEmail(newEmailRequest.getNewEmail(), jwt);
+      return ResponseEntity.ok(userAssembler.toUserResponse(user));
+   }
 
-    @PutMapping("/all/update/password")
-    public ResponseEntity<UserResponse> updatePassword(
-            @RequestBody @Valid NewPasswordRequest newPasswordRequest,
-            @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt
-    ) {
-        User user = userService.updatePassword(newPasswordRequest.getNewPassword(), jwt);
-        return ResponseEntity.ok(userAssembler.toUserResponse(user));
-    }
+   @PutMapping("/all/update/password")
+   public ResponseEntity<UserResponse> updatePassword(
+         @RequestBody @Valid NewPasswordRequest newPasswordRequest,
+         @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt
+   ) {
+      User user = userService.updatePassword(newPasswordRequest.getNewPassword(), jwt);
+      return ResponseEntity.ok(userAssembler.toUserResponse(user));
+   }
 
-    @PutMapping("/all/update/username")
-    public ResponseEntity<UserResponse> updateUserName(
-            @RequestBody @Valid NewUserNameRequest newUserNameRequest,
-            @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt
-    ) {
-        User user = userService.updateUserName(newUserNameRequest.getNewUsername(), jwt);
-        return ResponseEntity.ok(userAssembler.toUserResponse(user));
-    }
+   @PutMapping("/all/update/username")
+   public ResponseEntity<UserResponse> updateUserName(
+         @RequestBody @Valid NewUserNameRequest newUserNameRequest,
+         @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt
+   ) {
+      User user = userService.updateUserName(newUserNameRequest.getNewUsername(), jwt);
+      return ResponseEntity.ok(userAssembler.toUserResponse(user));
+   }
 
-    @DeleteMapping("/all/delete/user")
-    public ResponseEntity<?> deleteUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt) {
-        userService.deleteUser(jwt);
-        return ResponseEntity.ok(null);
-    }
+   @DeleteMapping("/all/delete/user")
+   public ResponseEntity<?> deleteUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt) {
+      userService.deleteUser(jwt);
+      return ResponseEntity.ok(null);
+   }
 
-    @GetMapping("/admin/get/allUsers")
-    public ResponseEntity<List<User>> allUser() {
-        List<User> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
-    }
+   @GetMapping("/all/get/app/style")
+   public ResponseEntity<?> getAppStyle(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt) {
+      String appStyle = userService.getAppStyle(jwt);
+      return ResponseEntity.ok(new AppStyleResponse(appStyle));
+   }
 
-    @GetMapping("/admin/get/user/by/username")
-    public ResponseEntity<User> getUserByUsername(@RequestBody UsernameRequest usernameRequest) {
-        User user = userService.findUserByName(usernameRequest.getUsernameToFind());
-        return ResponseEntity.ok(user);
-    }
+   @PutMapping("/all/update/app/style")
+   public ResponseEntity<?> updateAppStyle(
+         @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
+         @RequestBody @Valid NewAppStyleRequest request
+   ) {
+      String appStyle = userService.updateAppStyle(jwt, request);
+      return ResponseEntity.ok(appStyle);
+   }
+
+   @GetMapping("/admin/get/allUsers")
+   public ResponseEntity<List<User>> allUser() {
+      List<User> users = userService.getAllUsers();
+      return ResponseEntity.ok(users);
+   }
+
+   @GetMapping("/admin/get/user/by/username")
+   public ResponseEntity<User> getUserByUsername(@RequestBody UsernameRequest usernameRequest) {
+      User user = userService.findUserByName(usernameRequest.getUsernameToFind());
+      return ResponseEntity.ok(user);
+   }
 
     /*@PostMapping("/updateRole")
     public ResponseEntity<?> UpdateRole(@RequestBody RoleRequest roleRequest){
@@ -88,9 +101,9 @@ public class UsersController {
             return ResponseEntity.ok(-1);
         }*/
 
-    @ExceptionHandler({RuntimeException.class, UsernameNotFoundException.class})
-    public ResponseEntity<String> handleException(RuntimeException exception) {
-        return ResponseEntity.badRequest().body(gson.toJson(exception.getMessage()));
-    }
+   @ExceptionHandler({RuntimeException.class, UsernameNotFoundException.class})
+   public ResponseEntity<String> handleException(RuntimeException exception) {
+      return ResponseEntity.badRequest().body(gson.toJson(exception.getMessage()));
+   }
 
 }
