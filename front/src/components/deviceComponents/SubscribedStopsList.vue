@@ -37,6 +37,7 @@ export default{
 
     data(){
         return{
+            subscribedList: [],
             isSubscribedStops: false,
         }
     },
@@ -44,11 +45,11 @@ export default{
     //Download subscribed stops befor Component is mounted
     async created(){
         await this.userStore.downloadFavoriteStops();
-        let tempList = this.userStore.getFavorites;
-        if(tempList.length > 0){
+        this.subscribedList = JSON.parse(JSON.stringify(this.userStore.getFavorites));
+        if(this.subscribedList.length > 0){
             this.isSubscribedStops = true;
         }
-        tempList.map(stop => {
+        this.subscribedList.map(stop => {
             if(stop.status === true){
                 this.apiStore.setActiveStop(stop);
             }
@@ -58,7 +59,7 @@ export default{
     computed: {
         //List with subscribed stops
         getSubscribedStops(){
-            let tempList =  JSON.parse(JSON.stringify(this.userStore.getFavorites));
+            let tempList =  JSON.parse(JSON.stringify(this.subscribedList));
             return tempList.sort(this.sortStopsByName);
         }
     },
@@ -66,24 +67,38 @@ export default{
     methods: {
         async deleteSubscribtion(stop){
             await this.userStore.deleteFavoriteStop(stop.id);
-            this.userStore.downloadFavoriteStops();
+            let objectToRemove = this.subscribedList.find(element => element.id === stop.id);
+            let indexObejctToRemove = this.subscribedList.indexOf(objectToRemove);
+            this.subscribedList.splice(indexObejctToRemove,1);
         },
 
         async activateStop(stop){
-            let tempList = this.userStore.getFavorites;
-            tempList.forEach(item => {
+            await this.subscribedList.forEach(async item => {
                 if(item.status === true){
-                 this.userStore.changeStatus(false, item.id);
+                    await this.userStore.changeStatus(false, item.id);
+                    item.status = false;
+                }
+                if(item.stopName === stop.stopName){
+                    await this.userStore.changeStatus(true, item.id);
+                    item.status = true;
                 }
             })
-            await this.userStore.changeStatus(true, stop.id);
-            await this.userStore.downloadFavoriteStops();
             this.apiStore.setActiveStop(stop);
         },
 
         async desactiveStop(stop){
-            await this.userStore.changeStatus(false, stop.id);
-            await this.userStore.downloadFavoriteStops();
+            await this.subscribedList.forEach(async item => {
+                if(item.StopName === stop.stopName){
+                    await this.userStore.changeStatus(false, item.id);
+                    item.status = false;
+                }
+            })
+        },
+
+        updateAllStopsStatus(){
+            this.subscribedList.forEach(item => {
+                console.log(item.status);
+            })
         },
 
         sortStopsByName( a, b ) {
