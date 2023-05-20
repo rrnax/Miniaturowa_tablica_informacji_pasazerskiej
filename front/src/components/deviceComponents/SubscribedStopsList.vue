@@ -13,10 +13,10 @@
             <td v-if="stop.status" class="col-stat positive">Wyświetlane</td>
             <td v-if="!stop.status" class="col-stat negative">Niewyświetlane</td>
             <td class="col-actions">
-                <a v-if="stop.status" class="actions" @click="desactiveStop(stop)">Zakończ</a>
+                <a v-if="stop.status" class="actions" @click="this.userStore.turnOffActiveStop(stop)">Zakończ</a>
                 <a v-if="!stop.status" class="actions" @click="this.userStore.activeNewStop(stop)">Wyświetl</a>
                 <p class="actions"> / </p>
-                <a class="actions" @click="deleteSubscribtion(stop)">Usuń</a>
+                <a class="actions" @click="this.userStore.deleteFavoriteStop(stop)">Usuń</a>
             </td>
         </tr>
     </table>
@@ -37,7 +37,6 @@ export default{
 
     data(){
         return{
-            subscribedList: [],
             isSubscribedStops: false,
         }
     },
@@ -50,24 +49,14 @@ export default{
         }
     },
 
-
     methods: {
-        async deleteSubscribtion(stop){
-            await this.userStore.deleteFavoriteStop(stop.id);
-            // let objectToRemove = this.subscribedList.find(element => element.id === stop.id);
-            // let indexObejctToRemove = this.subscribedList.indexOf(objectToRemove);
-            // this.subscribedList.splice(indexObejctToRemove,1);
+        showStopDepartures(stop){
+            console.log(stop);
+            // this.apiStore.setDeparturesStop(stop);
+            // this.apiStore.makeDepartureList(stop);
+            // this.$router.push("/departures");
         },
-
-        desactiveStop(stop){
-            this.subscribedList.forEach(async item => {
-                if(item.id === stop.id){
-                    await this.userStore.changeStatus(false, stop.id);
-                    item.status = false;
-                }
-            })
-        },
-    },
+    }
 
 }
 
@@ -90,10 +79,12 @@ export default{
     display: flex;
     justify-content: space-around;
     align-items: center;
+    color: var(--changableElements);
     border-bottom: 2px solid var(--appblue);
 }
 
 .header {
+    color: var(--appblue);
     background-color: var(--navMenuColor);
     border-radius: 20px 20px 0 0;
 }

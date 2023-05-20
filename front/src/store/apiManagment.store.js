@@ -12,11 +12,7 @@ export const useApiStore = defineStore("api", {
         departureList: [],
         isDataLoaded: false,
         activeStop: null,
-
-
-        showStop: [],
         styleDevice: "",
-        tempDeparture: null,
     }),
 
     getters: {
@@ -26,10 +22,8 @@ export const useApiStore = defineStore("api", {
         getDepartures: (state) => state.departureList,
         getDeparturesStop: (state) => state.departuresStop,
         getLoadedInfo: (state) => state.isDataLoaded,
-
         getDeviceStyle: (state) => state.styleDevice,
         getActiveStop: (state) => state.activeStop,
-        getTempDeparture: (state) => state.tempDeparture,        
     },
 
     actions: {
@@ -48,7 +42,6 @@ export const useApiStore = defineStore("api", {
 
         setActiveStop(stop){
             this.activeStop = stop;
-            this.activeStop.status = true;
         },
 
         setDeparturesStop(stop){
@@ -163,7 +156,7 @@ export const useApiStore = defineStore("api", {
                 list = response.data.departures;
             // eslint-disable-next-line no-unused-vars
             }).catch(error => {
-                console.log(error);
+                // console.log(error);
             })
             return list;
         },
@@ -182,6 +175,30 @@ export const useApiStore = defineStore("api", {
                 }
             }
             return list;
+        },
+
+        //Convert active stop to departure stop
+        converActiveStop(){
+            if(this.activeStop.cityName === "Warszawa [ZTM]"){
+                this.transport = 'ztm';
+                this.city = 'Warszawa';
+            }else if(this.activeStop.cityName === "Gdańsk [ZTM]"){
+                this.transport = 'ztm';
+                this.city = 'Gdańsk';
+            } else {
+                this.transport = 'rail';
+                this.city = '';
+            }
+            let tempName = this.activeStop.stopName;
+            let tempDisplayArray = JSON.parse(JSON.stringify(this.activeStop.stopIds));
+            const tempStop = [ tempName, tempDisplayArray];
+            this.setDeparturesStop(tempStop);
+        },
+
+        updateDepartureList(){
+            let tempStop = JSON.parse(JSON.stringify(this.departuresStop));
+            console.log(tempStop);
+            this.makeDepartureList(tempStop);
         },
 
         //Compare method to sort by estimated time of departure 

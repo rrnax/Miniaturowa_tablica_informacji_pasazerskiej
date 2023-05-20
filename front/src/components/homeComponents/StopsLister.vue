@@ -3,8 +3,8 @@
         <input v-model="searchStop" placeholder="Szukaj" class="search-input"/>
         <table class="stops-table">
             <tr class="stop-row">
-                <th class="left column">Przystanek</th>
-                <th class="right column">Status</th>
+                <th class="left column headset">Przystanek</th>
+                <th class="right column headset">Status</th>
             </tr>
             <tr class="stop-row" v-for="stop in publishStopList" v-bind:key="stop.id">
                 <td v-if="this.apiStore.getTransport === 'ztm'" @click="showStopDepartures(stop)" class="left column">{{ stop[0] }}</td>
@@ -182,6 +182,10 @@ export default{
     overflow: scroll;
 }
 
+.headset {
+    color: var(--appblue);
+}
+
 .stop-row {
     width: 100%;
     height: 50px;
@@ -200,16 +204,29 @@ export default{
 }
 
 .column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
 }
 
 .left {
     width: 70%;
+    height: 100%;
+    
+}
+
+.left:hover {
+    background-color: var(--appblue);
+    color: var(--whiteText);
 }
 
 .right {
     width: 30%;
 }
 
+.right:hover {
+    color: black;
+}
 
 </style>

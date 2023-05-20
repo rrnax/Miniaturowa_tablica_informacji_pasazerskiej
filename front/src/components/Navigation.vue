@@ -1,12 +1,12 @@
 <template>
   <nav class="app-navigation">
-    <router-link class="nav-title" to="/display">
+    <div class="nav-title">
       <img id="logo" src="../assets/m_tip_logo.png">
       <div>
         <p class="app-name">Miniaturowa Tablica</p>
         <p class="app-name">Informacji Pasażerskiej</p>
       </div>
-    </router-link>
+    </div>
     <div class="options">
       <router-link class="option-btn" @click="singalPanel('login')" v-if="!this.userStore.authStatus && actualPanel === 'regis'" to="/login">Zloguj się</router-link>
       <router-link class="option-btn" @click="singalPanel('regis')" v-if="!this.userStore.authStatus && actualPanel === 'login'" to="/registration">Zarejestruj Się</router-link>

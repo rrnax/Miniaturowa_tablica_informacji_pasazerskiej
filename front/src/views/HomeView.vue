@@ -42,6 +42,7 @@ export default {
 
   //Download favorite stops to know wich stops are subsribed
   async created(){
+    await this.apiStore.$reset();
     await this.userStore.downloadFavoriteStops();
     let tempList = this.userStore.getFavorites;
     tempList.map(stop => {

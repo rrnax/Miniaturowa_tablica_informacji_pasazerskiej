@@ -68,6 +68,7 @@ export default{
     overflow: scroll;
     background: var(--navMenuColor);
     border-radius: 0 0 20px 20px;
+    color: var(--changableElements);
 }
 
 .description {

@@ -13,6 +13,7 @@ export const useUserStore = defineStore("user", {
         roles: [],
         password: "",
         favoriteStops: [],
+        isLoaded: true,
     }),
 
     getters: {
@@ -142,44 +143,58 @@ export const useUserStore = defineStore("user", {
 
         //Find active stop
         findActiveStop(){
+            let exist = false;
             const apiStore = useApiStore();
             this.favoriteStops.map((stop) => {
                 if(stop.status === true){
                     apiStore.setActiveStop(stop);
+                    exist = true;
                 }
-            })
+            });
+            if(!exist){
+                apiStore.setActiveStop({});
+            }
         },
 
         //Delete selected it from favorites
-        async deleteFavoriteStop(id){
-            await axios.delete("api/favorite/stop/delete/"+id)
+        async deleteFavoriteStop(stop){
+            await axios.delete("api/favorite/stop/delete/"+stop.id)
             // eslint-disable-next-line no-unused-vars
             .then(response => {
                 // console.log(response);
             }).catch(error => {
                 console.log(error);
             })
-            await this.downloadFavoriteStops();
+            setTimeout(this.downloadFavoriteStops, 200);
         },
 
         //Set new stop to active status
         async activeNewStop(stop){
-            console.log(this.favoriteStops);
-            await this.clearAllStopsStatus();
-            console.log(this.favoriteStops);
-            await this.changeStatus(true, stop.id);
-            await this.downloadFavoriteStops();
-            console.log(this.favoriteStops);
+                await this.setCorrectStatuses(stop);
+                setTimeout(this.downloadFavoriteStops, 200);
         },
 
-        //Turn all status to false
-        async clearAllStopsStatus(){
-            for(let i = 0; i < this.favoriteStops.length; i++){
-                console.log(this.favoriteStops[i]);
-                await this.changeStatus(true, this.favoriteStops[i].id);
-            }
-            await this.downloadFavoriteStops();
+        //Sending correct statuses
+        async setCorrectStatuses(stop){
+            this.favoriteStops.forEach(async (element) => {
+                if(element.status === true){
+                    await this.changeStatus(false, element.id);
+                } else if(element.id === stop.id){
+                    await this.changeStatus(true, element.id);
+                }
+            });
         },
+
+        //Desactive stop
+        async turnOffActiveStop(stop){
+            this.favoriteStops.forEach((element) => {
+                if(element.id === stop.id){
+                    this.changeStatus(true, element.id);
+                }    
+            })
+            setTimeout(this.downloadFavoriteStops, 200);
+        },
+
 
         //Change status of selected favorite stop
         async changeStatus(status, id){

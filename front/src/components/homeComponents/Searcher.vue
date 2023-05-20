@@ -16,7 +16,6 @@
                 <option value="Warszawa">Warszawa</option>
             </select>
         </div>
-        <div v-if="this.apiStore.getLoadedInfo" class="loader"></div>
     </div>
 </template>
 

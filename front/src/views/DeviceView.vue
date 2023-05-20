@@ -18,8 +18,14 @@
   <script>
   import SubscribedStopsList from '@/components/deviceComponents/SubscribedStopsList.vue';
   import DeviceStyles from '@/components/deviceComponents/DeviceStyles.vue';
+  import { useApiStore } from '@/store/apiManagment.store';
   export default {
     name: "DeviceView",
+    
+    setup() {
+        const apiStore = useApiStore();
+        return { apiStore };
+    },
 
     components: {
         SubscribedStopsList,
@@ -28,7 +34,12 @@
 
     methods: {
         showDisplay(){
-            this.$router.push('/display');
+            if(typeof this.apiStore.getActiveStop.stopName !== 'undefined'){
+                console.log(this.apiStore.getActiveStop.stopName);
+                this.$router.push('/display');
+            } else {
+                alert("Wybierz przystanek do wyświetlenia!");
+            }
         }
     }
  
@@ -70,6 +81,7 @@
   font-family: 'Teko', sans-serif;
   font-size: 22px;
   color: var(--whiteText);
+  cursor: pointer;
 }
 
 .show-btn:hover {

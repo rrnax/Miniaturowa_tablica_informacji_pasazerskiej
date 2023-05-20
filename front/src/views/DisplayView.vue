@@ -2,7 +2,7 @@
     <div class="display-view">
       <div class="general-info">
         <div class="theme" id="station-name">
-          <h1 class="display-info" id="station">{{ publishRoutes }}</h1>
+          <h1 class="display-info" id="station">{{ this.apiStore.getActiveStop.stopName }}</h1>
         </div>
         <div class="theme" id="date">
             <h1 class="display-info">{{ publishDate }}</h1>
@@ -14,8 +14,9 @@
           <th>Kierunek</th>
           <th>Godzina</th>
         </tr>
+      <div v-if="this.apiStore.getLoadedInfo" class="loader"></div>
       <table class="departure-table">
-        <tr v-for="route in publishDisplays()" class="theme t-row" v-bind:key="route.id">
+        <tr v-for="route in this.apiStore.getDepartures" class="theme t-row" v-bind:key="route.id">
           <td v-if="this.apiStore.getActiveStop.cityName === 'Gdańsk [ZTM]'" class="line">{{ route.routeId }}</td>
           <td v-else class="line">{{ route.tripId }}</td>
           <td class="destination">
@@ -51,19 +52,13 @@ import { useUserStore } from '@/store/user.stroe';
 
     created(){
       setInterval(this.actualDate, 1000);
-      setInterval(this.updateData, 60000);
+      setInterval(this.updateDepartureList, 60000);
     },
 
     mounted(){
-      this.updateData();
-      let station = document.querySelector("#station");
-      if(station.offsetWidth < station.scrollWidth){
-          let marquee = document.createElement('marquee');
-          let content = station.innerText;
-          marquee.innerText = content;
-          station.innerHTML = "";
-          station.appendChild(marquee);
-      }
+      this.userStore.downloadFavoriteStops();
+      setTimeout(this.apiStore.converActiveStop, 200);
+      setTimeout(this.apiStore.updateDepartureList, 500);
 
       switch(this.apiStore.getDeviceStyle){
         case 'retro':
@@ -100,97 +95,13 @@ import { useUserStore } from '@/store/user.stroe';
         let miliDate = new Date();
         this.date = miliDate.toLocaleTimeString();
       },
-
-      updateData(){
-        this.updateActiveStop();
-        this.urlCreator();
-        this.createDepartureList();
-      },
-
-      async createDepartureList(){
-        let tempStop = {};
-        let resultList = [];
-        tempStop = JSON.parse(JSON.stringify(this.apiStore.getActiveStop));
-          tempStop.stopIds.forEach(async (code) => {
-            await this.apiStore.downloadDeparturesByDisplayCode(code);
-            let tempDepartures = {};
-            tempDepartures = JSON.parse(JSON.stringify(this.apiStore.getTempDeparture));
-            if(tempDepartures !== "Brak Odjazdow"){
-              tempDepartures = tempDepartures.departures;
-              tempDepartures.map((departure) => {
-                resultList.push(departure);
-              })
-            }
-         })   
-        this.apiStore.setDepartureList(resultList);
-      },
-
-      async urlCreator(){
-        let tempStop = {};
-        tempStop = JSON.parse(JSON.stringify(this.apiStore.getActiveStop));
-        if(tempStop.cityName === "Kolej"){
-            this.apiStore.useDepartureApiPkp();
-        } else if (tempStop.cityName === "Gdańsk [ZTM]"){
-            this.apiStore.useDepartureApiZtm("gdansk");
-        } else if (tempStop.cityName === "Warszawa [ZTM]"){
-            this.apiStore.useDepartureApiZtm("warszawa");
-        }
-      },
-      
-      async updateActiveStop(){
-        let resultList = [];
-        await this.userStore.downloadFavoriteStops();
-        resultList = JSON.parse(JSON.stringify(this.userStore.getFavorites));
-        resultList.forEach(stop => {
-          if(stop.status === true){
-            this.apiStore.setActiveStop(stop);
-          }
-        })
-      },
-
-      publishDisplays(){
-        let resultList = [];
-        resultList = JSON.parse(JSON.stringify(this.apiStore.getDepartures));
-        if(this.apiStore.getActiveStop.cityName === "Gdańsk [ZTM]"){
-          resultList.sort(this.compareTimes);
-          resultList.map((departure) => {
-            let temp = new Date(departure.estimatedTime); 
-            departure.estimatedTime = temp.getHours() + ":" + (temp.getMinutes()<10?'0':'') + temp.getMinutes();
-          })
-        } else {
-          resultList.map((departure) => {
-            departure.estimatedTime = departure.estimatedTime.substring(0,5);
-          })
-        }
-        return resultList;
-      },
-
-      compareTimes(a,b){
-        let date1 = new Date(a.estimatedTime);
-        let date2 = new Date(b.estimatedTime);
-        if ( date1 < date2 ){
-          return -1;
-        }
-        if ( date1 > date2 ){
-          return 1;
-        }
-        return 0;
-      },
-
-      
-
     },
-  
+
     computed: {
       publishDate(){
         return this.date;
       },
 
-      publishRoutes(){
-        let stop = {};
-        stop = JSON.parse(JSON.stringify(this.apiStore.getActiveStop));
-        return stop.stopName;
-      }
     }
     
   }
@@ -208,11 +119,12 @@ import { useUserStore } from '@/store/user.stroe';
   width: 480px;
   height: 320px;
   margin: 50px auto;
+  margin-bottom: 260px;
   display: grid;
+  border-radius: 10px;
   background: var(--backcolor);
   font-family: 'PT Sans', sans-serif;
   color: var(--fontcolor);
-  border-radius: 10px;
   white-space: nowrap;
 }
 
@@ -301,6 +213,14 @@ import { useUserStore } from '@/store/user.stroe';
   overflow: hidden;
   font-size: 40px;
   text-transform: uppercase;
+}
+
+@media only screen and (max-width: 500px) {
+  .display-view {
+    width: 98%;
+    margin: auto;
+  }
+  
 }
 
 
