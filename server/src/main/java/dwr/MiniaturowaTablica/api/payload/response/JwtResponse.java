@@ -12,8 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JwtResponse {
-	private String id;
-	private String username;
-	private String email;
-	private List<String> roles;
+   private String id;
+   private String username;
+   private String email;
+   private List<String> roles;
 }
