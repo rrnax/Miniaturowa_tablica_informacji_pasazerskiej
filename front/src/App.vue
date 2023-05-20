@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <Navigation :actual-panel="actualPanel" @changePanel="getPanel($event)"/>
-    <router-view @changePanel="getPanel($event)"/>
+    <router-view  @changePanel="getPanel($event)" />
     <footer>
       <p>@Programowanie Zespołowe UMK 2023</p>
       <p>@Zespół nr 2</p>
@@ -29,7 +29,8 @@ export default {
     getPanel(panel){
       this.actualPanel = panel;
       console.log(panel);
-    }
+    },
+
   }
 }
 </script>
@@ -53,6 +54,57 @@ export default {
   margin: 0;
 }
 
+h1 {
+  margin: 20px 0 0 0 ;
+}
+
+hr {
+  width: 100%;
+  border: 2px solid var(--appblue);
+}
+
+.option-btn {
+  width: 130px;
+  height: 40px;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--appblue);
+  border: 1px solid var(--appblue);
+  border-radius: 20px;
+  font-family: 'Teko', sans-serif;
+  font-size: 22px;
+  color: var(--whiteText);
+  text-decoration: none;
+}
+
+.option-btn:hover {
+  background: var(--whiteText);
+  color: var(--appblue);
+}
+
+.negative {
+  color: red;
+  margin: auto;
+}
+
+.positive {
+  color: green;
+}
+
+.loader {
+  width: 20px;
+  height: 20px;
+  margin: 40px auto 0 auto;
+  border: 5px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 5px solid var(--appblue);
+  border-bottom: 5px solid var(--appblue);
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
 .panel {
   background: var(--navMenuColor);
   width: 360px;
@@ -63,27 +115,6 @@ export default {
   font-family: 'Teko', sans-serif;
   border: 2px solid var(--appblue);
   border-radius: 30px;
-}
-
-.option-btn {
-  background: var(--appblue);
-  margin: 20px auto;
-  width: 130px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Teko', sans-serif;
-  color: var(--whiteText);
-  text-decoration: none;
-  font-size: 22px;
-  border: 1px solid var(--appblue);
-  border-radius: 20px;
-}
-
-.option-btn:hover {
-  background: var(--whiteText);
-  color: var(--appblue);
 }
 
 .division {
@@ -103,7 +134,7 @@ footer {
   width: 100%;
   height: 70px;
   position: relative;
-  margin-top: 320px;
+  margin-top: 150px;
   background-color: var(--footerColor);
   display: grid;
   justify-content: center;
@@ -126,26 +157,6 @@ p {
   justify-content: center;
   font-size: 22px;
   color: red;
-}
-
-.negative {
-  color: red;
-}
-
-.positive {
-  color: green;
-}
-
-.loader {
-  border: 5px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 5px solid var(--appblue);
-  border-bottom: 5px solid var(--appblue);
-  width: 20px;
-  height: 20px;
-  margin: 40px auto 0 auto;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
 }
 
 @keyframes spin {

@@ -1,13 +1,13 @@
 <template>
-  <div class="home-block">
+  <div class="stops-view">
     <h1>Wyszukaj Stacje</h1>
     <hr>
-    <div class="content-block">
-      <Searcher @changeStopsList="changeStopsList()"/>
+    <div class="action-section">
+      <Searcher :is-combo-box-fill="isComboBoxFill" @changeStopsList="changeStopsList($event)"/>
     </div>
     <h1 v-if="isComboBoxFill">Stacje</h1>
     <hr v-if="isComboBoxFill">
-    <div v-if="isComboBoxFill" class="content-block">
+    <div v-if="isComboBoxFill" class="action-section">
       <StopsLister/>
     </div>
   </div>
@@ -40,45 +40,37 @@ export default {
     return { apiStore, userStore };
   },
 
+  //Download favorite stops to know wich stops are subsribed
   async created(){
     await this.userStore.downloadFavoriteStops();
     let tempList = this.userStore.getFavorites;
     tempList.map(stop => {
-            if(stop.status === true){
-                this.apiStore.setActiveStop(stop);
-            }
-        })
+      if(stop.status === true){
+        this.apiStore.setActiveStop(stop);
+      }
+    })
   },
 
+  //Change display of stops list box
   methods: {
-
-    changeStopsList(){
-      this.isComboBoxFill = true;
-    }
+    changeStopsList(event){
+      this.isComboBoxFill = event;
+    },
   },
 }
 </script>
 
 <style>
-.home-block {
-  font-family: 'Teko', sans-serif;
-  color: var(--appblue);
+.stops-view {
   width: 60%;
-  display: grid;
+  margin: 30px auto 100px auto;
+  display: block;
+  font-family: 'Teko', sans-serif;
   font-size: 22px;
-  margin: 20px auto 100px auto;
+  color: var(--appblue);
 }
 
-h1 {
-  margin: 30px 0 0 0;
-}
-
-hr {
-  width: 100%;
-  border: 2px solid var(--appblue);
-}
-
-.content-block {
+.action-section {
   width: 100%;
   background-color: var(--navMenuColor);
   border-radius: 20px;
@@ -86,7 +78,7 @@ hr {
 
 
 @media only screen and ( max-width: 600px) {
-  .home-block {
+  .stops-view {
     width: 95%;
   
   }

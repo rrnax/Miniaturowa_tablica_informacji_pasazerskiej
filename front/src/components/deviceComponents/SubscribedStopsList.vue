@@ -6,15 +6,15 @@
         <th class="col-actions">Akcje</th>
     </tr>
     <table class="subscribed-table">
-        <tr v-if="!isSubscribedStops" class="warning-message">Nie można pobrać przystanków, spróbuj później!</tr>
-        <tr v-for="stop in getSubscribedStops" v-bind:key="stop.stopName" class="subscribed-rows">
+        <tr v-if="!isSubscribedStops" class="warning-message">Nie ma dodanych przystanków!</tr>
+        <tr v-for="stop in this.userStore.getFavorites" v-bind:key="stop.stopName" class="subscribed-rows">
             <td class="col-name">{{ stop.stopName }}</td>
             <td class="col-city">{{ stop.cityName }}</td>
             <td v-if="stop.status" class="col-stat positive">Wyświetlane</td>
             <td v-if="!stop.status" class="col-stat negative">Niewyświetlane</td>
             <td class="col-actions">
                 <a v-if="stop.status" class="actions" @click="desactiveStop(stop)">Zakończ</a>
-                <a v-if="!stop.status" class="actions" @click="activateStop(stop)">Wyświetl</a>
+                <a v-if="!stop.status" class="actions" @click="this.userStore.activeNewStop(stop)">Wyświetl</a>
                 <p class="actions"> / </p>
                 <a class="actions" @click="deleteSubscribtion(stop)">Usuń</a>
             </td>
@@ -45,72 +45,29 @@ export default{
     //Download subscribed stops befor Component is mounted
     async created(){
         await this.userStore.downloadFavoriteStops();
-        this.subscribedList = JSON.parse(JSON.stringify(this.userStore.getFavorites));
-        if(this.subscribedList.length > 0){
+        if(this.userStore.getFavorites.length > 0){
             this.isSubscribedStops = true;
         }
-        this.subscribedList.map(stop => {
-            if(stop.status === true){
-                this.apiStore.setActiveStop(stop);
-            }
-        })
     },
 
-    computed: {
-        //List with subscribed stops
-        getSubscribedStops(){
-            let tempList =  JSON.parse(JSON.stringify(this.subscribedList));
-            return tempList.sort(this.sortStopsByName);
-        }
-    },
 
     methods: {
         async deleteSubscribtion(stop){
             await this.userStore.deleteFavoriteStop(stop.id);
-            let objectToRemove = this.subscribedList.find(element => element.id === stop.id);
-            let indexObejctToRemove = this.subscribedList.indexOf(objectToRemove);
-            this.subscribedList.splice(indexObejctToRemove,1);
+            // let objectToRemove = this.subscribedList.find(element => element.id === stop.id);
+            // let indexObejctToRemove = this.subscribedList.indexOf(objectToRemove);
+            // this.subscribedList.splice(indexObejctToRemove,1);
         },
 
-        async activateStop(stop){
-            await this.subscribedList.forEach(async item => {
-                if(item.status === true){
-                    await this.userStore.changeStatus(false, item.id);
-                    item.status = false;
-                }
-                if(item.stopName === stop.stopName){
-                    await this.userStore.changeStatus(true, item.id);
-                    item.status = true;
-                }
-            })
-            this.apiStore.setActiveStop(stop);
-        },
-
-        async desactiveStop(stop){
-            await this.subscribedList.forEach(async item => {
-                if(item.StopName === stop.stopName){
-                    await this.userStore.changeStatus(false, item.id);
+        desactiveStop(stop){
+            this.subscribedList.forEach(async item => {
+                if(item.id === stop.id){
+                    await this.userStore.changeStatus(false, stop.id);
                     item.status = false;
                 }
             })
         },
-
-        updateAllStopsStatus(){
-            this.subscribedList.forEach(item => {
-                console.log(item.status);
-            })
-        },
-
-        sortStopsByName( a, b ) {
-            if ( a.stopName < b.stopName ){
-                return -1;
-            }
-            if ( a.stopName > b.stopName ){
-                return 1;
-            }
-            return 0;
-        },
-    }
+    },
 
 }
 
@@ -181,4 +138,9 @@ export default{
     }
 }
 
+@media screen and (max-width: 400px) {
+    .col-city {
+        display: none;
+    }
+}
 </style>

@@ -16,7 +16,7 @@
                 <option value="Warszawa">Warszawa</option>
             </select>
         </div>
-        <div v-if="isLoaded" class="loader"></div>
+        <div v-if="this.apiStore.getLoadedInfo" class="loader"></div>
     </div>
 </template>
 
@@ -26,83 +26,70 @@ import { useApiStore } from '@/store/apiManagment.store';
 export default{
     // eslint-disable-next-line vue/multi-word-component-names
     name: "Searcher",
+
     setup(){
         const apiStore = useApiStore();
         return { apiStore };
     },
 
-    mounted(){
-        
+    props: {
+        isComboBoxFill: Boolean,
     },
 
     data(){
         return {
             transport: "",
             city: "",
-            cities: [],
             trasnportChecked: false,
             isLoaded: false,
         }
     },
 
     watch: {
+        //Control tansport checkbox changes
         // eslint-disable-next-line no-unused-vars
-        async transport(newTransport, oldTransport) {         //change state about kind of transport in store
+        async transport(newTransport, oldTransport) {        
             if(this.trasnportChecked){
                 this.city = "";
             }
             if(newTransport === "ztm"){
                 this.trasnportChecked = true;
+                if(this.isComboBoxFill === true){
+                    this.displayListSignal(false);
+                }
             } else {
                 this.trasnportChecked = false;
             }
             this.apiStore.$reset();
             this.apiStore.setTransport(newTransport);
-            this.urlCreator(newTransport);
+            this.allStopSearch();
         },
 
+        //Control city checkbox changes
         // eslint-disable-next-line no-unused-vars
-        city(newCity, oldCity){                 //change state of city in store
+        city(newCity, oldCity){                
             let transportValue = document.querySelector("#transport-combobox").value;
             this.apiStore.$reset();
             this.apiStore.setTransport(transportValue);
             this.apiStore.setCity(newCity);
-            this.urlCreator(this.apiStore.getTransport);
+            this.allStopSearch();
         },
     
     
     },
 
     methods: {
-        async urlCreator(option){        //selection for corect api download option means that was a rail or public transport
-            this.isLoaded = true;
-            switch(this.apiStore.getCity){
-                case 'Warszawa':
-                    this.apiStore.useCorrectApi(option,"Warszawa");
-                    await this.apiStore.downloadStops();
-                    this.newListSignal();
-                    break;
-                case 'Gdańsk':
-                    this.apiStore.useCorrectApi(option, "Gdańsk");
-                    await this.apiStore.downloadStops();
-                    this.newListSignal();
-                    break;
-                case 'Bydgoszcz':
-                    console.log(option, "bydgoszcz");
-                    break;
-                default:
-                    if(option === "rail"){
-                        this.apiStore.usePkpApi();
-                        await this.apiStore.downloadStops();
-                        this.newListSignal();
-                    }
-                    break;
+        //Search all stops for specific kind of transport and city for this tansport
+        async allStopSearch(){   
+            if(this.apiStore.urlCreatorForStops()){
+                await this.apiStore.downloadStops();
+                this.displayListSignal(true);
             }
-            this.isLoaded = false;
         },
 
-        newListSignal(){
-            this.$emit('changeStopsList');
+        //Signal for displaing list of stops
+        displayListSignal(option){
+            this.$emit('changeStopsList', option);
         },
 
     
@@ -114,7 +101,7 @@ export default{
 <style>
 .searcher {
     width: 100%;
-    height: 120px;
+    height: 150px;
     margin: 0;
     padding: 20px 0 40px 0;
     font-size: 22px;

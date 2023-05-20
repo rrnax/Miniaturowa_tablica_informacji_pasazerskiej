@@ -80,6 +80,8 @@ export const useUserStore = defineStore("user", {
             })
         },
 
+
+        //Remove current user account
         async deleteUser(){
             const authStore = useAuthStore();
             await axios.delete("api/user/all/delete/user")
@@ -126,7 +128,7 @@ export const useUserStore = defineStore("user", {
             await this.downloadFavoriteStops();
         },
 
-        //Operations on favorit list
+        //Download list of favorite stops for that user and set that one wich is active also sort them
         async downloadFavoriteStops(){
             await axios.get("api/favorite/stop/getAll/by/user")
             .then( response => {
@@ -134,8 +136,21 @@ export const useUserStore = defineStore("user", {
             }).catch(error => {
                 console.log(error);
             })
+            this.favoriteStops.sort(this.sortStopsByName);
+            this.findActiveStop();
         },
 
+        //Find active stop
+        findActiveStop(){
+            const apiStore = useApiStore();
+            this.favoriteStops.map((stop) => {
+                if(stop.status === true){
+                    apiStore.setActiveStop(stop);
+                }
+            })
+        },
+
+        //Delete selected it from favorites
         async deleteFavoriteStop(id){
             await axios.delete("api/favorite/stop/delete/"+id)
             // eslint-disable-next-line no-unused-vars
@@ -144,8 +159,29 @@ export const useUserStore = defineStore("user", {
             }).catch(error => {
                 console.log(error);
             })
+            await this.downloadFavoriteStops();
         },
 
+        //Set new stop to active status
+        async activeNewStop(stop){
+            console.log(this.favoriteStops);
+            await this.clearAllStopsStatus();
+            console.log(this.favoriteStops);
+            await this.changeStatus(true, stop.id);
+            await this.downloadFavoriteStops();
+            console.log(this.favoriteStops);
+        },
+
+        //Turn all status to false
+        async clearAllStopsStatus(){
+            for(let i = 0; i < this.favoriteStops.length; i++){
+                console.log(this.favoriteStops[i]);
+                await this.changeStatus(true, this.favoriteStops[i].id);
+            }
+            await this.downloadFavoriteStops();
+        },
+
+        //Change status of selected favorite stop
         async changeStatus(status, id){
             await axios.put("api/favorite/stop/update/"+id, {
                 "status": status,
@@ -155,6 +191,17 @@ export const useUserStore = defineStore("user", {
             }).catch(error => {
                 console.log(error);
             })
-        }
+        },
+
+        //Compare function to sort by name of stops
+        sortStopsByName( a, b ) {
+            if ( a.stopName < b.stopName ){
+                return -1;
+            }
+            if ( a.stopName > b.stopName ){
+                return 1;
+            }
+            return 0;
+        },
     }
 });
