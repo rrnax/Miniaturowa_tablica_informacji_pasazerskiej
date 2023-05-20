@@ -1,16 +1,26 @@
 package dwr.MiniaturowaTablica.api.PKP.Trains;
 
+import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Data
+@Document(collection = "PKP_TRAINS   ")
 public class Train {
+    public String id;
     public String name;
     public String line;
     public String status; // czy jest w drodze, czy na stacji czy skończył swój kurs czy go zaczyna
-    public Float distanceTraveled; // w metrach
+    public Integer distanceTraveled; // w metrach
 
-    public Train(String name, String line, String status, Float distanceTraveled) {
+    public Train(String id, String name, String line, String status, Integer distanceTraveled) {
+        this.id = id;
         this.name = name;
         this.line = line;
         this.status = status;
         this.distanceTraveled = distanceTraveled;
+    }
+
+    public Train() {
     }
 
     public String getName() {
@@ -37,11 +47,11 @@ public class Train {
         this.status = status;
     }
 
-    public Float getDistanceTraveled() {
+    public Integer getDistanceTraveled() {
         return distanceTraveled;
     }
 
-    public void setDistanceTraveled(Float distanceTraveled) {
+    public void setDistanceTraveled(Integer distanceTraveled) {
         this.distanceTraveled = distanceTraveled;
     }
 }

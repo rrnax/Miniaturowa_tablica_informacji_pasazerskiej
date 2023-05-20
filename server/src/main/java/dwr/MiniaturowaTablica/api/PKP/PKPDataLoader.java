@@ -41,11 +41,15 @@ public class PKPDataLoader implements CommandLineRunner {
             pkpRepository.loadStopTimesWithTripInfo();
             System.out.println("LOADING STOPS ARRIVALS...");
             pkpRepository.loadSimpleStopArrivals();
+            System.out.println("LOADING TRAINS...");
+            pkpRepository.loadTrains();
          }
         else {
             // JUST LOAD DATA FROM DB
             pkpRepository.loadStopsFromDB();
             pkpRepository.loadSimpleStopArrivalsFromDB();
+            System.out.println("LOADING TRAINS...");
+            pkpRepository.loadTrains();
         }
         System.out.println("PKP LOADED!");
 

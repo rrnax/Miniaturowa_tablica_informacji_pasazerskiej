@@ -1,13 +1,13 @@
 <template>
-  <div class="home-block">
-    <h1>Wyszukaj przystanki</h1>
+  <div class="stops-view">
+    <h1>Wyszukaj Stacje</h1>
     <hr>
-    <div class="content-block">
-      <Searcher @changeStopsList="changeStopsList()"/>
+    <div class="action-section">
+      <Searcher :is-combo-box-fill="isComboBoxFill" @changeStopsList="changeStopsList($event)"/>
     </div>
-    <h1 v-if="isComboBoxFill">Lista Przystanków</h1>
+    <h1 v-if="isComboBoxFill">Stacje</h1>
     <hr v-if="isComboBoxFill">
-    <div v-if="isComboBoxFill" class="content-block">
+    <div v-if="isComboBoxFill" class="action-section">
       <StopsLister/>
     </div>
   </div>
@@ -18,6 +18,7 @@
 import Searcher from '@/components/homeComponents/Searcher.vue';
 import StopsLister from '@/components/homeComponents/StopsLister.vue';
 import { useApiStore } from '@/store/apiManagment.store';
+import { useUserStore } from '@/store/user.stroe';
 
 export default {
   name: 'HomeView',
@@ -25,12 +26,6 @@ export default {
   components: {
     Searcher,
     StopsLister
-  },
-
-  created(){
-    if (this.apiStore.getCity !== "" && this.apiStore.getTransport !== "") {
-      this.isComboBoxFill = true;
-    }
   },
 
   data(){
@@ -41,44 +36,50 @@ export default {
 
   setup(){
     const apiStore = useApiStore();
-    return { apiStore };
+    const userStore = useUserStore();
+    return { apiStore, userStore };
   },
 
-  methods: {
+  //Download favorite stops to know wich stops are subsribed
+  async created(){
+    await this.apiStore.$reset();
+    await this.userStore.downloadFavoriteStops();
+    let tempList = this.userStore.getFavorites;
+    tempList.map(stop => {
+      if(stop.status === true){
+        this.apiStore.setActiveStop(stop);
+      }
+    })
+  },
 
-    changeStopsList(){
-      this.isComboBoxFill = true;
-    }
+  //Change display of stops list box
+  methods: {
+    changeStopsList(event){
+      this.isComboBoxFill = event;
+    },
   },
 }
 </script>
 
 <style>
-.home-block {
-  font-family: 'Teko', sans-serif;
-  color: var(--appblue);
+.stops-view {
   width: 60%;
-  display: grid;
-  margin: 20px auto 100px auto;
+  margin: 30px auto 100px auto;
+  display: block;
+  font-family: 'Teko', sans-serif;
+  font-size: 22px;
+  color: var(--appblue);
 }
 
-h1 {
-  margin: 30px 0 0 0;
-}
-
-hr {
-  width: 100%;
-  border: 2px solid var(--appblue);
-}
-
-.content-block {
+.action-section {
   width: 100%;
   background-color: var(--navMenuColor);
+  border-radius: 20px;
 }
 
 
 @media only screen and ( max-width: 600px) {
-  .home-block {
+  .stops-view {
     width: 95%;
   
   }
