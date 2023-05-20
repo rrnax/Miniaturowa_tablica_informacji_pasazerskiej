@@ -47,7 +47,7 @@
       <a @click="this.updatePassword" class="save-pass">Zmień hasło</a>
         <p v-if="validationPassword" class="validation-warning" id="pass-info">Za krótkie hasło, przynajmniej 8 znaków!</p>
     </div>
-    <div class="section-title">
+    <!-- <div class="section-title">
       <h1 class="section-header">Urządzenia powiązane z kontem</h1>
       <hr>
     </div>
@@ -69,7 +69,7 @@
           <td><a class="edit-btn">resetuj</a></td>
         </tr>
       </table>
-    </div>
+    </div> -->
     <div class="section-title">
       <h1 class="section-header">Zarządzanie kontem</h1>
       <hr>
@@ -158,9 +158,9 @@ export default {
 <style scoped>
 
 .account {
+  width: 60%;
   font-family: 'Teko', sans-serif;
   color: var(--appblue);
-  width: 60%;
   display: grid;
   margin: auto;
 }
@@ -198,6 +198,7 @@ hr {
 .column {
   background: var(--navMenuColor);
   width: 100%;
+  display: block;
   margin: 0;
   padding: 10px;
   border-radius: 20px;
@@ -290,10 +291,12 @@ hr {
 @media screen and (max-width: 600px){
     .edit-field{
         width: 65%;
+        display: block;
     }
 
     .editable-inputs{
-     width: 50%;
+     width: 100%;
+     margin: auto;
     }
 
     #old-password{

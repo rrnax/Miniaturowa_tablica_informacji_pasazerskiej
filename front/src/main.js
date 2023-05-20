@@ -9,10 +9,8 @@ import {useAuthStore} from "@/store/auth.store";
 axios.defaults.baseURL = 'http://localhost:8080/'
 
 
-
 const pinia = createPinia()
 const app = createApp(App)
-
 
 if (localStorage.getItem("auth")) {
     pinia.state.value.auth = JSON.parse(localStorage.getItem("auth"));
@@ -39,10 +37,10 @@ watch(
     },{ deep: true }
 );
 
+app.config.warnHandler = () => null;
 app.use(pinia)
 app.use(router)
 app.mount('#app')
-
 
 const authStore = useAuthStore();
 if (authStore.getAuthStatus){

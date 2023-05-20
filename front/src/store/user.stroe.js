@@ -14,6 +14,7 @@ export const useUserStore = defineStore("user", {
         password: "",
         favoriteStops: [],
         isLoaded: true,
+        deviceStyle: "",
     }),
 
     getters: {
@@ -21,6 +22,7 @@ export const useUserStore = defineStore("user", {
         getEmail: (state) => state.email,
         getPassword: (state) => state.password,
         getFavorites: (state) => state.favoriteStops,
+        getDeviceStyle: (state) => state.deviceStyle,
     },
 
     actions: {
@@ -206,6 +208,62 @@ export const useUserStore = defineStore("user", {
             }).catch(error => {
                 console.log(error);
             })
+        },
+
+        //Download Configuration device
+        async downloadStyle(){
+            await axios.get("api/user/all/get/app/style")
+            .then(response => {
+                this.deviceStyle = response.data.appStyle;
+                this.setStyle(this.deviceStyle);
+            }).catch(error =>{
+                console.log(error);
+            })
+        },
+
+        //Download Configuration device
+        async updateStyle(style){
+            await axios.put("api/user/all/update/app/style", {
+                "newAppStyle": style
+            })
+            // eslint-disable-next-line no-unused-vars
+            .then(response => {
+                // console.log(response.data);
+            }).catch(error =>{
+                console.log(error);
+            })
+            await this.downloadStyle();
+        },
+
+        setStyle(style){
+            switch(style){
+              case 'retro':
+                document.documentElement.style.setProperty('--backcolor', '#070606');
+                document.documentElement.style.setProperty('--fontcolor', '#ff6701');
+                document.documentElement.style.setProperty('--containercolor',"#3f3f3f");
+                document.documentElement.style.setProperty('--bordercolor',"#ffffff");
+                break;
+              case 'basic':
+                document.documentElement.style.setProperty('--backcolor', '#3b4bfd');
+                document.documentElement.style.setProperty('--fontcolor', '#ffffff');
+                document.documentElement.style.setProperty('--containercolor',"#3b4bfd");
+                document.documentElement.style.setProperty('--bordercolor',"#ffffff");
+                break;
+              case 'contrast':
+                document.documentElement.style.setProperty('--backcolor', '#000000');
+                document.documentElement.style.setProperty('--fontcolor', '#6ef500');
+                document.documentElement.style.setProperty('--containercolor',"#000000");
+                document.documentElement.style.setProperty('--bordercolor',"#ffffff");
+                break;
+              case 'dracula':
+                document.documentElement.style.setProperty('--backcolor', '#242424');
+                document.documentElement.style.setProperty('--fontcolor', '#ebebeb');
+                document.documentElement.style.setProperty('--containercolor',"#4e4949");
+                document.documentElement.style.setProperty('--bordercolor',"#242424");
+                break;
+              default:
+                break;
+            }
         },
 
         //Compare function to sort by name of stops

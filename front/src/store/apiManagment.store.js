@@ -12,7 +12,6 @@ export const useApiStore = defineStore("api", {
         departureList: [],
         isDataLoaded: false,
         activeStop: null,
-        styleDevice: "",
     }),
 
     getters: {
@@ -22,7 +21,6 @@ export const useApiStore = defineStore("api", {
         getDepartures: (state) => state.departureList,
         getDeparturesStop: (state) => state.departuresStop,
         getLoadedInfo: (state) => state.isDataLoaded,
-        getDeviceStyle: (state) => state.styleDevice,
         getActiveStop: (state) => state.activeStop,
     },
 
@@ -34,10 +32,6 @@ export const useApiStore = defineStore("api", {
 
         setCity(city){
             this.city = city;
-        },
-        
-        setStyle(theme){
-            this.styleDevice = theme;
         },
 
         setActiveStop(stop){
@@ -69,11 +63,7 @@ export const useApiStore = defineStore("api", {
             this.apiUrl = "api/pkp/stops/";
         },
 
-        
-        //Download Configuration device
-        downloadConfiguration(str){
-            this.styleDevice = str;
-        },
+
 
         //Crate api url for downloading stops
         urlCreatorForStops(){
@@ -197,7 +187,6 @@ export const useApiStore = defineStore("api", {
 
         updateDepartureList(){
             let tempStop = JSON.parse(JSON.stringify(this.departuresStop));
-            console.log(tempStop);
             this.makeDepartureList(tempStop);
         },
 

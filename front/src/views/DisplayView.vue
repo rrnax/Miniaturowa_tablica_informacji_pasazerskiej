@@ -1,7 +1,11 @@
 <template>
+    <div v-if="this.apiStore.getLoadedInfo" class="loader"></div>
     <div class="display-view">
       <div class="general-info">
-        <div class="theme" id="station-name">
+        <div v-if="this.apiStore.getActiveStop.stopName.length > 10" class="theme" id="station-name">
+          <marquee class="display-info" id="station">{{ this.apiStore.getActiveStop.stopName }}</marquee>
+        </div>
+        <div v-else class="theme" id="station-name">
           <h1 class="display-info" id="station">{{ this.apiStore.getActiveStop.stopName }}</h1>
         </div>
         <div class="theme" id="date">
@@ -14,7 +18,6 @@
           <th>Kierunek</th>
           <th>Godzina</th>
         </tr>
-      <div v-if="this.apiStore.getLoadedInfo" class="loader"></div>
       <table class="departure-table">
         <tr v-for="route in this.apiStore.getDepartures" class="theme t-row" v-bind:key="route.id">
           <td v-if="this.apiStore.getActiveStop.cityName === 'Gdańsk [ZTM]'" class="line">{{ route.routeId }}</td>
@@ -44,50 +47,21 @@ import { useUserStore } from '@/store/user.stroe';
 
     data(){
       return {
-        style: "",
-        departureList: [],
         date: "",
       }
     },
 
     created(){
+      this.userStore.downloadStyle();
       setInterval(this.actualDate, 1000);
-      setInterval(this.updateDepartureList, 60000);
+      setInterval(this.apiStore.updateDepartureList, 60000);
+      setInterval(this.userStore.downloadStyle,30000);
     },
 
-    mounted(){
+    async mounted(){
       this.userStore.downloadFavoriteStops();
       setTimeout(this.apiStore.converActiveStop, 200);
       setTimeout(this.apiStore.updateDepartureList, 500);
-
-      switch(this.apiStore.getDeviceStyle){
-        case 'retro':
-          document.documentElement.style.setProperty('--backcolor', '#070606');
-          document.documentElement.style.setProperty('--fontcolor', '#ff6701');
-          document.documentElement.style.setProperty('--containercolor',"#3f3f3f");
-          document.documentElement.style.setProperty('--bordercolor',"#ffffff");
-          break;
-        case 'basic':
-          document.documentElement.style.setProperty('--backcolor', '#3b4bfd');
-          document.documentElement.style.setProperty('--fontcolor', '#ffffff');
-          document.documentElement.style.setProperty('--containercolor',"#3b4bfd");
-          document.documentElement.style.setProperty('--bordercolor',"#ffffff");
-          break;
-        case 'contrast':
-          document.documentElement.style.setProperty('--backcolor', '#000000');
-          document.documentElement.style.setProperty('--fontcolor', '#6ef500');
-          document.documentElement.style.setProperty('--containercolor',"#000000");
-          document.documentElement.style.setProperty('--bordercolor',"#ffffff");
-          break;
-        case 'dracula':
-          document.documentElement.style.setProperty('--backcolor', '#242424');
-          document.documentElement.style.setProperty('--fontcolor', '#ebebeb');
-          document.documentElement.style.setProperty('--containercolor',"#4e4949");
-          document.documentElement.style.setProperty('--bordercolor',"#242424");
-          break;
-        default:
-          break;
-      }
     },
 
     methods: {
@@ -101,7 +75,6 @@ import { useUserStore } from '@/store/user.stroe';
       publishDate(){
         return this.date;
       },
-
     }
     
   }
@@ -133,7 +106,7 @@ import { useUserStore } from '@/store/user.stroe';
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .theme {
@@ -163,7 +136,6 @@ import { useUserStore } from '@/store/user.stroe';
 
 .t-row {
   width: 95%;
-  max-width: 480px;
   height: 80px;
   margin: 10px auto;
   display: flex;
@@ -209,6 +181,7 @@ import { useUserStore } from '@/store/user.stroe';
 
 .display-info {
   margin: 0;
+  margin-left: 6px;
   padding: 0;
   overflow: hidden;
   font-size: 40px;
@@ -217,8 +190,34 @@ import { useUserStore } from '@/store/user.stroe';
 
 @media only screen and (max-width: 500px) {
   .display-view {
-    width: 98%;
-    margin: auto;
+    width: 375px;
+  }
+
+  #station-name {
+    max-width: 180px;
+    margin-left: 10px;
+  }
+
+  .theme {
+    margin: 0;
+    margin-top: 5px;
+  }
+
+  #date {
+    width: 160px;
+    margin-right: 10px;
+  }
+
+  .t-row {
+    margin-left: 8px;
+  }
+
+  .destination {
+    margin: 0 o 0 0;
+  }
+
+  .time {
+    margin-right: 40px;
   }
   
 }

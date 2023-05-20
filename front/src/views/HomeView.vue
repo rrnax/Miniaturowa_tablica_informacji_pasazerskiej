@@ -42,7 +42,8 @@ export default {
 
   //Download favorite stops to know wich stops are subsribed
   async created(){
-    await this.apiStore.$reset();
+    await this.userStore.downloadStyle();
+    this.apiStore.$reset();
     await this.userStore.downloadFavoriteStops();
     let tempList = this.userStore.getFavorites;
     tempList.map(stop => {
@@ -57,6 +58,7 @@ export default {
     changeStopsList(event){
       this.isComboBoxFill = event;
     },
+    
   },
 }
 </script>

@@ -28,22 +28,24 @@
 
 <script>
 import { useApiStore } from '@/store/apiManagment.store';
+import { useUserStore } from '@/store/user.stroe';
 
 export default{
     name: "DeviceStyles",
 
     setup(){
         const apiStore = useApiStore();
-        return { apiStore };
+        const userStore = useUserStore();
+        return { apiStore, userStore };
     },
 
     //When component is rendering we download device style
-    mounted(){
+    async mounted(){
+        await this.userStore.downloadStyle();
         // this.apiStore.downloadConfiguration("retro");
-        this.apiStore.setStyle("retro");
         let checkBoxList = document.querySelectorAll(".check");
         checkBoxList.forEach(element => {
-            if(element.value === this.apiStore.getDeviceStyle){
+            if(element.value === this.userStore.getDeviceStyle){
                 element.checked = true;
             }
         });
@@ -52,12 +54,13 @@ export default{
     methods: {
 
         //Check if only one checkBox is sited
-        selectOnlyOneCheckBox(event){
-            this.apiStore.setStyle(event.target.value);
+        async selectOnlyOneCheckBox(event){
+            await this.userStore.updateStyle(event.target.value);
             let checkBoxList = document.querySelectorAll(".check");
             checkBoxList.forEach(element => {element.checked = false;});
             event.target.checked = true;
-        }
+        },
+
     }   
 }
 

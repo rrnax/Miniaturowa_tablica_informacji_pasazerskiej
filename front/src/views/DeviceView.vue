@@ -35,12 +35,12 @@
     methods: {
         showDisplay(){
             if(typeof this.apiStore.getActiveStop.stopName !== 'undefined'){
-                console.log(this.apiStore.getActiveStop.stopName);
                 this.$router.push('/display');
             } else {
                 alert("Wybierz przystanek do wyświetlenia!");
             }
-        }
+        },
+
     }
  
   }
