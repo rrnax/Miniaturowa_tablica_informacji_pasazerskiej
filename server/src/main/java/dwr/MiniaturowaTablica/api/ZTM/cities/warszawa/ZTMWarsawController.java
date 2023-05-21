@@ -34,7 +34,7 @@ public class ZTMWarsawController {
                 .body(convertToJson(displaysRepository.findAllByName(name)));
     }
 
-    @GetMapping("/info/{displayCode}") // get all displays ( with different drivingDirection) with requested name
+    @GetMapping("/info/{displayCode}")
     private ResponseEntity<String> getTimeTable(@PathVariable("displayCode") String displayCode) {
         try {
             return ResponseEntity

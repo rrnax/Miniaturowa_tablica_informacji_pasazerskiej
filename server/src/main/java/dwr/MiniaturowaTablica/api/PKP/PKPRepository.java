@@ -4,6 +4,7 @@ import dwr.MiniaturowaTablica.api.PKP.Arrivals.SSA;
 import dwr.MiniaturowaTablica.api.PKP.Arrivals.SSAService;
 import dwr.MiniaturowaTablica.api.PKP.Arrivals.StopTimes;
 import dwr.MiniaturowaTablica.api.PKP.Arrivals.StopTimesWithTripInfo;
+import dwr.MiniaturowaTablica.api.PKP.Trains.Schedule;
 import dwr.MiniaturowaTablica.api.PKP.Trains.Train;
 import dwr.MiniaturowaTablica.api.PKP.Trains.TrainPKPService;
 import dwr.MiniaturowaTablica.api.PKP.Trips.Transfer;
@@ -223,6 +224,8 @@ public class PKPRepository {
             LocalTime currentTime = LocalTime.now();
             List<SSA> currentArrivals = new ArrayList<>();
             List<SSA> historyArriavals = new ArrayList<>();
+            List<Schedule> scheduleList = new ArrayList<>();
+            Schedule lastStop = new Schedule();
 
             for (SSA ssa : result) {
                 LocalTime arrivalTime;
@@ -238,14 +241,23 @@ public class PKPRepository {
                 } else arrivalTime = LocalTime.parse(ssa.getArrival_time());
                 if (arrivalTime.isAfter(currentTime)) {
                     currentArrivals.add(ssa);
+                    Query queryForStopName = new Query(Criteria.where("stop_id").is(ssa.getStop_id()));
+                    scheduleList.add(new Schedule(ssa.arrival_time,ssa.estimatedTime,ssa.getOfficial_dist_traveled(),mongoOperations.findOne(queryForStopName,Stop.class).getName()));
                 } else {
                     historyArriavals.add(ssa);
                 }
             }
-            if(historyArriavals.size()>0)
-                currentArrivals.add(0,historyArriavals.get(historyArriavals.size()-1));
-            if(currentArrivals.size()>0)
-            trains.add(new Train(uniqueTrainName,uniqueTrainName,"?","?",Integer.valueOf(currentArrivals.get(0).official_dist_traveled)));
+            if(historyArriavals.size()>0) {
+                Integer len = historyArriavals.size() - 1;
+                SSA lastStopArrival = historyArriavals.get(len);
+                currentArrivals.add(0, lastStopArrival);
+                Query queryForStopName = new Query(Criteria.where("stop_id").is(lastStopArrival.getStop_id()));
+                lastStop = new Schedule(lastStopArrival.getArrival_time(),lastStopArrival.getEstimatedTime(),lastStopArrival.getOfficial_dist_traveled(),mongoOperations.findOne(queryForStopName,Stop.class).getName());
+            }
+            if(currentArrivals.size()>0){
+                trains.add(new Train(uniqueTrainName,uniqueTrainName,"?","?",Integer.valueOf(currentArrivals.get(0).official_dist_traveled),scheduleList,lastStop));
+            }
+
         });
         trainPKPServices.deleteAll();
         trainPKPServices.saveAllTrains(trains);
@@ -265,4 +277,9 @@ public class PKPRepository {
         });
 
     }
+
+    public List<Train> getBestTrains() {
+        return trainPKPServices.getFirst10Trains();
+    }
+
 }

@@ -31,10 +31,16 @@ public class PKPController {
     }
 
     @GetMapping("/trains/bydistance") // get all PKP trains
-    private ResponseEntity<String> get() {
+    private ResponseEntity<String> getTrainsByDistance() {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(convertToJson("nic nie zwracam na endpoint pkpController"));
+    }
+    @GetMapping("/trains/getBest")
+    private ResponseEntity<String> getBestTrains(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(convertToJson(pkpRepository.getBestTrains()));
     }
 
 }
