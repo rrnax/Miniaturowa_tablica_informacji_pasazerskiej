@@ -1,5 +1,6 @@
 package dwr.MiniaturowaTablica.api.PKP;
 
+import dwr.MiniaturowaTablica.api.PKP.Trains.BestTrainWatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,9 @@ import static dwr.MiniaturowaTablica.api.ZTM.ztmRepository.convertToJson;
 public class PKPController {
     @Autowired
     private PKPRepository pkpRepository;
+
+    @Autowired
+    private BestTrainWatcher bestTrainWatcher;
 
 
     @GetMapping("/stops/{stopID}") // get all PKP stops arrivals
@@ -40,7 +44,7 @@ public class PKPController {
     private ResponseEntity<String> getBestTrains(){
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(convertToJson(pkpRepository.getBestTrains()));
+                .body(convertToJson(bestTrainWatcher.getBestTrains()));
     }
 
 }

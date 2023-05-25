@@ -39,16 +39,17 @@ public class TrainPKPService {
 
     public List<Train> getFirst10Trains() {
         Sort sort = Sort.by(Sort.Direction.DESC, "distanceTraveled");
-        Pageable pageable = PageRequest.of(0, 10, sort);
+        Pageable pageable = PageRequest.of(0, 100, sort);
         List<Train> trains = trainMongoRepository.findAll(pageable).getContent();
         return trains;
     }
 
     public void updateTrainSchedule(String trainId, List<Schedule> scheduleList, Schedule lastStopSchedule){
         Query query = new Query(Criteria.where("_id").is(trainId));
-        Update update = new Update().set("scheduleList", scheduleList).addToSet("lastStopSchedule", lastStopSchedule);
+        Update update = new Update().set("scheduleList", scheduleList).set("lastStopSchedule", lastStopSchedule);
         mongoOperations.updateFirst(query, update, Train.class);
     }
+
 
 
 }

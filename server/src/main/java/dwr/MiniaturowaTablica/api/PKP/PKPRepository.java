@@ -4,9 +4,7 @@ import dwr.MiniaturowaTablica.api.PKP.Arrivals.SSA;
 import dwr.MiniaturowaTablica.api.PKP.Arrivals.SSAService;
 import dwr.MiniaturowaTablica.api.PKP.Arrivals.StopTimes;
 import dwr.MiniaturowaTablica.api.PKP.Arrivals.StopTimesWithTripInfo;
-import dwr.MiniaturowaTablica.api.PKP.Trains.Schedule;
-import dwr.MiniaturowaTablica.api.PKP.Trains.Train;
-import dwr.MiniaturowaTablica.api.PKP.Trains.TrainPKPService;
+import dwr.MiniaturowaTablica.api.PKP.Trains.*;
 import dwr.MiniaturowaTablica.api.PKP.Trips.Transfer;
 import dwr.MiniaturowaTablica.api.PKP.Trips.Trip;
 import dwr.MiniaturowaTablica.api.PKP.Stops.Stop;
@@ -48,6 +46,7 @@ public class PKPRepository {
 
     @Autowired
     private MongoOperations mongoOperations;
+
 
     public List<StopTimes> AllStopTimesForStopId(String stopId){
         List<StopTimes> filteredStopTimes =stopTimes.stream()
@@ -276,10 +275,6 @@ public class PKPRepository {
             }
         });
 
-    }
-
-    public List<Train> getBestTrains() {
-        return trainPKPServices.getFirst10Trains();
     }
 
 }
