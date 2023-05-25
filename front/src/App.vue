@@ -28,7 +28,6 @@ export default {
   methods: {
     getPanel(panel){
       this.actualPanel = panel;
-      console.log(panel);
     },
 
   }
@@ -108,7 +107,7 @@ hr {
 .panel {
   background: var(--navMenuColor);
   width: 360px;
-  margin: 20px auto;
+  margin: 20px auto 180px auto;
   display: block;
   color: var(--appblue);
   text-align: center;

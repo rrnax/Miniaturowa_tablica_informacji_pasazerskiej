@@ -169,19 +169,22 @@ export const useApiStore = defineStore("api", {
 
         //Convert active stop to departure stop
         converActiveStop(){
+            let tempName = this.activeStop.stopName;
+            let tempDisplayArray = JSON.parse(JSON.stringify(this.activeStop.stopIds));
+            let tempStop;
             if(this.activeStop.cityName === "Warszawa [ZTM]"){
                 this.transport = 'ztm';
                 this.city = 'Warszawa';
+                tempStop = [ tempName, tempDisplayArray];
             }else if(this.activeStop.cityName === "Gdańsk [ZTM]"){
                 this.transport = 'ztm';
                 this.city = 'Gdańsk';
+                tempStop = [ tempName, tempDisplayArray];
             } else {
                 this.transport = 'rail';
                 this.city = '';
+                tempStop = {name:tempName, stop_id:tempDisplayArray[0]};
             }
-            let tempName = this.activeStop.stopName;
-            let tempDisplayArray = JSON.parse(JSON.stringify(this.activeStop.stopIds));
-            const tempStop = [ tempName, tempDisplayArray];
             this.setDeparturesStop(tempStop);
         },
 
