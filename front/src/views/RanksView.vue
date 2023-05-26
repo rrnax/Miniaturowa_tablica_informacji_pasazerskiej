@@ -26,7 +26,7 @@
                 W DRODZE do <span class="black">{{ train.scheduleList[0].StopName }}</span>
               </span>
               <span v-else-if="train.status === 'NA STACJI'">
-                NA STACJI <span class="black">{{ train.lastStopSchedule.StopName }}</span>
+                NA STACJI <span class="black">{{ train.scheduleList[0].StopName }}</span>
               </span>
               <span v-else>{{ train.status }}</span>
             </td>

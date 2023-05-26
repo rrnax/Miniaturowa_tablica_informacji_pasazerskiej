@@ -285,8 +285,6 @@ public class PKPRepository {
         String arrivalsInMonth = String.valueOf(mongoOperations.count(query, "PKP_ARRIVALS"));
         LocalDate today = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
-        System.out.println(today);
-        System.out.println(currentTime);
         query = new Query(Criteria.where("service_id").is(today.toString()).and("arrival_time").lt(currentTime.toString()));
         //
         String arrivalsToday = String.valueOf(mongoOperations.count(query, "PKP_ARRIVALS"));
