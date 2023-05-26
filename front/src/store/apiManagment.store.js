@@ -64,7 +64,6 @@ export const useApiStore = defineStore("api", {
         },
 
 
-
         //Crate api url for downloading stops
         urlCreatorForStops(){
             if(this.transport === 'rail'){
@@ -205,6 +204,10 @@ export const useApiStore = defineStore("api", {
             }
             return 0;
         },
+
+     
+
+
 
     }
 })

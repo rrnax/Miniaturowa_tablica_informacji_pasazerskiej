@@ -1,5 +1,7 @@
 package dwr.MiniaturowaTablica.api.PKP;
 
+import dwr.MiniaturowaTablica.api.PKP.Trains.BestTrainWatcher;
+import dwr.MiniaturowaTablica.api.PKP.Trains.TrainStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,9 @@ import static dwr.MiniaturowaTablica.api.ZTM.ztmRepository.convertToJson;
 public class PKPController {
     @Autowired
     private PKPRepository pkpRepository;
+
+    @Autowired
+    private BestTrainWatcher bestTrainWatcher;
 
 
     @GetMapping("/stops/{stopID}") // get all PKP stops arrivals
@@ -30,11 +35,19 @@ public class PKPController {
                 .body(convertToJson(pkpRepository.getAllStops()));
     }
 
-    @GetMapping("/trains/bydistance") // get all PKP trains
-    private ResponseEntity<String> get() {
+    @GetMapping("/trains/getBest")
+    private ResponseEntity<String> getBestTrains(){
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(convertToJson("nic nie zwracam na endpoint pkpController"));
+                .body(convertToJson(bestTrainWatcher.getBestTrains()));
+    }
+    @GetMapping("/trains/info")
+    private ResponseEntity<String> getTrainsInfo(){
+        TrainStats trainStats=pkpRepository.getTrainsInfo();
+        trainStats.setAverageSpeed(String.valueOf(bestTrainWatcher.getAverageSpeed()));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(convertToJson(trainStats));
     }
 
 }
