@@ -1,5 +1,6 @@
 package dwr.MiniaturowaTablica.api.PKP;
 
+import dwr.MiniaturowaTablica.api.PKP.Trains.BestTrainWatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.env.Environment;
@@ -10,6 +11,9 @@ import org.springframework.stereotype.Component;
 public class PKPDataLoader implements CommandLineRunner {
     @Autowired
     private PKPRepository pkpRepository;
+
+    @Autowired
+    private BestTrainWatcher bestTrainWatcher;
 
     @Autowired
     private Environment env;
@@ -52,6 +56,7 @@ public class PKPDataLoader implements CommandLineRunner {
             pkpRepository.loadTrains();
         }
         System.out.println("PKP LOADED!");
+        bestTrainWatcher.run();
 
     }
 

@@ -10,6 +10,7 @@
     <div class="options">
       <router-link class="option-btn" @click="singalPanel('login')" v-if="!this.userStore.authStatus && actualPanel === 'regis'" to="/login">Zloguj się</router-link>
       <router-link class="option-btn" @click="singalPanel('regis')" v-if="!this.userStore.authStatus && actualPanel === 'login'" to="/registration">Zarejestruj Się</router-link>
+      <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/ranks">Pociągi</router-link>
       <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/device">Urządzenie</router-link>
       <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/">Przystanki</router-link>
       <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/account">Konto</router-link>
