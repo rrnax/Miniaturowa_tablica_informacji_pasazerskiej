@@ -9,18 +9,18 @@
       <div v-else>
       <p>Oczekiwanie na dane...</p>
         </div>
-      <table v-if="dataLoaded">
-        <thead>
+      <table class="ranks-table" v-if="dataLoaded">
+        <thead class="ranks-thead">
           <tr>
-            <th>Nazwa</th>
-            <th>Status</th>
-            <th class="distance-column">Dystans</th>
-            <th>Kierunek</th>
+            <th class="th-tr-ranks">Nazwa</th>
+            <th class="th-tr-ranks">Status</th>
+            <th class="th-tr-ranks distance-column">Dystans</th>
+            <th class="th-tr-ranks">Kierunek</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="train in sortedTrains" :key="train.id">
-            <td>{{ train.name }}</td>
+            <td class="th-tr-ranks">{{ train.name }}</td>
             <td :style="getStatusStyle(train.status)">
               <span v-if="train.status === 'W DRODZE'">
                 W DRODZE do <span class="black">{{ train.scheduleList[0].StopName }}</span>
@@ -30,8 +30,8 @@
               </span>
               <span v-else>{{ train.status }}</span>
             </td>
-            <td class="distance-column">{{ train.distanceTraveled }}</td>
-            <td>
+            <td class="distance-column th-tr-ranks">{{ train.distanceTraveled }}</td>
+            <td class="th-tr-ranks">
               <span v-if="train.scheduleList.length > 0">{{ train.scheduleList[train.scheduleList.length - 1].StopName }}</span>
               <span v-else>{{ train.lastStopSchedule.StopName }}</span>
             </td>
@@ -144,22 +144,21 @@
     margin: 5px 0;
   }
   
-  table {
+  .ranks-table {
     width: 100%;
     border-collapse: collapse;
     
   }
   
-  th, td {
+  .th-tr-ranks {
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid #ddd;
     font-size:2rem;
-  }
-  
-  th {
     background-color: #f2f2f2;
   }
+  
+ 
   
   .distance-column {
     width: 100px; /* Stała szerokość kolumny "Dystans" */
@@ -170,7 +169,7 @@
     .ranks {
       width: 100%;
     }
-    th,td {
+    .th-tr-ranks {
       font-size: 1.2rem;
     }
   }
