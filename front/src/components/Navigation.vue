@@ -32,6 +32,7 @@
     <div class="menu-items">
       <router-link class="menu-item" @click="singalPanel('login')" v-if="!this.userStore.authStatus && actualPanel === 'regis'" to="/login">Zloguj się</router-link>
       <router-link class="menu-item" @click="singalPanel('regis')" v-if="!this.userStore.authStatus && actualPanel === 'login'" to="/registration">Zarejestruj Się</router-link>
+      <router-link class="menu-item" v-if="this.userStore.authStatus" to="/ranks">Pociągi</router-link>
       <router-link class="menu-item" v-if="this.userStore.authStatus" to="/device">Urządzenie</router-link>
       <router-link class="menu-item" v-if="this.userStore.authStatus" to="/">Przystnaki</router-link>
       <router-link class="menu-item" v-if="this.userStore.authStatus" to="/account">Konto</router-link>

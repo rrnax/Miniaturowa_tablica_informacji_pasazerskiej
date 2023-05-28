@@ -126,6 +126,10 @@ import { useUserStore } from '@/store/user.stroe';
   display: flex;
   justify-content: space-between;
   font-size: 22px;
+ 
+}
+.table-header th{
+  background-color: var(--backcolor);
 }
 
 .departure-table{
@@ -177,6 +181,9 @@ import { useUserStore } from '@/store/user.stroe';
 #date {
   width: 35%;
   height: 70px;
+}
+.display-view th,td{
+  border:none !important;
 }
 
 .display-info {
