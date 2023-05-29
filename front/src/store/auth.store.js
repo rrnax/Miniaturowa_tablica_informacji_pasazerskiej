@@ -55,6 +55,7 @@ export const useAuthStore = defineStore('auth', {
                 axios.defaults.headers.common['Authorization'] = response.headers.authorization;
                 // console.log(response);
             }).catch(error => {
+                this.authStatus = false;
                 if(!(error.code === "ERR_NETWORK")){
                     this.lastHttpCode = error.response.status;
                 }else {

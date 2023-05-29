@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { toRaw } from "vue";
+// import { toRaw } from "vue";
 import { useApiStore } from "@/store/apiManagment.store";
 import L from "leaflet";
 export default{
@@ -25,6 +25,7 @@ export default{
             location: null,
             isLoading: false,
             markers: [],
+            groupMarkers: null,
             userIcon: null,
         };
     },
@@ -33,7 +34,11 @@ export default{
 
     watch: {
         stopsList(){
-            this.drawStops();
+            if(this.apiStore.transport === 'rail'){
+                this.drawStops();
+            } else {
+                this.clearMap();
+            }
         }
     },
 
@@ -52,6 +57,7 @@ export default{
                     popupAnchor: [1, -34],
                     shadowSize: [41, 41]
                 });
+        
         this.setMyGeolocation();
     },
 
@@ -84,11 +90,24 @@ export default{
                 return;
             } else {
                 for(let i = 0; i < this.stopsList.length; i++){
-                    this.markers[i+1] = L.marker([this.stopsList[i].stop_lat, this.stopsList[i].stop_lon]).addTo(toRaw(this.map));
+                    this.markers[i+1] = L.marker([this.stopsList[i].stop_lat, this.stopsList[i].stop_lon]);
+                    this.map.addLayer(this.markers[i+1]);
                     this.markers[i+1].bindPopup(this.stopsList[i].name);
                 }
             }
+        },
+
+        clearMap(){
+            this.map.remove();
+            this.map = L.map("mapContainer").setView([53.1115299,18.0236991], 13);
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(this.map);
+            this.setMyGeolocation();
         }
+
+    
     }
 
 }

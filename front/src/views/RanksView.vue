@@ -6,9 +6,7 @@
         <p><span class="info-label">Przyjazdy w tym miesiącu </span><span class="blue">{{ parseInt(trainInfo.arrivalsInMonth) + parseInt(trainInfo.arrivalsToday) }}</span></p>
         <p><span class="info-label">Przyjazdy dzisiaj </span><span class="blue">{{ trainInfo.arrivalsToday }} / {{ trainInfo.arrivalsMaxToday }}</span></p>
       </div>
-      <div v-else>
-      <p>Oczekiwanie na dane...</p>
-        </div>
+      <div v-else class="loader"></div>
       <table class="ranks-table" v-if="dataLoaded">
         <thead class="ranks-thead">
           <tr>
@@ -108,7 +106,7 @@
   };
   </script>
   
-<style>
+<style scoped>
   .black {
     color: black;
   }
@@ -147,15 +145,20 @@
   .ranks-table {
     width: 100%;
     border-collapse: collapse;
-    
+    background-color: var(--navMenuColor);
+    border: 2px solid var(--appblue);
   }
-  
+
+  .ranks-thead{
+    border-bottom: 2px solid var(--appblue);
+  }
+
   .th-tr-ranks {
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid #ddd;
     font-size:2rem;
-    background-color: #f2f2f2;
+    background-color: var(--navMenuColor);
   }
   
  

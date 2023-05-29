@@ -12,7 +12,7 @@
       <router-link class="option-btn user-actions" @click="singalPanel('regis')" v-if="!this.userStore.authStatus && actualPanel === 'login'" to="/registration">Zarejestruj Się</router-link>
       <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/ranks">Statystyki</router-link>
       <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/device">Urządzenie</router-link>
-      <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/">Przystanki</router-link>
+      <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/">Stacje</router-link>
       <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/account">Konto</router-link>
       <a class="menu-btn" @click="logOut" v-if="this.userStore.authStatus">Wyloguj się</a>
     </div>
@@ -34,7 +34,7 @@
       <router-link class="menu-item" @click="singalPanel('regis')" v-if="!this.userStore.authStatus && actualPanel === 'login'" to="/registration">Zarejestruj Się</router-link>
       <router-link class="menu-item" v-if="this.userStore.authStatus" to="/ranks">Statystyki</router-link>
       <router-link class="menu-item" v-if="this.userStore.authStatus" to="/device">Urządzenie</router-link>
-      <router-link class="menu-item" v-if="this.userStore.authStatus" to="/">Przystnaki</router-link>
+      <router-link class="menu-item" v-if="this.userStore.authStatus" to="/">Stacje</router-link>
       <router-link class="menu-item" v-if="this.userStore.authStatus" to="/account">Konto</router-link>
       <a class="menu-item" v-if="this.userStore.authStatus" @click="logOut">Wyloguj się</a>
     </div>
