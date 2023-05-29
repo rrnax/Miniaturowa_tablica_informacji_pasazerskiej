@@ -64,7 +64,6 @@ export const useApiStore = defineStore("api", {
         },
 
 
-
         //Crate api url for downloading stops
         urlCreatorForStops(){
             if(this.transport === 'rail'){
@@ -133,9 +132,13 @@ export const useApiStore = defineStore("api", {
         //Download departures from pkp's apis
         async downloadAllRail(stop){
             let result = [];
-            result =  await this.downloadDeparturesByDisplayCode(stop.stop_id);
-            result = this.makeSortedAndFiltred(result);
-            return result;
+            if(stop === null){
+                return result;
+            } else {
+                result =  await this.downloadDeparturesByDisplayCode(stop.stop_id);
+                result = this.makeSortedAndFiltred(result);
+                return result;
+            }
         },
 
         //Download list of departurse using special display code, somtimes one stop has many display codes that we need methods above
@@ -144,6 +147,7 @@ export const useApiStore = defineStore("api", {
             await axios.get(this.apiUrl+code)
             .then(response => {
                 list = response.data.departures;
+                console.log(response);
             // eslint-disable-next-line no-unused-vars
             }).catch(error => {
                 // console.log(error);
@@ -205,6 +209,10 @@ export const useApiStore = defineStore("api", {
             }
             return 0;
         },
+
+     
+
+
 
     }
 })

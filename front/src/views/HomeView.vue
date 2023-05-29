@@ -10,11 +10,17 @@
     <div v-if="isComboBoxFill" class="action-section">
       <StopsLister/>
     </div>
+    <h1>Mapa</h1>
+    <hr>
+    <div class="maps-section">
+      <MapSection :stops-list="stopsList"/>
+    </div>
   </div>
 
 </template>
 
 <script>
+import MapSection from '@/components/homeComponents/MapSection.vue';
 import Searcher from '@/components/homeComponents/Searcher.vue';
 import StopsLister from '@/components/homeComponents/StopsLister.vue';
 import { useApiStore } from '@/store/apiManagment.store';
@@ -25,12 +31,14 @@ export default {
 
   components: {
     Searcher,
-    StopsLister
+    StopsLister,
+    MapSection
   },
 
   data(){
     return{
       isComboBoxFill: false,
+      stopsList: null,
     }
   },
 
@@ -57,6 +65,7 @@ export default {
   methods: {
     changeStopsList(event){
       this.isComboBoxFill = event;
+      this.stopsList = this.apiStore.getStopsList;
     },
     
   },
@@ -78,6 +87,7 @@ export default {
   background-color: var(--navMenuColor);
   border-radius: 20px;
 }
+
 
 
 @media only screen and ( max-width: 600px) {

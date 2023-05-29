@@ -3,8 +3,8 @@
         <input v-model="searchStop" placeholder="Szukaj" class="search-input"/>
         <table class="stops-table">
             <tr class="stop-row">
-                <th class="left column headset">Przystanek</th>
-                <th class="right column headset">Status</th>
+                <th class="l column headset">Przystanek</th>
+                <th class="r column headset">Status</th>
             </tr>
             <tr class="stop-row" v-for="stop in publishStopList" v-bind:key="stop.id">
                 <td v-if="this.apiStore.getTransport === 'ztm'" @click="showStopDepartures(stop)" class="left column">{{ stop[0] }}</td>
@@ -115,7 +115,7 @@ export default{
                 });
             } else if (this.apiStore.getTransport === 'rail'){
                 this.userStore.getFavorites.forEach(stop => {
-                    if(stop.stopName === item.stop_name){
+                    if(stop.stopName === item.name){
                         result = "1";
                     }
                 });
@@ -184,6 +184,17 @@ export default{
 
 .headset {
     color: var(--appblue);
+}
+
+.l {
+    width: 70%;
+    height: 100%;
+    cursor: auto !important;
+}
+
+.r {
+    width: 30%;
+    cursor: auto !important;
 }
 
 .stop-row {

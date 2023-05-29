@@ -4,8 +4,7 @@ import dwr.MiniaturowaTablica.api.PKP.Arrivals.SSA;
 import dwr.MiniaturowaTablica.api.PKP.Arrivals.SSAService;
 import dwr.MiniaturowaTablica.api.PKP.Arrivals.StopTimes;
 import dwr.MiniaturowaTablica.api.PKP.Arrivals.StopTimesWithTripInfo;
-import dwr.MiniaturowaTablica.api.PKP.Trains.Train;
-import dwr.MiniaturowaTablica.api.PKP.Trains.TrainPKPService;
+import dwr.MiniaturowaTablica.api.PKP.Trains.*;
 import dwr.MiniaturowaTablica.api.PKP.Trips.Transfer;
 import dwr.MiniaturowaTablica.api.PKP.Trips.Trip;
 import dwr.MiniaturowaTablica.api.PKP.Stops.Stop;
@@ -13,7 +12,10 @@ import dwr.MiniaturowaTablica.api.PKP.Stops.StopPKPService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.CriteriaDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +37,8 @@ public class PKPRepository {
     public List<SSA> simpleStopArrivals = new ArrayList<>();
     public Set<String> uniqueTrainNames = new HashSet<>();
     public List<Train> trains = new ArrayList<>();
+    public TrainStats trainStats;
+
 
     @Autowired
     private StopPKPService stopPKPService;
@@ -47,6 +51,7 @@ public class PKPRepository {
 
     @Autowired
     private MongoOperations mongoOperations;
+
 
     public List<StopTimes> AllStopTimesForStopId(String stopId){
         List<StopTimes> filteredStopTimes =stopTimes.stream()
@@ -223,6 +228,8 @@ public class PKPRepository {
             LocalTime currentTime = LocalTime.now();
             List<SSA> currentArrivals = new ArrayList<>();
             List<SSA> historyArriavals = new ArrayList<>();
+            List<Schedule> scheduleList = new ArrayList<>();
+            Schedule lastStop = new Schedule();
 
             for (SSA ssa : result) {
                 LocalTime arrivalTime;
@@ -238,18 +245,26 @@ public class PKPRepository {
                 } else arrivalTime = LocalTime.parse(ssa.getArrival_time());
                 if (arrivalTime.isAfter(currentTime)) {
                     currentArrivals.add(ssa);
+                    Query queryForStopName = new Query(Criteria.where("stop_id").is(ssa.getStop_id()));
+                    scheduleList.add(new Schedule(ssa.arrival_time,ssa.estimatedTime,ssa.getOfficial_dist_traveled(),mongoOperations.findOne(queryForStopName,Stop.class).getName()));
                 } else {
                     historyArriavals.add(ssa);
                 }
             }
-            if(historyArriavals.size()>0)
-                currentArrivals.add(0,historyArriavals.get(historyArriavals.size()-1));
-            if(currentArrivals.size()>0)
-            trains.add(new Train(uniqueTrainName,uniqueTrainName,"?","?",Integer.valueOf(currentArrivals.get(0).official_dist_traveled)));
+            if(historyArriavals.size()>0) {
+                Integer len = historyArriavals.size() - 1;
+                SSA lastStopArrival = historyArriavals.get(len);
+                currentArrivals.add(0, lastStopArrival);
+                Query queryForStopName = new Query(Criteria.where("stop_id").is(lastStopArrival.getStop_id()));
+                lastStop = new Schedule(lastStopArrival.getArrival_time(),lastStopArrival.getEstimatedTime(),lastStopArrival.getOfficial_dist_traveled(),mongoOperations.findOne(queryForStopName,Stop.class).getName());
+            }
+            if(currentArrivals.size()>0 || historyArriavals.size()>0){
+                trains.add(new Train(uniqueTrainName,uniqueTrainName,"?","?",Integer.valueOf(currentArrivals.get(0).official_dist_traveled),scheduleList,lastStop));
+            }
+
         });
         trainPKPServices.deleteAll();
         trainPKPServices.saveAllTrains(trains);
-
     }
 
     public void loadUniqueTrainNames() {
@@ -264,5 +279,18 @@ public class PKPRepository {
             }
         });
 
+    }
+    public TrainStats getTrainsInfo() {
+        Query query = new Query();
+        String arrivalsInMonth = String.valueOf(mongoOperations.count(query, "PKP_ARRIVALS"));
+        LocalDate today = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
+        query = new Query(Criteria.where("service_id").is(today.toString()).and("arrival_time").lt(currentTime.toString()));
+        //
+        String arrivalsToday = String.valueOf(mongoOperations.count(query, "PKP_ARRIVALS"));
+        query = new Query(Criteria.where("service_id").is(today.toString()));
+        String arrivalsMaxToday = String.valueOf(mongoOperations.count(query, "PKP_ARRIVALS"));
+        trainStats = new TrainStats("0",arrivalsToday,arrivalsMaxToday,arrivalsInMonth);
+        return trainStats;
     }
 }
