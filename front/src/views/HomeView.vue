@@ -13,7 +13,7 @@
     <h1>Mapa</h1>
     <hr>
     <div class="maps-section">
-      <MapSection/>
+      <MapSection :stops-list="stopsList"/>
     </div>
   </div>
 
@@ -38,6 +38,7 @@ export default {
   data(){
     return{
       isComboBoxFill: false,
+      stopsList: null,
     }
   },
 
@@ -64,6 +65,7 @@ export default {
   methods: {
     changeStopsList(event){
       this.isComboBoxFill = event;
+      this.stopsList = this.apiStore.getStopsList;
     },
     
   },

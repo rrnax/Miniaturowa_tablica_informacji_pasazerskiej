@@ -107,7 +107,7 @@ hr {
 .panel {
   background: var(--navMenuColor);
   width: 360px;
-  margin: 20px auto 180px auto;
+  margin: 20px auto 220px auto;
   display: block;
   color: var(--appblue);
   text-align: center;
