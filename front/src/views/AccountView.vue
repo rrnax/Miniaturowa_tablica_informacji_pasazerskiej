@@ -78,80 +78,78 @@
       <button @click="deleteAccount" class="danger-btn">Usuń konto</button>
     </div>
   </div>
+  <Vuefooter/>
 </template>
 
 <script>
 import {useUserStore} from "@/store/user.stroe";
+import Vuefooter from "./Vuefooter.vue";
 
 export default {
-  name: "AccountView",
-
-  data(){
-    return{
-      emailEditon: false,
-      nameEditon: false,
-      emailInput: "",
-      nameInput: "",
-      oldPassword: "",
-      newPassword: "",
-        validationPassword: false,
-        validationEmail: false,
-    }
-  },
-
-  setup(){
-    const userStore = useUserStore();
-    return { userStore };
-  },
-
-  methods: {
-    makeInputEmail(){
-      this.emailEditon = !this.emailEditon;
-      this.emailInput = this.userStore.getEmail;
+    name: "AccountView",
+    data() {
+        return {
+            emailEditon: false,
+            nameEditon: false,
+            emailInput: "",
+            nameInput: "",
+            oldPassword: "",
+            newPassword: "",
+            validationPassword: false,
+            validationEmail: false,
+        };
     },
-
-    makeInputName(){
-      this.nameEditon = !this.nameEditon;
-      this.nameInput = this.userStore.getName;
+    setup() {
+        const userStore = useUserStore();
+        return { userStore };
     },
-
-    async updateUsername(){
-      await this.userStore.saveNewUserName(this.nameInput);
-      this.nameEditon = false;
+    methods: {
+        makeInputEmail() {
+            this.emailEditon = !this.emailEditon;
+            this.emailInput = this.userStore.getEmail;
+        },
+        makeInputName() {
+            this.nameEditon = !this.nameEditon;
+            this.nameInput = this.userStore.getName;
+        },
+        async updateUsername() {
+            await this.userStore.saveNewUserName(this.nameInput);
+            this.nameEditon = false;
+        },
+        async updateEmail() {
+            if (this.emailInput.includes("@")) {
+                await this.userStore.saveNewEmail(this.emailInput);
+                this.emailEditon = false;
+                this.validationEmail = false;
+            }
+            else {
+                this.validationEmail = true;
+            }
+        },
+        async updatePassword() {
+            if (this.oldPassword === this.userStore.getPassword) {
+                if (this.newPassword.length > 8) {
+                    await this.userStore.saveNewPassword(this.newPassword);
+                    alert("Udało się");
+                    this.validationPassword = false;
+                }
+                else {
+                    this.validationPassword = true;
+                }
+            }
+            else {
+                alert("Podano nieprawidłowe hasło");
+            }
+        },
+        async deleteAccount() {
+            if (confirm("Na pewno chcesz usunąć konto?") === true) {
+                await this.userStore.deleteUser();
+                this.userStore.$reset();
+                this.$router.push("/login");
+            }
+        },
     },
-
-    async updateEmail(){
-        if (this.emailInput.includes("@")){
-            await this.userStore.saveNewEmail(this.emailInput);
-            this.emailEditon = false;
-            this.validationEmail = false;
-        } else {
-            this.validationEmail = true;
-        }
-    },
-
-    async updatePassword(){
-      if(this.oldPassword === this.userStore.getPassword){
-          if(this.newPassword.length > 8){
-              await this.userStore.saveNewPassword(this.newPassword);
-              alert("Udało się");
-              this.validationPassword = false;
-          } else {
-              this.validationPassword = true;
-          }
-      } else {
-        alert("Podano nieprawidłowe hasło");
-      }
-    },
-
-    async deleteAccount(){
-      if(confirm("Na pewno chcesz usunąć konto?") === true){
-        await this.userStore.deleteUser();
-        this.userStore.$reset();
-        this.$router.push("/login");
-      }
-    },
-  }
+    components: { Vuefooter }
 }
 </script>
 

@@ -13,15 +13,18 @@
       <router-link @click="singalPanel('regis')" to="/registration"> Zarejestruj się!</router-link>
     </div>
   </div>
+  <Vuefooter/>
 </template>
 
 <script>
 import LoginForm from "@/components/forms/LoginForm.vue";
+import Vuefooter from './Vuefooter.vue';
 
 export default {
   name: "LoginView",
   components: {
-    LoginForm
+    LoginForm,
+    Vuefooter
   },
 
   methods: {

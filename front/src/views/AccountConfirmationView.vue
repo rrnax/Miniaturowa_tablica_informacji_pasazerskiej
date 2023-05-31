@@ -4,23 +4,24 @@
       <p>Potwierdzono weryfikacje użytkownika, możesz się zalogować</p>
     </div>
   </div>
+  <Vuefooter/>
 </template>
 
 <script>
 import {useAuthStore} from "@/store/auth.store";
+import Vuefooter from "./Vuefooter.vue";
 
 export default {
-  name: "AccountConfirmationView",
-
-  setup(){
-    const authStore = useAuthStore();
-    return {authStore};
-  },
-
-  mounted() {
-    this.authStore.confirmAccount(this.$route.query.token);
-    this.$emit('changePanel', 'regis');
-  }
+    name: "AccountConfirmationView",
+    setup() {
+        const authStore = useAuthStore();
+        return { authStore };
+    },
+    mounted() {
+        this.authStore.confirmAccount(this.$route.query.token);
+        this.$emit("changePanel", "regis");
+    },
+    components: { Vuefooter }
 }
 </script>
 

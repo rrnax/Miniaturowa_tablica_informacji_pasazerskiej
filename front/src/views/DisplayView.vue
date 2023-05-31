@@ -30,54 +30,50 @@
         </tr>
       </table>
     </div>
+    <Vuefooter/>
   </template>
   
   <script>
   import { useApiStore } from '@/store/apiManagment.store';
-import { useUserStore } from '@/store/user.stroe';
+  import { useUserStore } from '@/store/user.stroe';
+  import Vuefooter from './Vuefooter.vue';
 
   export default {
     name: "DisplayView",
-
-    setup(){
-      const apiStore = useApiStore();
-      const userStore = useUserStore();
-      return { apiStore, userStore };
+    setup() {
+        const apiStore = useApiStore();
+        const userStore = useUserStore();
+        return { apiStore, userStore };
     },
-
-    data(){
-      return {
-        date: "",
-      }
+    data() {
+        return {
+            date: "",
+        };
     },
-
-    created(){
-      this.userStore.downloadStyle();
-      setInterval(this.actualDate, 1000);
-      setInterval(this.apiStore.updateDepartureList, 60000);
-      setInterval(this.userStore.downloadStyle,30000);
+    created() {
+        this.userStore.downloadStyle();
+        setInterval(this.actualDate, 1000);
+        setInterval(this.apiStore.updateDepartureList, 60000);
+        setInterval(this.userStore.downloadStyle, 30000);
     },
-
-    async mounted(){
-      this.userStore.downloadFavoriteStops();
-      setTimeout(this.apiStore.converActiveStop, 200);
-      setTimeout(this.apiStore.updateDepartureList, 500);
+    async mounted() {
+        this.userStore.downloadFavoriteStops();
+        setTimeout(this.apiStore.converActiveStop, 200);
+        setTimeout(this.apiStore.updateDepartureList, 500);
     },
-
     methods: {
-      actualDate(){
-        let miliDate = new Date();
-        this.date = miliDate.toLocaleTimeString();
-      },
+        actualDate() {
+            let miliDate = new Date();
+            this.date = miliDate.toLocaleTimeString();
+        },
     },
-
     computed: {
-      publishDate(){
-        return this.date;
-      },
-    }
-    
-  }
+        publishDate() {
+            return this.date;
+        },
+    },
+    components: { Vuefooter }
+}
 </script>
 
 <style>

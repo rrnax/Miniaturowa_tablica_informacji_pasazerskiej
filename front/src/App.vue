@@ -1,11 +1,7 @@
 <template>
-  <div class="app">
+  <div class="app-container">
     <Navigation :actual-panel="actualPanel" @changePanel="getPanel($event)"/>
     <router-view  @changePanel="getPanel($event)" />
-    <footer>
-      <p>@Programowanie Zespołowe UMK 2023</p>
-      <p>@Zespół nr 2</p>
-    </footer>
   </div>
 </template>
 
@@ -47,8 +43,18 @@ export default {
   --halfView: gray;
 }
 
-.app {
+html, body {
   height: 100%;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-container {
+  height: 100;
   width: 100%;
   margin: 0;
 }
@@ -132,8 +138,8 @@ input {
 footer {
   width: 100%;
   height: 70px;
-  position: relative;
-  margin-top: 150px;
+  bottom: 0;
+  margin-top: 100px;
   background-color: var(--footerColor);
   display: grid;
   justify-content: center;

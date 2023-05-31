@@ -37,73 +37,76 @@
         </tbody>
       </table>
     </div>
+    <Vuefooter/>
   </template>
   
   
   <script>
   import axios from 'axios';
+  import Vuefooter from './Vuefooter.vue';
+
   
   export default {
-    name: 'RanksView',
+    name: "RanksView",
     data() {
-      return {
-        trains: [],
-        sortedTrains: [],
-        trainInfo: {
-          averageSpeed: '',
-          arrivalsToday: '',
-          arrivalsMaxToday: '',
-          arrivalsInMonth: ''
-        },
-        dataLoaded: false 
-      };
+        return {
+            trains: [],
+            sortedTrains: [],
+            trainInfo: {
+                averageSpeed: "",
+                arrivalsToday: "",
+                arrivalsMaxToday: "",
+                arrivalsInMonth: ""
+            },
+            dataLoaded: false
+        };
     },
     mounted() {
-      this.fetchData(); // Pobranie danych na starcie
-      setInterval(this.fetchData, 1000); // Odświeżanie danych co sekundę
-      setTimeout(() => {
-        if (!this.dataLoaded) {
-          location.reload(); // Odświeżenie strony po 3 sekundach, jeśli dane nie zostały załadowane
-        }
-      }, 3000);
+        this.fetchData(); // Pobranie danych na starcie
+        setInterval(this.fetchData, 1000); // Odświeżanie danych co sekundę
+        setTimeout(() => {
+            if (!this.dataLoaded) {
+                location.reload(); // Odświeżenie strony po 3 sekundach, jeśli dane nie zostały załadowane
+            }
+        }, 3000);
     },
     methods: {
-      fetchData() {
-        const trainsEndpointUrl = 'http://localhost:8080/api/pkp/trains/getBest';
-        const infoEndpointUrl = 'http://localhost:8080/api/pkp/trains/info';
-  
-        axios.all([
-          axios.get(trainsEndpointUrl),
-          axios.get(infoEndpointUrl)
-        ])
-          .then(axios.spread((trainsResponse, infoResponse) => {
-            this.trains = trainsResponse.data;
-            this.sortTrains();
-            this.trainInfo = infoResponse.data;
-            this.dataLoaded = true; 
-          }))
-          .catch(error => {
-            console.error('Wystąpił błąd:', error);
-            this.dataLoaded = true; 
-          });
-      },
-      sortTrains() {
-        this.sortedTrains = this.trains.sort((a, b) => b.distanceTraveled - a.distanceTraveled);
-      },
-      getStatusStyle(status) {
-        switch (status) {
-          case 'KONIEC':
-            return 'color: red;';
-          case 'NA STACJI':
-            return 'color: orange;';
-          case 'W DRODZE':
-            return 'color: green;';
-          default:
-            return '';
+        fetchData() {
+            const trainsEndpointUrl = "http://localhost:8080/api/pkp/trains/getBest";
+            const infoEndpointUrl = "http://localhost:8080/api/pkp/trains/info";
+            axios.all([
+                axios.get(trainsEndpointUrl),
+                axios.get(infoEndpointUrl)
+            ])
+                .then(axios.spread((trainsResponse, infoResponse) => {
+                this.trains = trainsResponse.data;
+                this.sortTrains();
+                this.trainInfo = infoResponse.data;
+                this.dataLoaded = true;
+            }))
+                .catch(error => {
+                console.error("Wystąpił błąd:", error);
+                this.dataLoaded = true;
+            });
+        },
+        sortTrains() {
+            this.sortedTrains = this.trains.sort((a, b) => b.distanceTraveled - a.distanceTraveled);
+        },
+        getStatusStyle(status) {
+            switch (status) {
+                case "KONIEC":
+                    return "color: red;";
+                case "NA STACJI":
+                    return "color: orange;";
+                case "W DRODZE":
+                    return "color: green;";
+                default:
+                    return "";
+            }
         }
-      }
-    }
-  };
+    },
+    components: { Vuefooter }
+};
   </script>
   
 <style scoped>
@@ -116,7 +119,7 @@
   
   .ranks {
     width: 80%;
-    margin: 0 auto;
+    margin: auto;
     font-size: x-large;
     font-family: 'Teko', sans-serif;
   }

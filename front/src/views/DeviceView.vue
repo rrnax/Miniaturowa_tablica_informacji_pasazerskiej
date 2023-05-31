@@ -13,9 +13,11 @@
         <hr/>
         <DeviceStyles/>
     </div>
+    <Vuefooter/>
   </template>
   
   <script>
+  import Vuefooter from './Vuefooter.vue';
   import SubscribedStopsList from '@/components/deviceComponents/SubscribedStopsList.vue';
   import DeviceStyles from '@/components/deviceComponents/DeviceStyles.vue';
   import { useApiStore } from '@/store/apiManagment.store';
@@ -28,8 +30,9 @@
     },
 
     components: {
-        SubscribedStopsList,
-        DeviceStyles,
+    SubscribedStopsList,
+    DeviceStyles,
+    Vuefooter
     },
 
     methods: {

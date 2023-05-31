@@ -16,7 +16,7 @@
       <MapSection :stops-list="stopsList"/>
     </div>
   </div>
-
+  <Vuefooter/>
 </template>
 
 <script>
@@ -25,6 +25,8 @@ import Searcher from '@/components/homeComponents/Searcher.vue';
 import StopsLister from '@/components/homeComponents/StopsLister.vue';
 import { useApiStore } from '@/store/apiManagment.store';
 import { useUserStore } from '@/store/user.stroe';
+import Vuefooter from './Vuefooter.vue';
+
 
 export default {
   name: 'HomeView',
@@ -32,7 +34,8 @@ export default {
   components: {
     Searcher,
     StopsLister,
-    MapSection
+    MapSection,
+    Vuefooter,
   },
 
   data(){
@@ -75,7 +78,7 @@ export default {
 <style>
 .stops-view {
   width: 60%;
-  margin: 30px auto 100px auto;
+  margin: 30px auto auto auto;
   display: block;
   font-family: 'Teko', sans-serif;
   font-size: 22px;
