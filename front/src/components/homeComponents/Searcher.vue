@@ -106,6 +106,10 @@ export default{
     font-size: 22px;
 }
 
+#transport-combobox, #city-combobox {
+    height: 40px;
+}
+
 .check-field {
     width: 70%;
     margin: auto;
