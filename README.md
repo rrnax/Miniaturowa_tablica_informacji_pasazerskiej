@@ -5,14 +5,17 @@ Aplication about deliever information of time and station in public transport an
 
 Team:
 
-Rafał Rogala,
-Wiktor Krzyczkowski,
-Dariusz Cichocki,
-Radosław Lach,
-Witold Weiner,
-
+Rafał Rogala - frontend and raspberry pi,
+Wiktor Krzyczkowski - backend API and documantation,
+Dariusz Cichocki - raspberry pi and database,
+Radosław Lach - backend with spring boot,
+Witold Weiner - backend and database,
 
 Team site: https://rrnax.github.io/Miniaturowa_tablica_informacji_pasazerskiej/
+
+Raspberry app: https://github.com/DarekCich/Raspberry_files
+
+Documentation: https://dokumentacja-projektu-zespolowego.vercel.app
 
 How to use Docker compose?
 
