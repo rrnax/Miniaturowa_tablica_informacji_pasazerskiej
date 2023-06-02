@@ -6,10 +6,15 @@ Aplication about deliever information of time and station in public transport an
 Team:
 
 Rafał Rogala - frontend and raspberry pi,
+
 Wiktor Krzyczkowski - backend API and documantation,
+
 Dariusz Cichocki - raspberry pi and database,
+
 Radosław Lach - backend with spring boot,
+
 Witold Weiner - backend and database,
+
 
 Team site: https://rrnax.github.io/Miniaturowa_tablica_informacji_pasazerskiej/
 
