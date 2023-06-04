@@ -3,7 +3,6 @@ package dwr.MiniaturowaTablica.api.ZTM.cities.gdansk;
 import com.google.gson.*;
 
 
-import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
@@ -14,7 +13,6 @@ import dwr.MiniaturowaTablica.api.ZTM.cities.gdansk.Models.Display_.GeneralInfoD
 import dwr.MiniaturowaTablica.api.ZTM.cities.gdansk.Models.Stop_.*;
 import dwr.MiniaturowaTablica.api.ZTM.Displays.DisplayDTO;
 import dwr.MiniaturowaTablica.api.ZTM.Displays.DisplaysRepository;
-import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Displays.WarsawDisplay;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -529,7 +527,25 @@ public class ZTMRepository {
 
         return idStops;
     }
+    public void setGeoData(int displaydto) {
+        Optional<DisplayDTO> dto = displaysRepository.findByDisplayCode(displaydto);
 
+        if (dto.isPresent()) {
+            int stopid = dto.get().getIdStop1();
+            List<StopDTO> stopDTOList = stopsRepository.findByStopId(stopid);
 
+            if (!stopDTOList.isEmpty()) {
+                StopDTO stopDTO = stopDTOList.get(0);
+                float stopLat = stopDTO.getStopLat();
+                float stopLon = stopDTO.getStopLon();
+
+                System.out.println(stopLat + " " + stopLon);
+            } else {
+//                System.out.println("StopDTO list is empty for stopid: " + stopid);
+            }
+        } else {
+//            System.out.println("DisplayDTO not found for displayCode: " + displaydto);
+        }
+    }
 
 }
