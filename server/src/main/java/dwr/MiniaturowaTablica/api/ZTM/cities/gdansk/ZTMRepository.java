@@ -620,12 +620,25 @@ public class ZTMRepository {
                 nameCounts.put(name, count);
                 String modifiedName = (count > 1) ? name + " " + count : name;
 
-                Map<String, Object> geoData = new HashMap<>();
-                geoData.put("name", modifiedName);
-                geoData.put("stopLat", stopLat);
-                geoData.put("stopLon", stopLon);
+                // Check if an object with the same coordinates already exists in geoDataList
+                boolean isDuplicate = false;
+                for (Map<String, Object> geoData : geoDataList) {
+                    float existingStopLat = (float) geoData.get("stopLat");
+                    float existingStopLon = (float) geoData.get("stopLon");
+                    if (existingStopLat == stopLat && existingStopLon == stopLon) {
+                        isDuplicate = true;
+                        break;
+                    }
+                }
 
-                geoDataList.add(geoData);
+                if (!isDuplicate) {
+                    Map<String, Object> geoData = new HashMap<>();
+                    geoData.put("name", modifiedName);
+                    geoData.put("stopLat", stopLat);
+                    geoData.put("stopLon", stopLon);
+
+                    geoDataList.add(geoData);
+                }
             }
         }
 
