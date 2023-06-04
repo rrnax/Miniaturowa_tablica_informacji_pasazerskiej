@@ -62,6 +62,12 @@ public class ZTMController {
               .status(HttpStatus.OK)
               .body("test output");
    }
+   @GetMapping("/displays/geo") // get info about geolocation from displayid
+   private ResponseEntity<String> getDisplayGeo() {
+      return ResponseEntity
+              .status(HttpStatus.OK)
+              .body(ZTMRepository.getGeoData());
+   }
 
 
    @GetMapping("/time/{stopid}")   // get info about depratures from requested stop
