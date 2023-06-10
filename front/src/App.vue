@@ -54,7 +54,7 @@ html, body {
 }
 
 .app-container {
-  height: 100;
+  height: 100vh;
   width: 100%;
   margin: 0;
 }
@@ -113,7 +113,7 @@ hr {
 .panel {
   background: var(--navMenuColor);
   width: 360px;
-  margin: 20px auto 220px auto;
+  margin: 20px auto 270px auto;
   display: block;
   color: var(--appblue);
   text-align: center;
@@ -136,6 +136,7 @@ input {
 }
 
 footer {
+
   width: 100%;
   height: 70px;
   bottom: 0;

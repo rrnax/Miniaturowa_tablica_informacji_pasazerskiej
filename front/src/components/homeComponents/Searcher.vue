@@ -98,6 +98,10 @@ export default{
 </script>
 
 <style>
+option{
+  font-size: 18px;
+  padding-top: 5px;
+}
 .searcher {
     width: 100%;
     height: 150px;

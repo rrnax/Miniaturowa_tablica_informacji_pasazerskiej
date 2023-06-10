@@ -12,8 +12,12 @@
       <p>Nie masz konta?</p>
       <router-link @click="singalPanel('regis')" to="/registration"> Zarejestruj się!</router-link>
     </div>
+    
   </div>
-  <Vuefooter/>
+  <div id="span">
+    <Vuefooter/>
+  </div>
+  
 </template>
 
 <script>
@@ -36,7 +40,11 @@ export default {
 </script>
 
 <style scoped>
-
+#span{
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
 .maybe {
   width: 100%;
   display: flex;

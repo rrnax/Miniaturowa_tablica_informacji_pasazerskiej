@@ -4,7 +4,9 @@
     <hr class="division">
     <RegistrationForm />
   </div>
-  <Vuefooter/>
+  <div id="span">
+    <Vuefooter/>
+  </div>
 </template>
 
 <script>
@@ -21,5 +23,9 @@ export default {
 </script>
 
 <style scoped>
-
+#span{
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
 </style>

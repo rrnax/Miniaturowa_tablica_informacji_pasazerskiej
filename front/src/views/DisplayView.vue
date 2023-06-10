@@ -30,7 +30,9 @@
         </tr>
       </table>
     </div>
+    <div id="span">
     <Vuefooter/>
+  </div>
   </template>
   
   <script>
@@ -77,6 +79,14 @@
 </script>
 
 <style>
+#span{
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+#span2{
+  height: 90px;
+}
 :root {
   --backcolor: #4e4949;
   --fontcolor: #ff7519;
