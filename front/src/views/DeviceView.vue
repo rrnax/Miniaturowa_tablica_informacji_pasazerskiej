@@ -2,25 +2,24 @@
     <div class="device-view">
         <div class="configuration-show">
             <h1 class="section-title">Obserwowane przystanki</h1>
-            <button class="show-btn" @click="showDisplay">Podgląd Urządzenia</button>
         </div>
         <hr/>
         <SubscribedStopsList/>
         <div class="configuration-show">
             <h1 class="section-title">Motywy i style urządzenia</h1>
-            <button class="show-btn" @click="showDisplay">Podgląd Urządzenia</button>
         </div>
         <hr/>
         <DeviceStyles/>
     </div>
-    <Vuefooter/>
+    <DisplayDevice class="transform" @slideDisplay="showDisplay2"/>
   </template>
   
   <script>
-  import Vuefooter from './Vuefooter.vue';
   import SubscribedStopsList from '@/components/deviceComponents/SubscribedStopsList.vue';
   import DeviceStyles from '@/components/deviceComponents/DeviceStyles.vue';
+  import DisplayDevice from '@/components/deviceComponents/DisplayDevice.vue';
   import { useApiStore } from '@/store/apiManagment.store';
+
   export default {
     name: "DeviceView",
     
@@ -30,19 +29,19 @@
     },
 
     components: {
-    SubscribedStopsList,
-    DeviceStyles,
-    Vuefooter
+        SubscribedStopsList,
+        DeviceStyles,
+        DisplayDevice,
     },
 
     methods: {
-        showDisplay(){
-            if(typeof this.apiStore.getActiveStop.stopName !== 'undefined'){
-                this.$router.push('/display');
-            } else {
-                alert("Wybierz przystanek do wyświetlenia!");
-            }
-        },
+
+        // showDisplay2(){
+        //     console.log("Mamy to!");
+        //     let device = document.querySelector(".transform");
+        //     console.log(device);
+        //     device.classList.toggle("transform-open");
+        // }
 
     }
  
@@ -52,9 +51,14 @@
 <style>
 .device-view {
     width: 60%;
-    margin: auto;
     display: grid;
     font-size: 22px;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: 0;
     font-family: 'Teko', sans-serif;
     color: var(--appblue);
 }
@@ -91,6 +95,7 @@
   background: var(--whiteText);
   color: var(--appblue);
 }
+
 
 @media screen and (max-width: 1200px) {
     .device-view {

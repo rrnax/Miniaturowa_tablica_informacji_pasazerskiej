@@ -147,7 +147,6 @@ export const useApiStore = defineStore("api", {
             await axios.get(this.apiUrl+code)
             .then(response => {
                 list = response.data.departures;
-                console.log(response);
             // eslint-disable-next-line no-unused-vars
             }).catch(error => {
                 // console.log(error);

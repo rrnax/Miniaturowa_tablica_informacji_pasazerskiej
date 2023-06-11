@@ -154,7 +154,7 @@ export const useUserStore = defineStore("user", {
                 }
             });
             if(!exist){
-                apiStore.setActiveStop({});
+                apiStore.setActiveStop("none");
             }
         },
 
@@ -172,8 +172,11 @@ export const useUserStore = defineStore("user", {
 
         //Set new stop to active status
         async activeNewStop(stop){
+                let apiStore = useApiStore();
                 await this.setCorrectStatuses(stop);
                 setTimeout(this.downloadFavoriteStops, 200);
+                setTimeout(apiStore.converActiveStop, 500);
+                setTimeout(apiStore.updateDepartureList, 700);
         },
 
         //Sending correct statuses
@@ -189,12 +192,14 @@ export const useUserStore = defineStore("user", {
 
         //Desactive stop
         async turnOffActiveStop(stop){
+            const apiStore = useApiStore();
             this.favoriteStops.forEach((element) => {
                 if(element.id === stop.id){
                     this.changeStatus(true, element.id);
                 }    
             })
             setTimeout(this.downloadFavoriteStops, 200);
+            apiStore.setActiveStop('none');
         },
 
 

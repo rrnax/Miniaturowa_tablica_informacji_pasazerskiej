@@ -7,6 +7,7 @@
 
 <script>
 import Navigation from "@/components/Navigation.vue";
+
 export default {
   name: 'App',
 
@@ -26,16 +27,18 @@ export default {
       this.actualPanel = panel;
     },
 
-  }
+  },
+
 }
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Teko:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@700&display=swap');
+@import url('https://db.onlinewebfonts.com/c/84cb021d5f9af287ffff84b61beef6dc?family=clockicons');
 
 :root {
-  --appblue: #3b64c5;
+  --appblue: rgb(59, 100, 197);
   --whiteText: #ffffff;
   --navMenuColor: #d9e7fc;
   --changableElements: #1c232e;
@@ -50,13 +53,13 @@ html, body {
 #app {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  margin: 0;
 }
 
 .app-container {
-  height: 100vh;
   width: 100%;
-  margin: 0;
+  min-height: 100vh;
+  margin: 0 0 0 0;
 }
 
 h1 {
@@ -136,16 +139,16 @@ input {
 }
 
 footer {
-
   width: 100%;
   height: 70px;
+  margin-top: 50px;
+  position: sticky;
   bottom: 0;
-  margin-top: 100px;
-  background-color: var(--footerColor);
+  background-color: var(--navMenuColor);
   display: grid;
   justify-content: center;
   font-family: 'Teko', sans-serif;
-  color: var(--halfView);
+  color: var(--appblue);
   font-size: 14px;
   align-items: end;
   row-gap: 0;

@@ -1,5 +1,4 @@
 <template>
-    <div v-if="this.apiStore.getLoadedInfo" class="loader"></div>
     <div class="display-view">
       <div class="general-info">
         <div v-if="this.apiStore.getActiveStop.stopName.length > 10" class="theme" id="station-name">
@@ -9,7 +8,7 @@
           <h1 class="display-info" id="station">{{ this.apiStore.getActiveStop.stopName }}</h1>
         </div>
         <div class="theme" id="date">
-            <h1 class="display-info">{{ publishDate }}</h1>
+            <p class="timer">{{ publishDate }}</p>
         </div>
       </div>
       <tr class="table-header">
@@ -23,22 +22,19 @@
           <td v-if="this.apiStore.getActiveStop.cityName === 'Gdańsk [ZTM]'" class="line">{{ route.routeId }}</td>
           <td v-else class="line">{{ route.tripId }}</td>
           <td class="destination">
-            <marquee v-if="route.headsign.length > 9">{{ route.headsign }}</marquee>
+            <marquee v-if="route.headsign.length > 9" style="margin-top: 10px;">{{ route.headsign }}</marquee>
             <p v-else>{{ route.headsign }}</p>
           </td>
           <td class="time">{{ route.estimatedTime }}</td>
         </tr>
       </table>
     </div>
-    <div id="span">
-    <Vuefooter/>
-  </div>
-  </template>
+    </template>
   
   <script>
   import { useApiStore } from '@/store/apiManagment.store';
   import { useUserStore } from '@/store/user.stroe';
-  import Vuefooter from './Vuefooter.vue';
+  import moment from 'moment';
 
   export default {
     name: "DisplayView",
@@ -66,7 +62,7 @@
     methods: {
         actualDate() {
             let miliDate = new Date();
-            this.date = miliDate.toLocaleTimeString();
+            this.date = moment(miliDate).format('HH:mm:ss');
         },
     },
     computed: {
@@ -74,36 +70,33 @@
             return this.date;
         },
     },
-    components: { Vuefooter }
 }
 </script>
 
 <style>
-#span{
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-}
-#span2{
-  height: 90px;
-}
+
 :root {
   --backcolor: #4e4949;
   --fontcolor: #ff7519;
   --containercolor: #363232;
   --bordercolor: #ebebeb;
+  --showpanel: rgba(59, 100, 197, 0.9);
+
 }
 
 .display-view {
-  width: 480px;
+  width: 0px;
   height: 320px;
-  margin: 50px auto;
-  margin-bottom: 260px;
+  margin: auto;
   display: grid;
+  position: sticky;
+  top: 240px;
+  overflow: hidden;
   border-radius: 10px;
   background: var(--backcolor);
   font-family: 'PT Sans', sans-serif;
   color: var(--fontcolor);
+  transition: all 2s ease;
   white-space: nowrap;
 }
 
@@ -141,7 +134,7 @@
 .departure-table{
   width: 100%;
   display: grid;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .t-row {
@@ -162,6 +155,10 @@
   color: var(--fontcolor);
 }
 
+.ztm {
+  font-family: 'clockicons';
+}
+
 .destination {
   width: 60%;
   max-width: 60%;
@@ -175,6 +172,7 @@
   width: 20%;
   margin-right: 15px;
   color: var(--fontcolor);
+  font-family: 'clockicons';
 }
 
 #station-name {
@@ -187,6 +185,8 @@
 #date {
   width: 35%;
   height: 70px;
+  font-size: 42px;
+  font-family: 'clockicons';
 }
 .display-view th,td{
   border:none !important;
@@ -200,6 +200,7 @@
   font-size: 40px;
   text-transform: uppercase;
 }
+
 
 @media only screen and (max-width: 500px) {
   .display-view {

@@ -14,21 +14,15 @@
     </div>
     
   </div>
-  <div id="span">
-    <Vuefooter/>
-  </div>
-  
 </template>
 
 <script>
 import LoginForm from "@/components/forms/LoginForm.vue";
-import Vuefooter from './Vuefooter.vue';
 
 export default {
   name: "LoginView",
   components: {
     LoginForm,
-    Vuefooter
   },
 
   methods: {
