@@ -1,15 +1,17 @@
 <template>
-    <div v-if="this.apiStore.getActiveStop !== 'none'" class="display-continer">
+    <div v-if='this.userStore.getIsActive' class="display-continer">
         <button @click="deviceSlide" class="roller">
-            <p id="showing">Pdogląd </p>
+            <p id="showing">Pdogląd</p>
             <img id="arrow" src="../../assets/angle-right-icon.png">
         </button>
         <DisplayView/>
+        <!-- <div v-if="this.apiStore.getLoadedInfo" class="loader" id="visable"></div> -->
     </div>
 </template>
 
 <script>
 import { useApiStore } from '@/store/apiManagment.store';
+import { useUserStore } from '@/store/user.stroe';
 import DisplayView from '@/views/DisplayView.vue';
 
 export default {
@@ -17,8 +19,11 @@ export default {
 
     setup(){
         const apiStore = useApiStore();
-        return { apiStore };
+        const userStore = useUserStore();
+        return { apiStore, userStore };
     },
+
+    props: ['isActive'],
 
     components: {
         DisplayView,
@@ -26,8 +31,6 @@ export default {
 
     methods: {
         deviceSlide(){
-            this.apiStore.converActiveStop();
-            this.apiStore.updateDepartureList();
             let devicePanel = document.querySelector(".display-continer");
             let rollerBtn = document.querySelector(".roller");
             let device = document.querySelector(".display-view");
@@ -36,7 +39,7 @@ export default {
             rollerBtn.classList.toggle("roller-open");
             device.classList.toggle("open");
             arrow.classList.toggle("rote");
-        }
+        },
     }
 }
 </script>

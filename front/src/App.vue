@@ -85,6 +85,7 @@ hr {
   font-size: 22px;
   color: var(--whiteText);
   text-decoration: none;
+  cursor: pointer;
 }
 
 .option-btn:hover {

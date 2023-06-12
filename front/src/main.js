@@ -12,20 +12,20 @@ axios.defaults.baseURL = 'http://192.168.0.9:8080/'
 const pinia = createPinia()
 const app = createApp(App)
 
-if (localStorage.getItem("auth")) {
-    pinia.state.value.auth = JSON.parse(localStorage.getItem("auth"));
-    // console.log(pinia.state.value.auth);
-}
+// if (localStorage.getItem("auth")) {
+//     pinia.state.value.auth = JSON.parse(localStorage.getItem("auth"));
+//     // console.log(pinia.state.value.auth);
+// }
 
-if (localStorage.getItem("user")) {
-    pinia.state.value.user = JSON.parse(localStorage.getItem("user"));
-    // console.log(pinia.state.value.user);
-}
+// if (localStorage.getItem("user")) {
+//     pinia.state.value.user = JSON.parse(localStorage.getItem("user"));
+//     // console.log(pinia.state.value.user);
+// }
 
-if (localStorage.getItem("api")) {
-    pinia.state.value.api = JSON.parse(localStorage.getItem("api"));
-    // console.log(pinia.state.value.user);
-}
+// if (localStorage.getItem("api")) {
+//     pinia.state.value.api = JSON.parse(localStorage.getItem("api"));
+//     // console.log(pinia.state.value.user);
+// }
 
 
 watch(

@@ -4,14 +4,14 @@
             <h1 class="section-title">Obserwowane przystanki</h1>
         </div>
         <hr/>
-        <SubscribedStopsList/>
+        <SubscribedStopsList @change="checkStopList"/>
         <div class="configuration-show">
             <h1 class="section-title">Motywy i style urządzenia</h1>
         </div>
         <hr/>
         <DeviceStyles/>
     </div>
-    <DisplayDevice class="transform" @slideDisplay="showDisplay2"/>
+    <DisplayDevice class="transform" :is-active="isActive"/>
   </template>
   
   <script>
@@ -19,13 +19,21 @@
   import DeviceStyles from '@/components/deviceComponents/DeviceStyles.vue';
   import DisplayDevice from '@/components/deviceComponents/DisplayDevice.vue';
   import { useApiStore } from '@/store/apiManagment.store';
+import { useUserStore } from '@/store/user.stroe';
 
   export default {
     name: "DeviceView",
     
     setup() {
         const apiStore = useApiStore();
-        return { apiStore };
+        const userStore = useUserStore();
+        return { apiStore, userStore };
+    },
+
+    data() {
+        return {
+            isActive: true,
+        }
     },
 
     components: {
@@ -35,13 +43,10 @@
     },
 
     methods: {
+        checkStopList() {
+            this.isActive = this.userStore.getIsActive;
+        },
 
-        // showDisplay2(){
-        //     console.log("Mamy to!");
-        //     let device = document.querySelector(".transform");
-        //     console.log(device);
-        //     device.classList.toggle("transform-open");
-        // }
 
     }
  
