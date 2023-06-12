@@ -182,17 +182,6 @@ export const useUserStore = defineStore("user", {
                 await this.downloadFavoriteStops();
         },
 
-        //Sending correct statuses
-        // async setCorrectStatuses(stop){
-        //     this.favoriteStops.forEach(async (element) => {
-        //         if(element.status === true){
-        //             await this.changeStatus(false, element.id);
-        //         } else if(element.id === stop.id){
-        //             await this.changeStatus(true, element.id);
-        //         }
-        //     });
-        // },
-
         //Desactive stop
         async turnOffActiveStop(stop){
             const apiStore = useApiStore();

@@ -4,13 +4,19 @@
       <p>Potwierdzono weryfikacje użytkownika, możesz się zalogować</p>
     </div>
   </div>
+  <Footer class="tothebootom"/>
 </template>
 
 <script>
 import {useAuthStore} from "@/store/auth.store";
+import Footer from "@/components/Footer.vue";
 
 export default {
     name: "AccountConfirmationView",
+
+    components: {
+      Footer,
+    },
     setup() {
         const authStore = useAuthStore();
         return { authStore };

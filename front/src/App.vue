@@ -139,22 +139,6 @@ input {
   border: 2px solid var(--appblue);
 }
 
-footer {
-  width: 100%;
-  height: 70px;
-  margin-top: 50px;
-  position: sticky;
-  bottom: 0;
-  background-color: var(--navMenuColor);
-  display: grid;
-  justify-content: center;
-  font-family: 'Teko', sans-serif;
-  color: var(--appblue);
-  font-size: 14px;
-  align-items: end;
-  row-gap: 0;
-}
-
 p {
   margin: 0;
   text-align: center;

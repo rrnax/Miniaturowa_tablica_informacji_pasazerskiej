@@ -37,11 +37,13 @@
         </tbody>
       </table>
     </div>
+    <Footer/>
   </template>
   
   
   <script>
-  import axios from 'axios';
+  import Footer from '@/components/Footer.vue';
+import axios from 'axios';
 
   
   export default {
@@ -103,6 +105,7 @@
             }
         }
     },
+    components: { Footer }
 };
   </script>
   

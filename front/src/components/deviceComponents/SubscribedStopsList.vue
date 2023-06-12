@@ -13,7 +13,6 @@
             <td v-if="stop.status" class="col-stat positive">Wyświetlane</td>
             <td v-if="!stop.status" class="col-stat negative">Niewyświetlane</td>
             <td class="col-actions">
-                <!-- <a v-if="stop.status" class="actions" @click="finishDisplay(stop)">Zakończ</a> -->
                 <a v-if="!stop.status" class="actions" @click="displayStop(stop)">Wyświetl</a>
                 <p v-if="!stop.status" class="actions"> / </p>
                 <a class="actions" @click="deleteStop(stop)">Usuń</a>
@@ -50,18 +49,11 @@ export default{
     },
 
     methods: {
-        showStopDepartures(stop){
-            console.log(stop);
-            // this.apiStore.setDeparturesStop(stop);
-            // this.apiStore.makeDepartureList(stop);
-            // this.$router.push("/departures");
-        },
 
         async displayStop(stop) {
             await this.userStore.activeNewStop(stop);
             await this.apiStore.converActiveStop();
             await this.apiStore.updateDepartureList();
-            // this.$emit("change");
         },
 
         finishDisplay(stop) {
@@ -70,8 +62,6 @@ export default{
 
         deleteStop(stop){
             this.userStore.deleteFavoriteStop(stop);
-            // this.$emit("change");
-
         }
     }
 

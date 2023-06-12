@@ -5,17 +5,23 @@
             <img id="arrow" src="../../assets/angle-right-icon.png">
         </button>
         <DisplayView/>
-        <!-- <div v-if="this.apiStore.getLoadedInfo" class="loader" id="visable"></div> -->
+        <div v-if="this.apiStore.getLoadedInfo && loaders" class="device-loader"></div>
     </div>
 </template>
 
 <script>
 import { useApiStore } from '@/store/apiManagment.store';
 import { useUserStore } from '@/store/user.stroe';
-import DisplayView from '@/views/DisplayView.vue';
+import DisplayView from '@/components/deviceComponents/DisplayView.vue'
 
 export default {
     name: 'DisplayDevice',
+
+    data(){
+        return {
+            loaders: false,
+        }
+    },
 
     setup(){
         const apiStore = useApiStore();
@@ -23,14 +29,13 @@ export default {
         return { apiStore, userStore };
     },
 
-    props: ['isActive'],
-
     components: {
         DisplayView,
     },
 
     methods: {
         deviceSlide(){
+            this.loaders = !this.loaders;
             let devicePanel = document.querySelector(".display-continer");
             let rollerBtn = document.querySelector(".roller");
             let device = document.querySelector(".display-view");
@@ -81,6 +86,20 @@ export default {
 
 }
 
+.device-loader {
+    width: 20px;
+    height: 20px;
+    margin: 40px auto 0 auto;
+    border: 5px solid #f3f3f3;
+    position: sticky;
+    top: 70vh;
+    border-radius: 50%;
+    border-top: 5px solid var(--appblue);
+    border-bottom: 5px solid var(--appblue);
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
 .display-open {
     width: 520px;
 }
@@ -108,6 +127,21 @@ export default {
 
 .rote {
     transform: rotate(180deg);
+}
+
+@media screen and (max-width: 520px) {
+    .open {
+        width: 375px;
+    }
+
+    .display-open {
+     width: 375px;
+    }
+
+    .roller-open {
+        background: none;
+        left: 375px;
+    }
 }
 
 </style>

@@ -55,9 +55,9 @@
         setInterval(this.userStore.downloadStyle, 30000);
     },
     async mounted() {
-        this.userStore.downloadFavoriteStops();
-        setTimeout(this.apiStore.converActiveStop, 200);
-        setTimeout(this.apiStore.updateDepartureList, 500);
+        await this.userStore.downloadFavoriteStops();
+        await this.apiStore.converActiveStop();
+        await this.apiStore.updateDepartureList();
     },
     methods: {
         actualDate() {
@@ -203,9 +203,7 @@
 
 
 @media only screen and (max-width: 500px) {
-  .display-view {
-    width: 375px;
-  }
+  
 
   #station-name {
     max-width: 180px;

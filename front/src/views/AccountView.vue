@@ -55,13 +55,20 @@
       <button @click="deleteAccount" class="danger-btn">Usuń konto</button>
     </div>
   </div>
+  <Footer/>
 </template>
 
 <script>
 import {useUserStore} from "@/store/user.stroe";
+import Footer from "@/components/Footer.vue";
 
 export default {
     name: "AccountView",
+
+    components: {
+      Footer,
+    },
+
     data() {
         return {
             emailEditon: false,

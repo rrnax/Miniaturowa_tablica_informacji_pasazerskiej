@@ -22,15 +22,18 @@
             <div v-if="this.apiStore.getLoadedInfo" class="loader"></div>
         </table>
     </div>
+    <Footer />
 </template>
 
 <script>
 import { useApiStore } from '@/store/apiManagment.store';
-
+import Footer from '@/components/Footer.vue';
 
 export default{
     name: "StopsDepartureView",
-
+    components: {
+        Footer,
+    },
 
     setup(){
         const apiStore = useApiStore();

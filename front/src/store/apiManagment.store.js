@@ -175,6 +175,7 @@ export const useApiStore = defineStore("api", {
 
         //Convert active stop to departure stop
         async converActiveStop(){
+            this.isDataLoaded = true;
             const userStore = useUserStore();
             if(userStore.getIsActive){
                 let tempName = this.activeStop.stopName;
@@ -197,9 +198,10 @@ export const useApiStore = defineStore("api", {
             }
         },
 
-        updateDepartureList(){
+        async updateDepartureList(){
             let tempStop = JSON.parse(JSON.stringify(this.departuresStop));
-            this.makeDepartureList(tempStop);
+            await this.makeDepartureList(tempStop);
+            this.isDataLoaded = false;
         },
 
         //Compare method to sort by estimated time of departure 

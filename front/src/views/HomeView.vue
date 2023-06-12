@@ -16,9 +16,11 @@
       <MapSection :stops-list="stopsList"/>
     </div>
   </div>
+  <Footer/>
 </template>
 
 <script>
+import Footer from '@/components/Footer.vue';
 import MapSection from '@/components/homeComponents/MapSection.vue';
 import Searcher from '@/components/homeComponents/Searcher.vue';
 import StopsLister from '@/components/homeComponents/StopsLister.vue';
@@ -32,8 +34,9 @@ export default {
   components: {
     Searcher,
     StopsLister,
-    MapSection
-  },
+    MapSection,
+    Footer
+},
 
   data(){
     return{
@@ -86,6 +89,10 @@ export default {
   width: 100%;
   background-color: var(--navMenuColor);
   border-radius: 20px;
+}
+
+.maps-section {
+  margin-bottom: 100px;
 }
 
 
