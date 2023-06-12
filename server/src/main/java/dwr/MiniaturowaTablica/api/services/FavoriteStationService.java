@@ -60,6 +60,7 @@ public class FavoriteStationService {
                 .filter(it -> it.getId().equals(id)).findFirst();
         FavoriteStation station = null;
         if (userStation.isPresent()) {
+            user.getFavoriteStations().forEach(it -> it.setStatus(false));
             station = userStation.get();
             station.setStatus(station.getStatus().equals(false));
         }
