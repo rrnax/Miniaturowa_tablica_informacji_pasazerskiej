@@ -174,7 +174,7 @@ export const useApiStore = defineStore("api", {
         },
 
         //Convert active stop to departure stop
-        converActiveStop(){
+        async converActiveStop(){
             const userStore = useUserStore();
             if(userStore.getIsActive){
                 let tempName = this.activeStop.stopName;
