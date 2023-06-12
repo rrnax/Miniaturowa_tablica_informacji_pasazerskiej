@@ -25,6 +25,8 @@ public interface DisplaysRepository {
     Optional<DisplayDTO> findByDisplayCode(int displayCode);
     List<DisplayDTO> findAllByNamePrefix (String prefix);
     List<DisplayDTO> findAllByName (String name);
+    List<DisplayDTO> findAllByCity (String city);
+
 }
 
 @Repository
@@ -83,8 +85,12 @@ class DisplaysRepositoryImpl implements DisplaysRepository {
         return springDisplaysRepository.findByDisplayCode(String.valueOf(displayCode));
     }
 
-
-
+    @Override
+    public List<DisplayDTO> findAllByCity(String city) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("city").regex("^"+city+"$"));
+        return mongoOperations.find(query,DisplayDTO.class);
+    }
 
 
 }

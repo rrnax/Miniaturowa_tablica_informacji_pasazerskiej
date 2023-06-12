@@ -55,6 +55,20 @@ public class ZTMController {
               .status(HttpStatus.OK)
               .body(ZTMRepository.getAllStops());
    }
+   @GetMapping("/displays/geo/{displayid}") // get info about geolocation from displayid
+   private ResponseEntity<String> getDisplayGeo(@PathVariable("displayid") int displayid) {
+      ZTMRepository.setGeoData(displayid);
+      return ResponseEntity
+              .status(HttpStatus.OK)
+              .body("test output");
+   }
+   @GetMapping("/displays/geo") // get info about geolocation from displayid
+   private ResponseEntity<String> getDisplayGeo() {
+      return ResponseEntity
+              .status(HttpStatus.OK)
+              .body(ZTMRepository.getGeoData());
+   }
+
 
    @GetMapping("/time/{stopid}")   // get info about depratures from requested stop
    private ResponseEntity<String> getAllPlatformsByPosts(@PathVariable("stopid") int stopid) {
@@ -90,7 +104,6 @@ public class ZTMController {
    @PostMapping("/stops/addlist")
    private ResponseEntity<String> addStops(@RequestBody List<StopDTO> stopDTOs) // add list of stopdto to mongo database
    {
-      stopsRepository.deleteALL();
       stopsRepository.saveAll(stopDTOs);
       return ResponseEntity
               .status(HttpStatus.CREATED)
@@ -116,7 +129,7 @@ public class ZTMController {
 
    @PostMapping("/displays/addlist")  // add list of display to mongo database
    private ResponseEntity<String> addDisplays(@RequestBody List<Display> displays) {
-      displaysRepository.deleteALL();
+
       List<DisplayDTO> displaysToSend = new ArrayList<>();
 
       for (Display display : displays) {

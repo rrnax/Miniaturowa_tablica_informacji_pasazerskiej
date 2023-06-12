@@ -13,10 +13,10 @@
             <td v-if="stop.status" class="col-stat positive">Wyświetlane</td>
             <td v-if="!stop.status" class="col-stat negative">Niewyświetlane</td>
             <td class="col-actions">
-                <a v-if="stop.status" class="actions" @click="this.userStore.turnOffActiveStop(stop)">Zakończ</a>
-                <a v-if="!stop.status" class="actions" @click="this.userStore.activeNewStop(stop)">Wyświetl</a>
+                <a v-if="stop.status" class="actions" @click="finishDisplay(stop)">Zakończ</a>
+                <a v-if="!stop.status" class="actions" @click="displayStop(stop)">Wyświetl</a>
                 <p class="actions"> / </p>
-                <a class="actions" @click="this.userStore.deleteFavoriteStop(stop)">Usuń</a>
+                <a class="actions" @click="deleteStop(stop)">Usuń</a>
             </td>
         </tr>
     </table>
@@ -56,6 +56,27 @@ export default{
             // this.apiStore.makeDepartureList(stop);
             // this.$router.push("/departures");
         },
+
+        displayStop(stop) {
+            this.userStore.activeNewStop(stop);
+            setTimeout(this.apiStore.converActiveStop, 500);
+            setTimeout(this.apiStore.updateDepartureList, 700);
+            this.$emit("change");
+        },
+
+        finishDisplay(stop) {
+            this.userStore.turnOffActiveStop(stop);
+            setTimeout(this.apiStore.converActiveStop, 500);
+            setTimeout(this.apiStore.updateDepartureList, 700);
+            this.$emit("change");
+
+        },
+
+        deleteStop(stop){
+            this.userStore.deleteFavoriteStop(stop);
+            this.$emit("change");
+
+        }
     }
 
 }

@@ -3,7 +3,6 @@ package dwr.MiniaturowaTablica.api.ZTM.cities.gdansk;
 import com.google.gson.*;
 
 
-import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
@@ -14,7 +13,6 @@ import dwr.MiniaturowaTablica.api.ZTM.cities.gdansk.Models.Display_.GeneralInfoD
 import dwr.MiniaturowaTablica.api.ZTM.cities.gdansk.Models.Stop_.*;
 import dwr.MiniaturowaTablica.api.ZTM.Displays.DisplayDTO;
 import dwr.MiniaturowaTablica.api.ZTM.Displays.DisplaysRepository;
-import dwr.MiniaturowaTablica.api.ZTM.cities.warszawa.Models.Displays.WarsawDisplay;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -266,6 +264,60 @@ public class ZTMRepository {
 
 
             return gson.toJson(stopDTOList);
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<StopDTO>  getAllStopsInArray ()
+    {
+        HttpClient httpClient = httpClientConf();
+        // PDF 2.5
+        String url = "https://ckan.multimediagdansk.pl/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/d3e96eb6-25ad-4d6c-8651-b1eb39155945/download/stopsingdansk.json";
+
+        // Create request.
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Accept", "application/json")
+                .GET()
+                .build();
+
+        //Send Request
+        HttpResponse<String> response =
+                null;
+        try {
+            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            String responseJson = response.body();
+            // gson initialize
+            GsonBuilder builder = new GsonBuilder();
+            builder.setPrettyPrinting();
+            Gson gson = builder.excludeFieldsWithModifiers(Modifier.TRANSIENT).create();
+
+            // full json from api goes to gson
+            GeneralInfoStops generalInfoStops = gson.fromJson(responseJson, GeneralInfoStops.class);
+
+            if (generalInfoStops == null || generalInfoStops.getStops().isEmpty())
+            {
+                return new ArrayList<>();
+            }
+
+            List<Stop> stops = generalInfoStops.getStops();
+            List<StopDTO> stopDTOList = new ArrayList<>();
+            for (int i = 0; i < stops.size(); i++)
+            {
+                Stop tmp = stops.get(i);
+                StopDTO tmpDTO = stopAssembler.toStopDTO(tmp);
+                stopDTOList.add(tmpDTO);
+            }
+
+
+            return stopDTOList;
 
 
         } catch (IOException e) {
@@ -529,7 +581,70 @@ public class ZTMRepository {
 
         return idStops;
     }
+    public void setGeoData(int displaydto) {
+        Optional<DisplayDTO> dto = displaysRepository.findByDisplayCode(displaydto);
 
+        if (dto.isPresent()) {
+            int stopid = dto.get().getIdStop1();
+            List<StopDTO> stopDTOList = stopsRepository.findByStopId(stopid);
 
+            if (!stopDTOList.isEmpty()) {
+                StopDTO stopDTO = stopDTOList.get(0);
+                float stopLat = stopDTO.getStopLat();
+                float stopLon = stopDTO.getStopLon();
 
+                System.out.println(stopLat + " " + stopLon);
+            } else {
+//                System.out.println("StopDTO list is empty for stopid: " + stopid);
+            }
+        } else {
+//            System.out.println("DisplayDTO not found for displayCode: " + displaydto);
+        }
+    }
+
+    public String getGeoData() {
+
+        List<DisplayDTO> displayDTOS = displaysRepository.findAllByCity("Gdańsk");
+        List<Map<String, Object>> geoDataList = new ArrayList<>();
+        Map<String, Integer> nameCounts = new HashMap<>();
+
+        for (DisplayDTO display : displayDTOS) {
+            List<StopDTO> stopDTOList = stopsRepository.findByStopId(display.getIdStop1());
+            if (!stopDTOList.isEmpty()) {
+                StopDTO stopDTO = stopDTOList.get(0);
+                float stopLat = stopDTO.getStopLat();
+                float stopLon = stopDTO.getStopLon();
+
+                String name = display.getName();
+                int count = nameCounts.getOrDefault(name, 0) + 1;
+                nameCounts.put(name, count);
+                String modifiedName = (count > 1) ? name + " " + count : name;
+
+                // Check if an object with the same coordinates already exists in geoDataList
+                boolean isDuplicate = false;
+                for (Map<String, Object> geoData : geoDataList) {
+                    float existingStopLat = (float) geoData.get("stopLat");
+                    float existingStopLon = (float) geoData.get("stopLon");
+                    if (existingStopLat == stopLat && existingStopLon == stopLon) {
+                        isDuplicate = true;
+                        break;
+                    }
+                }
+
+                if (!isDuplicate) {
+                    Map<String, Object> geoData = new HashMap<>();
+                    geoData.put("name", modifiedName);
+                    geoData.put("stopLat", stopLat);
+                    geoData.put("stopLon", stopLon);
+
+                    geoDataList.add(geoData);
+                }
+            }
+        }
+
+        // Convert the geoDataList to JSON using Gson
+        Gson gson = new Gson();
+        String jsonGeoData = gson.toJson(geoDataList);
+        return jsonGeoData;
+    }
 }

@@ -6,7 +6,6 @@ import {useAuthStore} from "@/store/auth.store";
 import AccountView from "@/views/AccountView";
 import AccountConfirmationView from "@/views/AccountConfirmationView";
 import DeviceView from "@/views/DeviceView";
-import DisplayView from "@/views/DisplayView";
 import RanksView from "@/views/RanksView";
 import StopDeparturesView from "@/views/StopDeparturesView";
 
@@ -45,12 +44,6 @@ const routes = [
     path: '/device',
     name: 'device',
     component: DeviceView,
-    meta: { requiredAuth: true },
-  },
-  {
-    path: '/display',
-    name: 'display',
-    component: DisplayView,
     meta: { requiredAuth: true },
   },
   {

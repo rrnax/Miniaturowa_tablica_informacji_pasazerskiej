@@ -103,10 +103,11 @@ export const useAuthStore = defineStore('auth', {
 
         //Session
         sessionIntervalStart() {
-            const userStore = useUserStore();
+            // const userStore = useUserStore();
             this.session = setInterval(() => {
-                this.userSignIn(userStore.getEmail, userStore.getPassword);
-            }, 1800000);
+                // this.userSignIn(userStore.getEmail, userStore.getPassword);
+                console.log("logut");
+            }, 10800000);
         },
 
         sessionIntervalStop() {

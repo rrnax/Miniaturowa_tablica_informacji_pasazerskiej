@@ -1,5 +1,6 @@
 import axios from "axios";
 import { defineStore } from "pinia";
+import { useUserStore } from "./user.stroe";
 
 export const useApiStore = defineStore("api", {
 
@@ -11,7 +12,9 @@ export const useApiStore = defineStore("api", {
         departuresStop: null,
         departureList: [],
         isDataLoaded: false,
-        activeStop: null,
+        activeStop: {
+            stopName: "Nie wybrano przystanku"
+        },
     }),
 
     getters: {
@@ -148,7 +151,6 @@ export const useApiStore = defineStore("api", {
             await axios.get(this.apiUrl+code)
             .then(response => {
                 list = response.data.departures;
-                console.log(response);
             // eslint-disable-next-line no-unused-vars
             }).catch(error => {
                 // console.log(error);
@@ -174,23 +176,26 @@ export const useApiStore = defineStore("api", {
 
         //Convert active stop to departure stop
         converActiveStop(){
-            let tempName = this.activeStop.stopName;
-            let tempDisplayArray = JSON.parse(JSON.stringify(this.activeStop.stopIds));
-            let tempStop;
-            if(this.activeStop.cityName === "Warszawa [ZTM]"){
-                this.transport = 'ztm';
-                this.city = 'Warszawa';
-                tempStop = [ tempName, tempDisplayArray];
-            }else if(this.activeStop.cityName === "Gdańsk [ZTM]"){
-                this.transport = 'ztm';
-                this.city = 'Gdańsk';
-                tempStop = [ tempName, tempDisplayArray];
-            } else {
-                this.transport = 'rail';
-                this.city = '';
-                tempStop = {name:tempName, stop_id:tempDisplayArray[0]};
+            const userStore = useUserStore();
+            if(userStore.getIsActive){
+                let tempName = this.activeStop.stopName;
+                let tempDisplayArray = JSON.parse(JSON.stringify(this.activeStop.stopIds));
+                let tempStop;
+                if(this.activeStop.cityName === "Warszawa [ZTM]"){
+                    this.transport = 'ztm';
+                    this.city = 'Warszawa';
+                    tempStop = [ tempName, tempDisplayArray];
+                }else if(this.activeStop.cityName === "Gdańsk [ZTM]"){
+                    this.transport = 'ztm';
+                    this.city = 'Gdańsk';
+                    tempStop = [ tempName, tempDisplayArray];
+                } else {
+                    this.transport = 'rail';
+                    this.city = '';
+                    tempStop = {name:tempName, stop_id:tempDisplayArray[0]};
+                }
+                this.setDeparturesStop(tempStop);
             }
-            this.setDeparturesStop(tempStop);
         },
 
         updateDepartureList(){

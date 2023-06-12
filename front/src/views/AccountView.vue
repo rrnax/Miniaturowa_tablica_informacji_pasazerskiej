@@ -47,29 +47,6 @@
       <a @click="this.updatePassword" class="save-pass">Zmień hasło</a>
         <p v-if="validationPassword" class="validation-warning" id="pass-info">Za krótkie hasło, przynajmniej 8 znaków!</p>
     </div>
-    <!-- <div class="section-title">
-      <h1 class="section-header">Urządzenia powiązane z kontem</h1>
-      <hr>
-    </div>
-    <div class="user-devices">
-      <table class="device-table">
-        <tr>
-          <th>Urządzenie</th>
-          <th>Status</th>
-          <th>Akcja</th>
-        </tr>
-        <tr>
-          <td>p1</td>
-          <td>aktywne</td>
-          <td><a class="edit-btn">resetuj</a></td>
-        </tr>
-        <tr>
-          <td>p2</td>
-          <td>wylaczone</td>
-          <td><a class="edit-btn">resetuj</a></td>
-        </tr>
-      </table>
-    </div> -->
     <div class="section-title">
       <h1 class="section-header">Zarządzanie kontem</h1>
       <hr>
@@ -78,12 +55,10 @@
       <button @click="deleteAccount" class="danger-btn">Usuń konto</button>
     </div>
   </div>
-  <Vuefooter/>
 </template>
 
 <script>
 import {useUserStore} from "@/store/user.stroe";
-import Vuefooter from "./Vuefooter.vue";
 
 export default {
     name: "AccountView",
@@ -149,7 +124,6 @@ export default {
             }
         },
     },
-    components: { Vuefooter }
 }
 </script>
 

@@ -12,7 +12,8 @@ export const useUserStore = defineStore("user", {
         email: "",
         roles: [],
         password: "",
-        favoriteStops: [],
+        favoriteStops: null,
+        isSomeActive: false,
         isLoaded: true,
         deviceStyle: "",
     }),
@@ -23,6 +24,7 @@ export const useUserStore = defineStore("user", {
         getPassword: (state) => state.password,
         getFavorites: (state) => state.favoriteStops,
         getDeviceStyle: (state) => state.deviceStyle,
+        getIsActive: (state) => state.isSomeActive,
     },
 
     actions: {
@@ -150,11 +152,15 @@ export const useUserStore = defineStore("user", {
             this.favoriteStops.map((stop) => {
                 if(stop.status === true){
                     apiStore.setActiveStop(stop);
-                    exist = true;
+                    this.isSomeActive = true;
+                    exist =  true;
                 }
             });
             if(!exist){
-                apiStore.setActiveStop({});
+                this.isSomeActive = false;
+                apiStore.setActiveStop({
+                    stopName: "Nie wybrano przystanku"
+                });
             }
         },
 
@@ -172,29 +178,29 @@ export const useUserStore = defineStore("user", {
 
         //Set new stop to active status
         async activeNewStop(stop){
-                await this.setCorrectStatuses(stop);
-                setTimeout(this.downloadFavoriteStops, 200);
+                await this.changeStatus(true, stop.id);
+                this.downloadFavoriteStops();
         },
 
         //Sending correct statuses
-        async setCorrectStatuses(stop){
-            this.favoriteStops.forEach(async (element) => {
-                if(element.status === true){
-                    await this.changeStatus(false, element.id);
-                } else if(element.id === stop.id){
-                    await this.changeStatus(true, element.id);
-                }
-            });
-        },
+        // async setCorrectStatuses(stop){
+        //     this.favoriteStops.forEach(async (element) => {
+        //         if(element.status === true){
+        //             await this.changeStatus(false, element.id);
+        //         } else if(element.id === stop.id){
+        //             await this.changeStatus(true, element.id);
+        //         }
+        //     });
+        // },
 
         //Desactive stop
         async turnOffActiveStop(stop){
-            this.favoriteStops.forEach((element) => {
-                if(element.id === stop.id){
-                    this.changeStatus(true, element.id);
-                }    
-            })
-            setTimeout(this.downloadFavoriteStops, 200);
+            const apiStore = useApiStore();
+            await this.changeStatus(true, stop.id);
+            this.downloadFavoriteStops();
+            apiStore.setActiveStop({
+                stopName: "Nie wybrano przystanku"
+            });
         },
 
 
