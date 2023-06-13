@@ -6,7 +6,7 @@ import axios from "axios"
 import {useAuthStore} from "@/store/auth.store";
 
 
-axios.defaults.baseURL = 'http://192.168.0.9:8080/'
+axios.defaults.baseURL = 'http://localhost:8080/'
 
 
 const pinia = createPinia()

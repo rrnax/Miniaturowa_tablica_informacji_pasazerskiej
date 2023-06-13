@@ -92,7 +92,7 @@ export default {
     margin: 40px auto 0 auto;
     border: 5px solid #f3f3f3;
     position: sticky;
-    top: 70vh;
+    top: 600px;
     border-radius: 50%;
     border-top: 5px solid var(--appblue);
     border-bottom: 5px solid var(--appblue);

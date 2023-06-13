@@ -35,7 +35,15 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Teko:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@700&display=swap');
-@import url('https://db.onlinewebfonts.com/c/84cb021d5f9af287ffff84b61beef6dc?family=clockicons');
+@font-face {
+    font-family:clockicons;
+    src:url(./assets/font/clockicons/clockicons.eot#iefix) format('embedded-opentype'),
+    url(./assets/font/clockicons/clockicons.woff2) format('woff2'),
+    url(./assets/font/clockicons/clockicons.woff) format('woff'),
+    url(./assets/font/clockicons/clockicons.ttf) format('truetype');
+    font-weight:400;
+    font-style:normal
+}
 
 :root {
   --appblue: rgb(59, 100, 197);
