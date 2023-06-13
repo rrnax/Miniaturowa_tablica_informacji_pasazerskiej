@@ -179,7 +179,7 @@ export const useUserStore = defineStore("user", {
         //Set new stop to active status
         async activeNewStop(stop){
                 await this.changeStatus(true, stop.id);
-                this.downloadFavoriteStops();
+                await this.downloadFavoriteStops();
         },
 
         //Sending correct statuses
