@@ -10,7 +10,7 @@
     </div>
     <div id="question">
       <p>Nie masz konta?</p>
-      <router-link @click="singalPanel('regis')" to="/registration"> Zarejestruj się!</router-link>
+      <router-link class="linked" @click="singalPanel('regis')" to="/registration"> Zarejestruj się!</router-link>
     </div>
   </div>
   <Footer class="tothebootom"/>
@@ -59,6 +59,11 @@ export default {
   align-items: center;
   font-size: 19px;
   margin-bottom: 10px;
+}
+
+.linked {
+  color: var(--linked);
+  text-decoration: underline;
 }
 
 .tothebootom {

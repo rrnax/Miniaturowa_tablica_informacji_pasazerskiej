@@ -2,7 +2,8 @@
     <div v-if='this.userStore.getIsActive' class="display-continer">
         <button @click="deviceSlide" class="roller">
             <p id="showing">Pdogląd</p>
-            <img id="arrow" src="../../assets/angle-right-icon.png">
+            <img v-if="!darkMode" id="arrow" src="../../assets/angle-right-icon.png">
+            <img v-if="darkMode" id="arrow" src="../../assets/angle-right-icon-blc.png">
         </button>
         <DisplayView/>
         <div v-if="this.apiStore.getLoadedInfo && loaders" class="device-loader"></div>
@@ -20,6 +21,7 @@ export default {
     data(){
         return {
             loaders: false,
+            
         }
     },
 
@@ -28,6 +30,8 @@ export default {
         const userStore = useUserStore();
         return { apiStore, userStore };
     },
+
+    props: ["darkMode"],
 
     components: {
         DisplayView,
@@ -60,7 +64,7 @@ export default {
     bottom: 0;
     position: sticky;
     z-index: 1;
-    background: var(--showpanel);
+    background: linear-gradient(var(--showpanel), var(--draker));
     overflow-x: visible;
     transition: all 2s ease;
 }

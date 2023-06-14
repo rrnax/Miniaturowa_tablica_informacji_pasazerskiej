@@ -81,6 +81,7 @@
   --containercolor: #363232;
   --bordercolor: #ebebeb;
   --showpanel: rgba(59, 100, 197, 0.9);
+  --draker:  rgba(1, 21, 66, 0.9);
 
 }
 

@@ -61,7 +61,6 @@ export default{
     padding: 10px 0;
     display: flex;
     justify-content: space-between;
-    background: var(--navMenuColor);
     border-bottom: 2px solid var(--appblue);
     font-size: 28px;
 }
@@ -70,14 +69,15 @@ export default{
     width: 100%;
     height: 600px;
     display: block;
-    overflow: scroll;
-    background: var(--navMenuColor);
+    overflow-y: scroll;
+    background: linear-gradient( var(--themeMenu), var(--navMenuColor));
     border-radius: 0 0 20px 20px;
     color: var(--changableElements);
 }
 
 .description {
     border-radius: 20px 20px 0 0;
+    background: var(--themeMenu);
 }
 
 .content {

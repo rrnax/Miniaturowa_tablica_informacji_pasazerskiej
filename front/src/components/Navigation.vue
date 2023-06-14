@@ -16,9 +16,11 @@
       <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/account">Konto</router-link>
       <a class="menu-btn" @click="logOut" v-if="this.userStore.authStatus">Wyloguj się</a>
     </div>
+    <img v-if="!darkMode" @click="changeTheme" class="moon" src="../assets/moon-icon-light.png" />
+    <img v-if="darkMode" @click="changeTheme" class="moon" src="../assets/moon-icon.png" />
     <div @click="toggleMenu"
          id="toggle-menu"
-         :style="{ background: active ? 'var(--appblue)' : 'var(--navMenuColor)',
+         :style="{ background: active ? 'var(--appblue)' : 'linear-gradient(var(--navMenuColor), var(--themeMenu))',
           color: active ? 'var(--whiteText)' : 'var(--appblue)',}">
       <div class="icon">
         <div class="bar1"></div>
@@ -56,13 +58,18 @@ export default {
 
   props: {
     actualPanel: String,
+    darkMode: Boolean,
   },
 
-  emits:["changePanel"],
+  emits:["changePanel", "changeMode"],
 
   setup(){  
     const userStore = useAuthStore();
     return { userStore };
+  },
+
+  mounted(){
+    this.setCurrent();
   },
 
   methods: {       
@@ -90,6 +97,47 @@ export default {
     //Changing displays options on nav bar
     singalPanel(panel){
       this.$emit('changePanel', panel);
+    },
+    
+    setCurrent(){
+      const bookmarks = document.querySelectorAll('.menu-btn');
+      if (bookmarks.length) {
+      bookmarks.forEach((link) => {
+        link.addEventListener('click', (e) => {
+          bookmarks.forEach((link) => {
+              link.classList.remove('current');
+          });
+          e.preventDefault();
+          link.classList.add('current');
+        });
+      }); 
+      }
+    },
+
+    //Change theme of Site
+    async changeTheme(){
+      await this.$emit('changeMode');
+      if(this.darkMode){
+        document.documentElement.style.setProperty('--appblue', '#f3f3f3');
+        document.documentElement.style.setProperty('--firstbck', '#727272');
+        document.documentElement.style.setProperty('--secondbck', '#525252');
+        document.documentElement.style.setProperty('--themeMenu', '#292929');
+        document.documentElement.style.setProperty('--navMenuColor', '#424242');
+        document.documentElement.style.setProperty('--changableElements','#ffffff');
+        document.documentElement.style.setProperty('--halfView', '#ffa3a3');
+        document.documentElement.style.setProperty('--whiteText', '#292929');
+        document.documentElement.style.setProperty('--linked', 'black');
+      } else {
+        document.documentElement.style.setProperty('--appblue', '#2e5bc5');
+        document.documentElement.style.setProperty('--secondbck', '#ffffff');
+        document.documentElement.style.setProperty('--firstbck', '#dfdddd');
+        document.documentElement.style.setProperty('--themeMenu', '#d6ebff');
+        document.documentElement.style.setProperty('--navMenuColor', '#88b8ff');
+        document.documentElement.style.setProperty('--changableElements','#1c232e');
+        document.documentElement.style.setProperty('--halfView', 'gray');
+        document.documentElement.style.setProperty('--whiteText', '#ffffff');
+        document.documentElement.style.setProperty('--linked', '#99009e');
+      }
     }
   },
 }
@@ -105,7 +153,7 @@ export default {
   padding: 0px 20%;
   display: flex;
   justify-content: space-between;
-  background: var(--navMenuColor);
+  background: linear-gradient(var(--navMenuColor), var(--themeMenu));
   border-bottom: 3px solid var(--appblue);
 }
 
@@ -165,15 +213,14 @@ export default {
 }
 
 #toggle-menu:hover {
-  background: var(--appblue);
-  color: var(--whiteText);
+  background: linear-gradient(var(--appblue), var(--appblue));
 }
 
 .bar1, .bar2, .bar3 {
   width: 35px;
   height: 5px;
   margin: 6px 0;
-  background-color: var(--appblue);
+  background: var(--appblue);
   transition: 0.4s;
 }
 
@@ -222,6 +269,19 @@ export default {
 .menu-item:hover {
   background: var(--whiteText);
   color: var(--appblue);
+}
+
+.moon {
+  width: 20px;
+  height: 20px;
+  margin-top: 27px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.current {
+  background: var(--appblue);
+  color: var(--whiteText);
 }
 
 @media screen and (max-width: 1500px){

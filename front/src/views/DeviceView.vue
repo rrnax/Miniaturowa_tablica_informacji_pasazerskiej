@@ -11,7 +11,7 @@
         <hr/>
         <DeviceStyles/>
     </div>
-    <DisplayDevice :is-active="isActive"/>
+    <DisplayDevice :dark-mode="this.darkMode" :is-active="isActive"/>
     <Footer />
 </template>
   
@@ -31,6 +31,8 @@
         const userStore = useUserStore();
         return { apiStore, userStore };
     },
+
+    props: ["darkMode"],
 
     components: {
         SubscribedStopsList,

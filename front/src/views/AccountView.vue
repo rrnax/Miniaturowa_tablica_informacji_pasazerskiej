@@ -166,7 +166,7 @@ hr {
 }
 
 .user-devices {
-  background: var(--navMenuColor);
+  background: linear-gradient( var(--themeMenu), var(--navMenuColor));
   width: 100%;
   display: flex;
   justify-content: center;
@@ -175,7 +175,7 @@ hr {
 }
 
 .column {
-  background: var(--navMenuColor);
+  background: linear-gradient( var(--themeMenu), var(--navMenuColor));
   width: 100%;
   display: block;
   margin: 0;
@@ -241,7 +241,7 @@ hr {
   width: 200px;
   height: 80px;
   background: red;
-  color: var(--whiteText);
+  color: white;
   border: none;
   border-radius: 10px;
   cursor: pointer;

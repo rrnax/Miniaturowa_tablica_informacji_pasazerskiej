@@ -39,7 +39,7 @@ export default {
 footer {
   width: 100%;
   height: 120px;
-  background-color: var(--navMenuColor);
+  background: linear-gradient( var(--themeMenu), var(--navMenuColor));
   display: grid;
   justify-content: center;
   font-family: 'Teko', sans-serif;

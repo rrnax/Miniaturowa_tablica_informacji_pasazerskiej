@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <Navigation :actual-panel="actualPanel" @changePanel="getPanel($event)"/>
-    <router-view  @changePanel="getPanel($event)" />
+    <Navigation :actual-panel="actualPanel" :dark-mode="darkMode" @changePanel="getPanel($event)" @changeMode="setMode"/>
+    <router-view :dark-mode="darkMode"  @changePanel="getPanel($event)" />
   </div>
 </template>
 
@@ -14,6 +14,7 @@ export default {
   data(){
     return {
       actualPanel: "login",
+      darkMode: false,
     }
   },
 
@@ -26,6 +27,10 @@ export default {
     getPanel(panel){
       this.actualPanel = panel;
     },
+
+    setMode(){
+      this.darkMode = !this.darkMode;
+    }
 
   },
 
@@ -46,18 +51,21 @@ export default {
 }
 
 :root {
-  --appblue: rgb(59, 100, 197);
-  --secondTheme: rgb(127, 171, 238);
+  --appblue: #2e5bc5;
   --whiteText: #ffffff;
-  --navMenuColor: #c0d9ff;
+  --themeMenu:  #d6ebff;
+  --navMenuColor: #88b8ff;
   --changableElements: #1c232e;
-  --footerColor: #e8e8e8;
   --halfView: gray;
+  --firstbck: #dfdddd;
+  --secondbck: #ffffff;
+  --linked: #ae00ff;
+
 }
 
 html, body {
   height: 100%;
-  /* background: linear-gradient(45deg, #ccccfc, #1c1cbb); */
+  background: linear-gradient(90deg,var(--firstbck), var(--secondbck));
 }
 
 #app {
@@ -125,7 +133,7 @@ hr {
 }
 
 .panel {
-  background: var(--navMenuColor);
+  background: linear-gradient( var(--themeMenu), var(--navMenuColor));
   width: 360px;
   margin: 20px auto 270px auto;
   display: block;
