@@ -38,16 +38,19 @@ export default {
 @import url('https://db.onlinewebfonts.com/c/84cb021d5f9af287ffff84b61beef6dc?family=clockicons');
 
 :root {
-  --appblue: rgb(59, 100, 197);
+  --appblue: #2e5bc5;
   --whiteText: #ffffff;
-  --navMenuColor: #d9e7fc;
+  --themeMenu:  #d6ebff;
+  --navMenuColor: #88b8ff;
   --changableElements: #1c232e;
-  --footerColor: #e8e8e8;
   --halfView: gray;
+  --firstbck: #dfdddd;
+  --secondbck: #ffffff;
 }
 
 html, body {
   height: 100%;
+  background: linear-gradient(90deg,var(--firstbck), var(--secondbck));
 }
 
 #app {
@@ -115,7 +118,7 @@ hr {
 }
 
 .panel {
-  background: var(--navMenuColor);
+  background: linear-gradient( var(--themeMenu), var(--navMenuColor));
   width: 360px;
   margin: 20px auto 270px auto;
   display: block;

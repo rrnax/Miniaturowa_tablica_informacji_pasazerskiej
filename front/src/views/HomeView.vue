@@ -87,7 +87,7 @@ export default {
 
 .action-section {
   width: 100%;
-  background-color: var(--navMenuColor);
+  background: linear-gradient( var(--themeMenu), var(--navMenuColor));
   border-radius: 20px;
 }
 

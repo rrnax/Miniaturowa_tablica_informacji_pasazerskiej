@@ -76,7 +76,7 @@ export default{
     margin: auto;
     display: block;
     overflow: scroll;
-    background-color: var(--navMenuColor);
+    background: linear-gradient( var(--themeMenu), var(--navMenuColor));
     border-radius: 0 0 20px 20px;
 }
 
@@ -92,7 +92,7 @@ export default{
 
 .header {
     color: var(--appblue);
-    background-color: var(--navMenuColor);
+    background-color: var(--themeMenu);
     border-radius: 20px 20px 0 0;
 }
 

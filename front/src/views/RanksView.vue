@@ -148,7 +148,7 @@ import axios from 'axios';
   .ranks-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: var(--navMenuColor);
+    background: linear-gradient( var(--themeMenu), var(--navMenuColor));
     border: 2px solid var(--appblue);
   }
 
@@ -161,7 +161,7 @@ import axios from 'axios';
     text-align: left;
     border-bottom: 1px solid #ddd;
     font-size:2rem;
-    background-color: var(--navMenuColor);
+    background: var(--themeMenu);
   }
   
  

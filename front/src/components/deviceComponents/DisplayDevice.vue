@@ -60,7 +60,7 @@ export default {
     bottom: 0;
     position: sticky;
     z-index: 1;
-    background: var(--showpanel);
+    background: linear-gradient(var(--showpanel), var(--draker));
     overflow-x: visible;
     transition: all 2s ease;
 }

@@ -179,7 +179,7 @@ export default{
     width: 100%;
     height: 800px;
     display: block;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .headset {
