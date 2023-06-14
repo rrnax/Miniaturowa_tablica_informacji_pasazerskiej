@@ -64,6 +64,7 @@ public class ZTMController {
    }
    @GetMapping("/displays/geo") // get info about geolocation from displayid
    private ResponseEntity<String> getDisplayGeo() {
+      System.out.println(ZTMRepository.getGeoData());
       return ResponseEntity
               .status(HttpStatus.OK)
               .body(ZTMRepository.getGeoData());

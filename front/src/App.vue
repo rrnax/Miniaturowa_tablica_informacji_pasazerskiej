@@ -47,8 +47,9 @@ export default {
 
 :root {
   --appblue: rgb(59, 100, 197);
+  --secondTheme: rgb(127, 171, 238);
   --whiteText: #ffffff;
-  --navMenuColor: #d9e7fc;
+  --navMenuColor: #c0d9ff;
   --changableElements: #1c232e;
   --footerColor: #e8e8e8;
   --halfView: gray;
@@ -56,6 +57,7 @@ export default {
 
 html, body {
   height: 100%;
+  /* background: linear-gradient(45deg, #ccccfc, #1c1cbb); */
 }
 
 #app {
