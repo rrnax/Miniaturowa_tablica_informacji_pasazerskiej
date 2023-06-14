@@ -5,6 +5,7 @@
     <div class="action-section">
       <Searcher :is-combo-box-fill="isComboBoxFill" @changeStopsList="changeStopsList($event)"/>
     </div>
+    <div v-if="this.apiStore.getLoadedInfo" class="loader"></div>
     <h1 v-if="isComboBoxFill">Stacje</h1>
     <hr v-if="isComboBoxFill">
     <div v-if="isComboBoxFill" class="action-section">

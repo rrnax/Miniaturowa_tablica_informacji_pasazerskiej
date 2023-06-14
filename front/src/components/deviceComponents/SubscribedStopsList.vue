@@ -8,7 +8,7 @@
     <table class="subscribed-table">
         <tr v-if="!isSubscribedStops" class="warning-message">Nie ma dodanych przystanków!</tr>
         <tr v-for="stop in this.userStore.getFavorites" v-bind:key="stop.stopName" class="subscribed-rows">
-            <td class="col-name">{{ stop.stopName }}</td>
+            <td @click="showStopDepartures(stop)" class="col-name k"><p>{{ stop.stopName }}</p></td>
             <td class="col-city">{{ stop.cityName }}</td>
             <td v-if="stop.status" class="col-stat positive">Wyświetlane</td>
             <td v-if="!stop.status" class="col-stat negative">Niewyświetlane</td>
@@ -62,7 +62,13 @@ export default{
 
         deleteStop(stop){
             this.userStore.deleteFavoriteStop(stop);
-        }
+        },
+
+        showStopDepartures(stop){
+            this.apiStore.setDeparturesStop(stop);
+            this.apiStore.makeDepartureList(stop);
+            this.$router.push("/departures");
+        },
     }
 
 }
@@ -98,8 +104,18 @@ export default{
 
 .col-name {
     width: 40%;
-    margin: 0 0 0 20px;
-    padding: 0;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    cursor: pointer;
+}
+
+.k:hover {
+    background-color: var(--appblue);
+    color: var(--whiteText);
 }
 
 .col-city {

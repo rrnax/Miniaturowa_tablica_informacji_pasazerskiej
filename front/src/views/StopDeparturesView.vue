@@ -1,5 +1,6 @@
 <template>
     <div class="chosen-stop-departures">
+        <div v-if="this.apiStore.getLoadedInfo" class="loader"></div>
         <div class="stop-headsign">
             <h1>Odjazdy</h1>
             <h1 v-if="this.apiStore.getCity != ''">{{ this.apiStore.getDeparturesStop[0] }}</h1>
@@ -19,7 +20,6 @@
                 <td class="col2">{{ route.headsign }}</td>
                 <td class="col3">{{ route.estimatedTime }}</td>
             </tr>
-            <div v-if="this.apiStore.getLoadedInfo" class="loader"></div>
         </table>
     </div>
     <Footer />

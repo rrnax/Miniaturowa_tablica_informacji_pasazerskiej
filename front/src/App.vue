@@ -124,7 +124,7 @@ hr {
   width: 20px;
   height: 20px;
   margin: 40px auto 0 auto;
-  border: 5px solid #f3f3f3;
+  border: 5px solid var(--whiteText);
   border-radius: 50%;
   border-top: 5px solid var(--appblue);
   border-bottom: 5px solid var(--appblue);

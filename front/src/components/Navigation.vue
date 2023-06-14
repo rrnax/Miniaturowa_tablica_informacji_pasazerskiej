@@ -12,7 +12,7 @@
       <router-link class="option-btn user-actions" @click="singalPanel('regis')" v-if="!this.userStore.authStatus && actualPanel === 'login'" to="/registration">Zarejestruj Się</router-link>
       <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/ranks">Statystyki</router-link>
       <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/device">Urządzenie</router-link>
-      <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/">Stacje</router-link>
+      <router-link class="menu-btn current" v-if="this.userStore.authStatus" id="hom" to="/">Stacje</router-link>
       <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/account">Konto</router-link>
       <a class="menu-btn" @click="logOut" v-if="this.userStore.authStatus">Wyloguj się</a>
     </div>
@@ -68,7 +68,7 @@ export default {
     return { userStore };
   },
 
-  mounted(){
+  updated(){
     this.setCurrent();
   },
 
@@ -280,8 +280,8 @@ export default {
 }
 
 .current {
-  background: var(--appblue);
-  color: var(--whiteText);
+  background: var(--appblue) !important;
+  color: var(--whiteText) !important;
 }
 
 @media screen and (max-width: 1500px){

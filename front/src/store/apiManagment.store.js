@@ -95,16 +95,27 @@ export const useApiStore = defineStore("api", {
 
         //Create and save departure list for specific stop
         async makeDepartureList(stop){
-            this.isDataLoaded = true;
-            let result = [];
-            await this.urlCreatorForDepatrures();
-            if(this.transport === "ztm"){
-                result = await this.downloadAllZtm(stop);
-            } else {
-                result = await this.downloadAllRail(stop);
+            if (stop !== null) {
+                this.isDataLoaded = true;
+                let result = [];
+                if(typeof stop.cityName !== 'undefined'){
+                    this.urlCreatorForDepatruresForSubs(stop)
+                    if(stop.cityName.includes('ZTM')){
+                        result = await this.downloadDeparturesFromSubscribed(stop);
+                    }else if(stop.cityName.includes('Kolej')){
+                        result = await this.downloadDeparturesFromSubscribed(stop);
+                    }
+                }else {
+                    await this.urlCreatorForDepatrures();
+                    if(this.transport === "ztm" ){
+                        result = await this.downloadAllZtm(stop);
+                    }else if(this.transport === 'rail') {
+                        result = await this.downloadAllRail(stop);
+                    }
+                }
+                this.departureList = [...result];
+                this.isDataLoaded = false;
             }
-            this.departureList = [...result];
-            this.isDataLoaded = false;
         },
 
         //Create and save Api url for download departures
@@ -115,6 +126,23 @@ export const useApiStore = defineStore("api", {
                 this.useDeparturesApiZtm("gdansk");
             } else {
                 this.useDeparturesApiPkp();
+            }
+        },
+
+        //Create and Save Api url for download from sub list departures
+        async urlCreatorForDepatruresForSubs(stop){
+            if(stop.cityName.includes("Warszawa")){
+                this.useDeparturesApiZtm("warszawa");
+                this.setTransport("ztm");
+                this.setCity("Warszawa");
+            } else if( stop.cityName.includes("Gdańsk")){
+                this.useDeparturesApiZtm("gdansk");
+                this.setTransport("ztm");
+                this.setCity("Gdańsk");
+            } else {
+                this.useDeparturesApiPkp();
+                this.setTransport("rail");
+                this.setCity("Kolej");
             }
         },
 
@@ -129,6 +157,22 @@ export const useApiStore = defineStore("api", {
                 }
             }
             result = this.makeSortedAndFiltred(result);
+            return result;
+        },
+
+         //Download departures from ztm's apis used subscribedlist 
+         async downloadDeparturesFromSubscribed(stop){
+            let temp = []; 
+            let result = [];
+            for(let i = 0; i < stop.stopIds.length; i++){
+                temp = await this.downloadDeparturesByDisplayCode(stop.stopIds[i]);
+                for(let j = 0; j < temp.length; j++){
+                    result.push(temp[j]);
+                }
+            }
+            result = this.makeSortedAndFiltredInSubscribed(result, stop);
+            this.departuresStop.name = stop.stopName;
+            this.city = '';
             return result;
         },
 
@@ -160,6 +204,22 @@ export const useApiStore = defineStore("api", {
         //Sort gdansk departures by estimated times and change format of estimated times for all kinds of departures
         makeSortedAndFiltred(list){
             if(this.city === "Gdańsk"){
+                list.sort(this.compareTimes);
+                for(let i = 0; i < list.length; i++){
+                    let temp = new Date(list[i].estimatedTime); 
+                    list[i].estimatedTime = temp.getHours() + ":" + (temp.getMinutes()<10?'0':'') + temp.getMinutes();
+                }
+            } else {
+                for(let i = 0; i < list.length; i++){
+                    list[i].estimatedTime = list[i].estimatedTime.substring(0,5);
+                }
+            }
+            return list;
+        },
+
+
+        makeSortedAndFiltredInSubscribed(list, stop){
+            if(stop.cityName.includes("Gdańsk")){
                 list.sort(this.compareTimes);
                 for(let i = 0; i < list.length; i++){
                     let temp = new Date(list[i].estimatedTime); 
