@@ -12,6 +12,7 @@
 import { useApiStore } from "@/store/apiManagment.store";
 import L from "leaflet";
 import router from "@/router";
+import axios from "axios";
 
 export default{
     name: "MapSection",
@@ -29,6 +30,7 @@ export default{
             markers: [],
             groupMarkers: null,
             userIcon: null,
+            ztmGeoList: [],
         };
     },
 
@@ -36,8 +38,17 @@ export default{
 
     watch: {
         stopsList(){
-            if(this.apiStore.transport === 'rail'){
+            this.clearMap();
+            if(this.apiStore.getTransport === 'rail' && this.apiStore.getCity === ''){
                 this.drawStops();
+            } else if(this.apiStore.getTransport === 'ztm' && this.apiStore.getCity === 'Gdańsk'){
+                axios.get("api/ztm/gdansk/displays/geo")
+                .then(response => {
+                    this.isLoading = true;
+                    this.ztmGeoList = response.data;
+                    this.drawStopsZtm();
+                    this.isLoading = false;
+                })
             } else {
                 this.clearMap();
             }
@@ -107,6 +118,36 @@ export default{
                         let nameStop = event.target.innerHTML;
                         for(let j = 0; j < list.length; j++){
                             if(nameStop === list[j].name){
+                                apiStore.setDeparturesStop(list[j]);
+                                apiStore.makeDepartureList(list[j]);
+                                router.push("/departures")
+                            }
+                        }
+                    })
+                }
+            }
+            
+        },
+
+        drawStopsZtm(){
+            if(this.ztmGeoList === null){
+                return;
+            } else {
+                var contents = [];
+                var popups = [];
+                for(let i = 0; i < this.ztmGeoList.length; i++){
+                    contents[i] = L.DomUtil.create('b', 'markers');
+                    popups[i] = L.popup().setContent(contents[i]);
+                    contents[i].innerHTML = this.ztmGeoList[i].name;
+                    this.markers[i+1] = L.marker([this.ztmGeoList[i].stopLat, this.ztmGeoList[i].stopLon]);
+                    this.map.addLayer(this.markers[i+1]);
+                    this.markers[i+1].bindPopup(popups[i]);
+                    L.DomEvent.addListener(contents[i], 'click', function(event){
+                        const apiStore = useApiStore();
+                        let list = Object.entries(apiStore.getStopsList);
+                        let nameStop = event.target.innerHTML;
+                        for(let j = 0; j < list.length; j++){
+                            if(nameStop === list[j][0]){
                                 apiStore.setDeparturesStop(list[j]);
                                 apiStore.makeDepartureList(list[j]);
                                 router.push("/departures")
