@@ -13,7 +13,7 @@ export default {
 
   data(){
     return {
-      actualPanel: "login",
+      actualPanel: "both",
       darkMode: false,
     }
   },
@@ -78,6 +78,16 @@ html, body {
   width: 100%;
   min-height: 100vh;
   margin: 0 0 0 0;
+}
+
+.markers {
+  color:  black;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.markers:hover {
+  color: rgb(121, 0, 121);
 }
 
 h1 {

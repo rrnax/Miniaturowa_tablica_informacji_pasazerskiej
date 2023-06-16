@@ -1,6 +1,6 @@
 <template>
   <nav class="app-navigation">
-    <div class="nav-title">
+    <div @click="singalPanel('both')" class="nav-title">
       <img id="logo" src="../assets/m_tip_logo.png">
       <div>
         <p class="app-name">Miniaturowa Tablica</p>
@@ -8,11 +8,13 @@
       </div>
     </div>
     <div class="options">
-      <router-link class="option-btn user-actions" @click="singalPanel('login')" v-if="!this.userStore.authStatus && actualPanel === 'regis'" to="/login">Zaloguj się</router-link>
-      <router-link class="option-btn user-actions" @click="singalPanel('regis')" v-if="!this.userStore.authStatus && actualPanel === 'login'" to="/registration">Zarejestruj Się</router-link>
+      <div class="log-ops">
+        <router-link class="option-btn user-actions" @click="singalPanel('login')" v-if="!this.userStore.authStatus && (actualPanel  === 'regis' || actualPanel === 'both')" to="/login">Zaloguj się</router-link>
+        <router-link class="option-btn user-actions" @click="singalPanel('regis')" v-if="!this.userStore.authStatus && (actualPanel === 'login' || actualPanel === 'both')" to="/registration">Zarejestruj Się</router-link>
+      </div>
       <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/ranks">Statystyki</router-link>
       <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/device">Urządzenie</router-link>
-      <router-link class="menu-btn current" v-if="this.userStore.authStatus" id="hom" to="/">Stacje</router-link>
+      <router-link class="menu-btn current" v-if="this.userStore.authStatus" id="hom" to="/stations">Stacje</router-link>
       <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/account">Konto</router-link>
       <a class="menu-btn" @click="logOut" v-if="this.userStore.authStatus">Wyloguj się</a>
     </div>
@@ -32,11 +34,11 @@
   <div class="menu-toggle"
     :style="{ display: active ? 'flex' : 'none' }">
     <div class="menu-items">
-      <router-link class="menu-item" @click="singalPanel('login')" v-if="!this.userStore.authStatus && actualPanel === 'regis'" to="/login">Zaloguj się</router-link>
-      <router-link class="menu-item" @click="singalPanel('regis')" v-if="!this.userStore.authStatus && actualPanel === 'login'" to="/registration">Zarejestruj Się</router-link>
+      <router-link class="menu-item" @click="singalPanel('login')" v-if="!this.userStore.authStatus && (actualPanel  === 'regis' || actualPanel === 'both')" to="/login">Zaloguj się</router-link>
+      <router-link class="menu-item" @click="singalPanel('regis')" v-if="!this.userStore.authStatus && (actualPanel === 'login' || actualPanel === 'both')" to="/registration">Zarejestruj Się</router-link>
       <router-link class="menu-item" v-if="this.userStore.authStatus" to="/ranks">Statystyki</router-link>
       <router-link class="menu-item" v-if="this.userStore.authStatus" to="/device">Urządzenie</router-link>
-      <router-link class="menu-item" v-if="this.userStore.authStatus" to="/">Stacje</router-link>
+      <router-link class="menu-item" v-if="this.userStore.authStatus" to="/stations">Stacje</router-link>
       <router-link class="menu-item" v-if="this.userStore.authStatus" to="/account">Konto</router-link>
       <a class="menu-item" v-if="this.userStore.authStatus" @click="logOut">Wyloguj się</a>
     </div>
@@ -81,6 +83,7 @@ export default {
         this.userStore.sessionIntervalStop();
         this.userStore.$reset();
         this.$router.push('/login');
+        this.singalPanel('login');
         alert("Wylogowano pomyślnie!");
       }else{
         alert("Brakl połączenia z serwerem, nie można było wylogować!");
@@ -97,6 +100,9 @@ export default {
     //Changing displays options on nav bar
     singalPanel(panel){
       this.$emit('changePanel', panel);
+      if(panel === 'both'){
+        this.$router.push('/');
+      }
     },
     
     setCurrent(){
@@ -157,10 +163,15 @@ export default {
   border-bottom: 3px solid var(--appblue);
 }
 
+.log-ops{
+  display: flex;
+}
+
 .nav-title {
   display: flex;
   align-items: center;
   text-decoration: none;
+  cursor: pointer;
 }
 
 #logo {

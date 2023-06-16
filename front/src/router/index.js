@@ -7,12 +7,19 @@ import AccountView from "@/views/AccountView";
 import AccountConfirmationView from "@/views/AccountConfirmationView";
 import DeviceView from "@/views/DeviceView";
 import RanksView from "@/views/RanksView";
+import WelcomePage from "@/views/WelcomePage";
 import StopDeparturesView from "@/views/StopDeparturesView";
 
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'welcome',
+    component: WelcomePage,
+    meta: { requiredAuth: false },
+  },
+  {
+    path: '/stations',
+    name: 'stations',
     component: HomeView,
     meta: { requiredAuth: true },
   },

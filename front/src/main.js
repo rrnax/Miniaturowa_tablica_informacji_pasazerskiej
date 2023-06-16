@@ -46,3 +46,4 @@ if (authStore.getAuthStatus){
     axios.defaults.headers.common['Authorization'] = authStore.getJwt;
     authStore.sessionIntervalStart();
 }
+

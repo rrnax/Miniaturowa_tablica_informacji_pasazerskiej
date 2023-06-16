@@ -36,7 +36,7 @@ export default {
       await this.userStore.userSignIn(this.username, this.password);
       if (this.userStore.getAuthStatus){
         this.userStore.sessionIntervalStart();
-        this.$router.push('/');
+        this.$router.push('/stations');
       } else {      //deal with bad request or crashed backend srver
         let responseWarning = document.querySelector("#response-warning");
         if(this.userStore.getHttpCode === 400){
