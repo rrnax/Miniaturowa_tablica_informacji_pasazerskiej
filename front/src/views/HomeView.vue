@@ -5,6 +5,7 @@
     <div class="action-section">
       <Searcher :is-combo-box-fill="isComboBoxFill" @changeStopsList="changeStopsList($event)"/>
     </div>
+    <div v-if="this.apiStore.getLoadedInfo" class="loader"></div>
     <h1 v-if="isComboBoxFill">Stacje</h1>
     <hr v-if="isComboBoxFill">
     <div v-if="isComboBoxFill" class="action-section">
@@ -16,9 +17,11 @@
       <MapSection :stops-list="stopsList"/>
     </div>
   </div>
+  <Footer/>
 </template>
 
 <script>
+import Footer from '@/components/Footer.vue';
 import MapSection from '@/components/homeComponents/MapSection.vue';
 import Searcher from '@/components/homeComponents/Searcher.vue';
 import StopsLister from '@/components/homeComponents/StopsLister.vue';
@@ -32,8 +35,9 @@ export default {
   components: {
     Searcher,
     StopsLister,
-    MapSection
-  },
+    MapSection,
+    Footer
+},
 
   data(){
     return{
@@ -84,8 +88,12 @@ export default {
 
 .action-section {
   width: 100%;
-  background-color: var(--navMenuColor);
+  background: linear-gradient( var(--themeMenu), var(--navMenuColor));
   border-radius: 20px;
+}
+
+.maps-section {
+  margin-bottom: 100px;
 }
 
 

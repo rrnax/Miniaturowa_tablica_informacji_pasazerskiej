@@ -4,15 +4,18 @@
     <hr class="division">
     <RegistrationForm />
   </div>
+  <Footer class="tothebootom"/>
 </template>
 
 <script>
 import RegistrationForm from "@/components/forms/RegistrationForm.vue";
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: "RegistrationView",
   components: {
     RegistrationForm,
+    Footer,
   },
 }
 </script>

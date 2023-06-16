@@ -37,11 +37,13 @@
         </tbody>
       </table>
     </div>
+    <Footer/>
   </template>
   
   
   <script>
-  import axios from 'axios';
+  import Footer from '@/components/Footer.vue';
+import axios from 'axios';
 
   
   export default {
@@ -103,27 +105,28 @@
             }
         }
     },
+    components: { Footer }
 };
   </script>
   
 <style scoped>
   .black {
-    color: black;
+    color: var(--appblue);
   }
   .blue {
-  color: #3b64c5;
+  color: var(--appblue);
 }
   
   .ranks {
     width: 80%;
-    margin: auto;
+    margin: auto auto 100px auto;
     font-size: x-large;
     font-family: 'Teko', sans-serif;
   }
 
   .ranks h1{
     font-size:5rem;
-    color: #3b64c5;
+    color:  var(--appblue);
   }
   
   .info {
@@ -145,7 +148,7 @@
   .ranks-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: var(--navMenuColor);
+    background: linear-gradient( var(--themeMenu), var(--navMenuColor));
     border: 2px solid var(--appblue);
   }
 
@@ -158,7 +161,7 @@
     text-align: left;
     border-bottom: 1px solid #ddd;
     font-size:2rem;
-    background-color: var(--navMenuColor);
+    color: var(--appblue);
   }
   
  

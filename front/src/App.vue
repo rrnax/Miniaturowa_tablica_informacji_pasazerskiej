@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <Navigation :actual-panel="actualPanel" @changePanel="getPanel($event)"/>
-    <router-view  @changePanel="getPanel($event)" />
+    <Navigation :actual-panel="actualPanel" :dark-mode="darkMode" @changePanel="getPanel($event)" @changeMode="setMode"/>
+    <router-view :dark-mode="darkMode"  @changePanel="getPanel($event)" />
   </div>
 </template>
 
@@ -13,7 +13,8 @@ export default {
 
   data(){
     return {
-      actualPanel: "login",
+      actualPanel: "both",
+      darkMode: false,
     }
   },
 
@@ -27,6 +28,10 @@ export default {
       this.actualPanel = panel;
     },
 
+    setMode(){
+      this.darkMode = !this.darkMode;
+    }
+
   },
 
 }
@@ -35,19 +40,32 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Teko:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@700&display=swap');
-@import url('https://db.onlinewebfonts.com/c/84cb021d5f9af287ffff84b61beef6dc?family=clockicons');
+@font-face {
+    font-family:clockicons;
+    src:url(./assets/font/clockicons/clockicons.eot#iefix) format('embedded-opentype'),
+    url(./assets/font/clockicons/clockicons.woff2) format('woff2'),
+    url(./assets/font/clockicons/clockicons.woff) format('woff'),
+    url(./assets/font/clockicons/clockicons.ttf) format('truetype');
+    font-weight:400;
+    font-style:normal
+}
 
 :root {
-  --appblue: rgb(59, 100, 197);
+  --appblue: #2e5bc5;
   --whiteText: #ffffff;
-  --navMenuColor: #d9e7fc;
+  --themeMenu:  #d6ebff;
+  --navMenuColor: #88b8ff;
   --changableElements: #1c232e;
-  --footerColor: #e8e8e8;
   --halfView: gray;
+  --firstbck: #dfdddd;
+  --secondbck: #ffffff;
+  --linked: #ae00ff;
+
 }
 
 html, body {
   height: 100%;
+  background: linear-gradient(90deg,var(--firstbck), var(--secondbck));
 }
 
 #app {
@@ -60,6 +78,16 @@ html, body {
   width: 100%;
   min-height: 100vh;
   margin: 0 0 0 0;
+}
+
+.markers {
+  color:  black;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.markers:hover {
+  color: rgb(121, 0, 121);
 }
 
 h1 {
@@ -106,7 +134,7 @@ hr {
   width: 20px;
   height: 20px;
   margin: 40px auto 0 auto;
-  border: 5px solid #f3f3f3;
+  border: 5px solid var(--whiteText);
   border-radius: 50%;
   border-top: 5px solid var(--appblue);
   border-bottom: 5px solid var(--appblue);
@@ -115,7 +143,7 @@ hr {
 }
 
 .panel {
-  background: var(--navMenuColor);
+  background: linear-gradient( var(--themeMenu), var(--navMenuColor));
   width: 360px;
   margin: 20px auto 270px auto;
   display: block;
@@ -137,22 +165,6 @@ input {
   font-size: 17px;
   border-radius: 10px;
   border: 2px solid var(--appblue);
-}
-
-footer {
-  width: 100%;
-  height: 70px;
-  margin-top: 50px;
-  position: sticky;
-  bottom: 0;
-  background-color: var(--navMenuColor);
-  display: grid;
-  justify-content: center;
-  font-family: 'Teko', sans-serif;
-  color: var(--appblue);
-  font-size: 14px;
-  align-items: end;
-  row-gap: 0;
 }
 
 p {

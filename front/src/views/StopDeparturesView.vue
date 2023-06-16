@@ -1,5 +1,6 @@
 <template>
     <div class="chosen-stop-departures">
+        <div v-if="this.apiStore.getLoadedInfo" class="loader"></div>
         <div class="stop-headsign">
             <h1>Odjazdy</h1>
             <h1 v-if="this.apiStore.getCity != ''">{{ this.apiStore.getDeparturesStop[0] }}</h1>
@@ -19,18 +20,20 @@
                 <td class="col2">{{ route.headsign }}</td>
                 <td class="col3">{{ route.estimatedTime }}</td>
             </tr>
-            <div v-if="this.apiStore.getLoadedInfo" class="loader"></div>
         </table>
     </div>
+    <Footer />
 </template>
 
 <script>
 import { useApiStore } from '@/store/apiManagment.store';
-
+import Footer from '@/components/Footer.vue';
 
 export default{
     name: "StopsDepartureView",
-
+    components: {
+        Footer,
+    },
 
     setup(){
         const apiStore = useApiStore();
@@ -43,7 +46,7 @@ export default{
 <style>
 .chosen-stop-departures {
     width: 60%;
-    margin: 10px auto;
+    margin: 20px auto 100px auto;
     font-family: 'Teko', sans-serif;
     font-size: 22px;
     color: var(--appblue);
@@ -58,7 +61,6 @@ export default{
     padding: 10px 0;
     display: flex;
     justify-content: space-between;
-    background: var(--navMenuColor);
     border-bottom: 2px solid var(--appblue);
     font-size: 28px;
 }
@@ -67,14 +69,15 @@ export default{
     width: 100%;
     height: 600px;
     display: block;
-    overflow: scroll;
-    background: var(--navMenuColor);
+    overflow-y: scroll;
+    background: linear-gradient( var(--themeMenu), var(--navMenuColor));
     border-radius: 0 0 20px 20px;
     color: var(--changableElements);
 }
 
 .description {
     border-radius: 20px 20px 0 0;
+    background: var(--themeMenu);
 }
 
 .content {

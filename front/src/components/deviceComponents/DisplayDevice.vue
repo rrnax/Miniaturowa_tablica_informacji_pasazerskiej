@@ -2,20 +2,28 @@
     <div v-if='this.userStore.getIsActive' class="display-continer">
         <button @click="deviceSlide" class="roller">
             <p id="showing">Pdogląd</p>
-            <img id="arrow" src="../../assets/angle-right-icon.png">
+            <img v-if="!darkMode" id="arrow" src="../../assets/angle-right-icon.png">
+            <img v-if="darkMode" id="arrow" src="../../assets/angle-right-icon-blc.png">
         </button>
         <DisplayView/>
-        <!-- <div v-if="this.apiStore.getLoadedInfo" class="loader" id="visable"></div> -->
+        <div v-if="this.apiStore.getLoadedInfo && loaders" class="device-loader"></div>
     </div>
 </template>
 
 <script>
 import { useApiStore } from '@/store/apiManagment.store';
 import { useUserStore } from '@/store/user.stroe';
-import DisplayView from '@/views/DisplayView.vue';
+import DisplayView from '@/components/deviceComponents/DisplayView.vue'
 
 export default {
     name: 'DisplayDevice',
+
+    data(){
+        return {
+            loaders: false,
+            
+        }
+    },
 
     setup(){
         const apiStore = useApiStore();
@@ -23,7 +31,7 @@ export default {
         return { apiStore, userStore };
     },
 
-    props: ['isActive'],
+    props: ["darkMode"],
 
     components: {
         DisplayView,
@@ -31,6 +39,7 @@ export default {
 
     methods: {
         deviceSlide(){
+            this.loaders = !this.loaders;
             let devicePanel = document.querySelector(".display-continer");
             let rollerBtn = document.querySelector(".roller");
             let device = document.querySelector(".display-view");
@@ -55,7 +64,7 @@ export default {
     bottom: 0;
     position: sticky;
     z-index: 1;
-    background: var(--showpanel);
+    background: linear-gradient(var(--showpanel), var(--draker));
     overflow-x: visible;
     transition: all 2s ease;
 }
@@ -79,6 +88,20 @@ export default {
     cursor: pointer;
     transition: all 2s ease;
 
+}
+
+.device-loader {
+    width: 20px;
+    height: 20px;
+    margin: 40px auto 0 auto;
+    border: 5px solid #f3f3f3;
+    position: sticky;
+    top: 600px;
+    border-radius: 50%;
+    border-top: 5px solid var(--appblue);
+    border-bottom: 5px solid var(--appblue);
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
 }
 
 .display-open {
@@ -108,6 +131,21 @@ export default {
 
 .rote {
     transform: rotate(180deg);
+}
+
+@media screen and (max-width: 520px) {
+    .open {
+        width: 375px;
+    }
+
+    .display-open {
+     width: 375px;
+    }
+
+    .roller-open {
+        background: none;
+        left: 375px;
+    }
 }
 
 </style>

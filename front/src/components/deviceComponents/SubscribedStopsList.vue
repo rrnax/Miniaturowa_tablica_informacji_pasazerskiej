@@ -8,12 +8,11 @@
     <table class="subscribed-table">
         <tr v-if="!isSubscribedStops" class="warning-message">Nie ma dodanych przystanków!</tr>
         <tr v-for="stop in this.userStore.getFavorites" v-bind:key="stop.stopName" class="subscribed-rows">
-            <td class="col-name">{{ stop.stopName }}</td>
+            <td @click="showStopDepartures(stop)" class="col-name k"><p>{{ stop.stopName }}</p></td>
             <td class="col-city">{{ stop.cityName }}</td>
             <td v-if="stop.status" class="col-stat positive">Wyświetlane</td>
             <td v-if="!stop.status" class="col-stat negative">Niewyświetlane</td>
             <td class="col-actions">
-                <!-- <a v-if="stop.status" class="actions" @click="finishDisplay(stop)">Zakończ</a> -->
                 <a v-if="!stop.status" class="actions" @click="displayStop(stop)">Wyświetl</a>
                 <p v-if="!stop.status" class="actions"> / </p>
                 <a class="actions" @click="deleteStop(stop)">Usuń</a>
@@ -50,18 +49,11 @@ export default{
     },
 
     methods: {
-        showStopDepartures(stop){
-            console.log(stop);
-            // this.apiStore.setDeparturesStop(stop);
-            // this.apiStore.makeDepartureList(stop);
-            // this.$router.push("/departures");
-        },
 
         async displayStop(stop) {
             await this.userStore.activeNewStop(stop);
             await this.apiStore.converActiveStop();
             await this.apiStore.updateDepartureList();
-            // this.$emit("change");
         },
 
         finishDisplay(stop) {
@@ -70,9 +62,13 @@ export default{
 
         deleteStop(stop){
             this.userStore.deleteFavoriteStop(stop);
-            // this.$emit("change");
+        },
 
-        }
+        showStopDepartures(stop){
+            this.apiStore.setDeparturesStop(stop);
+            this.apiStore.makeDepartureList(stop);
+            this.$router.push("/departures");
+        },
     }
 
 }
@@ -86,7 +82,7 @@ export default{
     margin: auto;
     display: block;
     overflow: scroll;
-    background-color: var(--navMenuColor);
+    background: linear-gradient( var(--themeMenu), var(--navMenuColor));
     border-radius: 0 0 20px 20px;
 }
 
@@ -102,14 +98,24 @@ export default{
 
 .header {
     color: var(--appblue);
-    background-color: var(--navMenuColor);
+    background-color: var(--themeMenu);
     border-radius: 20px 20px 0 0;
 }
 
 .col-name {
     width: 40%;
-    margin: 0 0 0 20px;
-    padding: 0;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    cursor: pointer;
+}
+
+.k:hover {
+    background-color: var(--appblue);
+    color: var(--whiteText);
 }
 
 .col-city {
@@ -135,7 +141,7 @@ export default{
 
 .actions {
     display: inline;
-    color: var(--halfView);
+    color: rgb(255, 101, 12);
     text-decoration: underline;
     cursor: pointer;
 }

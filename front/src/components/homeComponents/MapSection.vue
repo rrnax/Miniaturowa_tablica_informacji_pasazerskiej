@@ -11,6 +11,8 @@
 // import { toRaw } from "vue";
 import { useApiStore } from "@/store/apiManagment.store";
 import L from "leaflet";
+import router from "@/router";
+
 export default{
     name: "MapSection",
 
@@ -59,6 +61,7 @@ export default{
                 });
         
         this.setMyGeolocation();
+
     },
 
     methods: {
@@ -89,12 +92,30 @@ export default{
             if(this.stopsList === null){
                 return;
             } else {
+                var contents = [];
+                var popups = [];
                 for(let i = 0; i < this.stopsList.length; i++){
+                    contents[i] = L.DomUtil.create('b', 'markers');
+                    popups[i] = L.popup().setContent(contents[i]);
+                    contents[i].innerHTML = this.stopsList[i].name;
                     this.markers[i+1] = L.marker([this.stopsList[i].stop_lat, this.stopsList[i].stop_lon]);
                     this.map.addLayer(this.markers[i+1]);
-                    this.markers[i+1].bindPopup(this.stopsList[i].name);
+                    this.markers[i+1].bindPopup(popups[i]);
+                    L.DomEvent.addListener(contents[i], 'click', function(event){
+                        const apiStore = useApiStore();
+                        let list = apiStore.getStopsList;
+                        let nameStop = event.target.innerHTML;
+                        for(let j = 0; j < list.length; j++){
+                            if(nameStop === list[j].name){
+                                apiStore.setDeparturesStop(list[j]);
+                                apiStore.makeDepartureList(list[j]);
+                                router.push("/departures")
+                            }
+                        }
+                    })
                 }
             }
+            
         },
 
         clearMap(){
@@ -105,11 +126,15 @@ export default{
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(this.map);
             this.setMyGeolocation();
-        }
+        },
 
-    
-    }
+        showStopDepartures(stop){
+            this.apiStore.setDeparturesStop(stop);
+            this.apiStore.makeDepartureList(stop);
+            this.$router.push("/departures");
+        },
 
+    },
 }
 </script>
 
@@ -119,6 +144,7 @@ export default{
     height: 500px;
     z-index: 0;
 }
+
 
 #my-location {
   position: absolute;

@@ -11,15 +11,17 @@
         <hr/>
         <DeviceStyles/>
     </div>
-    <DisplayDevice class="transform" :is-active="isActive"/>
-  </template>
+    <DisplayDevice :dark-mode="this.darkMode" :is-active="isActive"/>
+    <Footer />
+</template>
   
   <script>
   import SubscribedStopsList from '@/components/deviceComponents/SubscribedStopsList.vue';
   import DeviceStyles from '@/components/deviceComponents/DeviceStyles.vue';
   import DisplayDevice from '@/components/deviceComponents/DisplayDevice.vue';
   import { useApiStore } from '@/store/apiManagment.store';
-import { useUserStore } from '@/store/user.stroe';
+  import Footer from '@/components/Footer.vue';
+  import { useUserStore } from '@/store/user.stroe';
 
   export default {
     name: "DeviceView",
@@ -30,16 +32,13 @@ import { useUserStore } from '@/store/user.stroe';
         return { apiStore, userStore };
     },
 
-    data() {
-        return {
-            isActive: true,
-        }
-    },
+    props: ["darkMode"],
 
     components: {
         SubscribedStopsList,
         DeviceStyles,
         DisplayDevice,
+        Footer,
     },
 
     methods: {
@@ -123,6 +122,7 @@ import { useUserStore } from '@/store/user.stroe';
 @media screen and (max-width: 550px) {
     .configuration-show {
     width: 100%;
+    margin-top: 100px;
     margin: 0;
     display: grid;
     }
