@@ -616,6 +616,7 @@ public class ZTMRepository {
             for (StopDTO stopDTO : stopDTOListfromAPI) {
                 if (stopDTO.getStopId()== (stopId)) {
                     stopDTOList.add(stopDTO);
+                    break;
                 }
             }
 
