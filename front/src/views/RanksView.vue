@@ -119,7 +119,7 @@ import axios from 'axios';
   
   .ranks {
     width: 80%;
-    margin: auto;
+    margin: auto auto 100px auto;
     font-size: x-large;
     font-family: 'Teko', sans-serif;
   }
@@ -161,7 +161,6 @@ import axios from 'axios';
     text-align: left;
     border-bottom: 1px solid #ddd;
     font-size:2rem;
-    background: var(--themeMenu);
     color: var(--appblue);
   }
   

@@ -46,7 +46,7 @@ export default{
 <style>
 .chosen-stop-departures {
     width: 60%;
-    margin: 10px auto;
+    margin: 20px auto 100px auto;
     font-family: 'Teko', sans-serif;
     font-size: 22px;
     color: var(--appblue);
