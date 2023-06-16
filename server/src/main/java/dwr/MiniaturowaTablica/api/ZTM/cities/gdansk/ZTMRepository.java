@@ -607,9 +607,20 @@ public class ZTMRepository {
         List<DisplayDTO> displayDTOS = displaysRepository.findAllByCity("Gdańsk");
         List<Map<String, Object>> geoDataList = new ArrayList<>();
         Map<String, Integer> nameCounts = new HashMap<>();
+        List<StopDTO> stopDTOListfromAPI = getAllStopsInArray();
 
         for (DisplayDTO display : displayDTOS) {
-            List<StopDTO> stopDTOList = stopsRepository.findByStopId(display.getIdStop1());
+            List<StopDTO> stopDTOList = new ArrayList<>();
+            int stopId = display.getIdStop1();
+
+            for (StopDTO stopDTO : stopDTOListfromAPI) {
+                if (stopDTO.getStopId()== (stopId)) {
+                    stopDTOList.add(stopDTO);
+                    break;
+                }
+            }
+
+
             if (!stopDTOList.isEmpty()) {
                 StopDTO stopDTO = stopDTOList.get(0);
                 float stopLat = stopDTO.getStopLat();
