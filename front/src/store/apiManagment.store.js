@@ -18,6 +18,7 @@ export const useApiStore = defineStore("api", {
     }),
 
     getters: {
+        getUrl: (state) => state.apiUrl,
         getTransport: (state) => state.transport,
         getCity: (state) => state.city,
         getStopsList: (state) => state.stopsList,

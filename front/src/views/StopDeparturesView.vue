@@ -18,12 +18,16 @@
                 <td v-if="this.apiStore.getCity === 'Gdańsk'" class="col1">{{ route.routeId }}</td>
                 <td v-else class="col1">{{ route.tripId }}</td>
                 <td class="col2">{{ route.headsign }}</td>
-                <td class="col3">{{ route.estimatedTime }}</td>
+                <td class="col3">{{ route.estimatedTime }}
+                    <p style="color: rgb(216, 54, 54);" v-if="(this.apiStore.getCity === 'Gdańsk' || this.apiStore.getUrl.includes('gdansk')) && (route.delayInSeconds/60) * (-1) >= 1">&nbsp;&nbsp;&nbsp;+{{ Math.round((route.delayInSeconds/60) * (-1)) }}min</p>
+                </td>
             </tr>
         </table>
     </div>
     <Footer />
 </template>
+
+<!-- this.apiStore.getDeparturesStop.cityName.includes('Gdańsk')  -->
 
 <script>
 import { useApiStore } from '@/store/apiManagment.store';
@@ -33,7 +37,7 @@ export default{
     name: "StopsDepartureView",
     components: {
         Footer,
-    },
+    }, 
 
     setup(){
         const apiStore = useApiStore();
@@ -94,6 +98,7 @@ export default{
 
 .col3{
     width: 20%;
+    display: flex;
 }
 
 @media only screen and (max-width: 800px) {

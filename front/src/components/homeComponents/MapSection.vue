@@ -1,5 +1,6 @@
 <template>
     <div id="mapContainer">
+        <button @click="findNearest" id="near"> Wyszukaj najbliższy przystanek</button>
         <button @click="setMyGeolocation" id="my-location">
             <img alt="Moja lokalizacja" src="../../assets/destination.png" id="destination"/>
         </button>
@@ -175,11 +176,71 @@ export default{
             this.$router.push("/departures");
         },
 
+        findNearest(){
+            if(this.apiStore.getTransport === 'rail' && this.apiStore.getCity === ''){
+              let latlangs = Array();
+              latlangs.push(this.markers[0].getLatLng());
+              let min = Math.sqrt(Math.pow((this.stopsList[0].stop_lat - this.location.coords.latitude),2) + Math.pow((this.stopsList[0].stop_lon - this.location.coords.longitude),2));
+              let nearStop = this.stopsList[0];
+              let index = 0;
+              for(let i = 1 ; i < this.stopsList.length ; i++){
+                let temp = Math.sqrt(Math.pow((this.stopsList[i].stop_lat - this.location.coords.latitude),2) + Math.pow((this.stopsList[i].stop_lon - this.location.coords.longitude),2));
+                if(temp < min){
+                    min = temp;
+                    nearStop = this.stopsList[i];
+                    index = i;
+                }
+              }
+              console.log(nearStop);
+              latlangs.push(this.markers[index+1].getLatLng());
+              let polyline = L.polyline(latlangs, {color: 'blue'}).addTo(this.map);
+              this.map.fitBounds(polyline.getBounds());
+            } else if(this.apiStore.getTransport === 'ztm' && this.apiStore.getCity === 'Gdańsk'){
+              let latlangs = Array();
+              latlangs.push(this.markers[0].getLatLng());
+              let min = Math.sqrt(Math.pow((this.ztmGeoList[0].stopLat - this.location.coords.latitude),2) + Math.pow((this.ztmGeoList[0].stopLon - this.location.coords.longitude),2));
+              let nearStop = this.ztmGeoList[0];
+              let index = 0;
+                for(let i = 1 ; i < this.ztmGeoList.length ; i++){
+                    let temp = Math.sqrt(Math.pow((this.ztmGeoList[i].stopLat - this.location.coords.latitude),2) + Math.pow((this.ztmGeoList[i].stopLon - this.location.coords.longitude),2));
+                    if(temp < min){
+                        min = temp;
+                        nearStop = this.ztmGeoList[i];
+                        index = i;
+                    }
+                }
+              console.log(nearStop);
+              latlangs.push(this.markers[index+1].getLatLng());
+              let polyline = L.polyline(latlangs, {color: 'blue'}).addTo(this.map);
+              this.map.fitBounds(polyline.getBounds());
+            } else {
+                alert("Najpierw wybierz rodzaj komunikacji i miejsce");
+            }  
+        }
+
     },
 }
 </script>
 
 <style scoped>
+#near {
+  position: absolute;
+  top: 11px;
+  left: 45px;
+  z-index: 500;
+  padding-top: 3px;
+  font-size: 18px;
+  font-family: 'Teko', sans-serif;
+  background-color: white;
+  border: 2px solid #a5a1a1;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#near:hover {
+    color: var(--appblue);
+}
+
 #mapContainer{
     width: 100%;
     height: 500px;

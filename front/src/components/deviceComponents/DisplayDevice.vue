@@ -39,6 +39,7 @@ export default {
 
     methods: {
         deviceSlide(){
+            this.apiStore.updateDepartureList();
             this.loaders = !this.loaders;
             let devicePanel = document.querySelector(".display-continer");
             let rollerBtn = document.querySelector(".roller");

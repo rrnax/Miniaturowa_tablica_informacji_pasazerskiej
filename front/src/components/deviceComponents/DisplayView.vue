@@ -51,13 +51,12 @@
     created() {
         this.userStore.downloadStyle();
         setInterval(this.actualDate, 1000);
-        setInterval(this.apiStore.updateDepartureList, 60000);
+        // setInterval(this.apiStore.updateDepartureList, 60000);
         setInterval(this.userStore.downloadStyle, 30000);
     },
     async mounted() {
         await this.userStore.downloadFavoriteStops();
         await this.apiStore.converActiveStop();
-        await this.apiStore.updateDepartureList();
     },
     methods: {
         actualDate() {
