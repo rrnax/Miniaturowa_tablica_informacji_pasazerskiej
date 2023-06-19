@@ -1,7 +1,7 @@
 <template>
     <div v-if='this.userStore.getIsActive' class="display-continer">
         <button @click="deviceSlide" class="roller">
-            <p id="showing">Pdogląd</p>
+            <p id="showing">Podgląd</p>
             <img v-if="!darkMode" id="arrow" src="../../assets/angle-right-icon.png">
             <img v-if="darkMode" id="arrow" src="../../assets/angle-right-icon-blc.png">
         </button>
