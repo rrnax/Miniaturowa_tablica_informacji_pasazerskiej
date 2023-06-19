@@ -9,7 +9,7 @@
     </div>
     <div class="options">
       <div class="log-ops">
-        <router-link class="option-btn user-actions" @click="singalPanel('login')" v-if="!this.userStore.authStatus && (actualPanel  === 'regis' || actualPanel === 'both')" to="/login">Zaloguj się</router-link>
+        <router-link class="option-btn user-actions" @click="singalPanel('login')" v-if="!this.userStore.authStatus && (actualPanel === 'regis' || actualPanel === 'both')" to="/login">Zaloguj się</router-link>
         <router-link class="option-btn user-actions" @click="singalPanel('regis')" v-if="!this.userStore.authStatus && (actualPanel === 'login' || actualPanel === 'both')" to="/registration">Zarejestruj Się</router-link>
       </div>
       <router-link class="menu-btn" v-if="this.userStore.authStatus" to="/ranks">Statystyki</router-link>

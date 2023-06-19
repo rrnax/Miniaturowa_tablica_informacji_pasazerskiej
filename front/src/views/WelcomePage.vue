@@ -22,7 +22,7 @@
             </a>
             <a class="pkg-1">
                 <img class="port" src="@/assets/icons8-raspberry-pi-50.png" alt="raspbian">
-                <p>m_tip_device.deb</p>
+                <p>m_tip_device.ARMv7.deb</p>
             </a>
         </div>
         <h1 class="pkg-text">Po więcej informacji dotyczących konfiguracji zapraszamy do dokumentacji projektu</h1>
@@ -52,7 +52,8 @@ export default {
 
 
 .foto-container {
-    width: 55%;
+    width: 50%;
+    padding-right: 5%;
     display: flex;
     align-items: center;
 }
