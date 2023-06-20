@@ -13,7 +13,7 @@ export default {
 
   data(){
     return {
-      actualPanel: "login",
+      actualPanel: "both",
       darkMode: false,
     }
   },
